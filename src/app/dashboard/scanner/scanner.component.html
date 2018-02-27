@@ -1,0 +1,8 @@
+<app-barcode-scanner [file]="scannerService.selectedFile$ | async" (codeUpdated)="onBarCodeUpdated($event)"></app-barcode-scanner>
+<app-qr-scanner [file]="scannerService.selectedFile$ | async" (codeUpdated)="onQrCodeUpdated($event)"></app-qr-scanner>
+
+<div class="scanner">
+  <input *ngIf="notCamera" type="file" accept="image/*;capture=camera" (change)="onChangeFile($event)">
+  <div *ngIf="!notCamera" (click)="onOpenVideo()" class="start"></div>
+  <fa name="barcode"></fa>
+</div>

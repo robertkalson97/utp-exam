@@ -1,0 +1,238 @@
+<form class="uptracker-form" materialize #receiveProductForm="ngForm" autocomplete="off" novalidate>
+<div class="products content uptracker-form receive-orders">
+  <div class="top">
+    <div class="row filter clearfix">
+      <div class="col m12 l3 title">
+        <span class="main-title">Receive Products</span>
+      </div>
+      <div class="col l3 m12 s12">
+        <div class="select">
+          <select
+            [disabled]="true"
+            class="wide"
+            materialize="material_select"
+            [materializeSelectOptions]="[receiveProducts.vendor.vendor_name]"
+            name="vendor"
+          >
+            <option value="" disabled selected >{{ receiveProducts.vendor.vendor_name }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="col l2 m6 s6 input wide-input">
+        <input type="text"
+          placeholder="Packing Slip #"
+          [(ngModel)]="receiveProducts.packing_slip_number"
+          required minlength="1"
+          class="validate col s12 minlength-validation"
+          name="packing_slip_number"
+          #packing_slip="ngModel"
+          id="packing_slip_number"
+          [class.ng-touched]="!packingSlipValid"
+        />
+        <div [hidden]="packingSlipValid || packing_slip.valid" class="error red-text left-align">
+          Packing slip is required
+        </div>
+      </div>
+      <div class="col m6 l2 s6 input wide-input">
+        <input type="text"
+          placeholder="Invoice #"
+          [(ngModel)]="receiveProducts.invoice_number"
+          class="col s12"
+          name="invoice_number"
+        />
+      </div>
+        <div class="col m3 l2 s12 right-align">
+          <button
+            (click)="save()"
+            type="submit"
+            class="uptracker-form-btn no-min-width white-text waves-effect waves-light"
+          >
+            <fa name="check"></fa>
+            Save
+          </button>
+        </div>
+      <div class="clearfix"></div>
+    </div>
+      <div class="list is-grid-view">
+        <div>
+          <div class="heading row">
+            <div class="col s3">Status</div>
+            <div class="col s1">Quantity</div>
+            <div class="col s4">Inventory Group</div>
+            <div class="col s3">Location</div>
+            <div class="col s1"></div>
+          </div>
+          <div class="item row" *ngFor="let item of receiveProducts.orders">
+            <div class="col s12 product-row" *ngFor="let product of item.items">
+              <app-receive-item
+                [product]="product"
+                [item]="item"
+                (createInventoryEvent) = "addNewInventory($event)"
+              ></app-receive-item>
+              <!--<div class="row">-->
+                <!--<div class="col s3 tealish-text pointer" [routerLink]="['/','orders',item.order_id]">-->
+                  <!--{{ item.po_number }}-->
+                <!--</div>-->
+                <!--<div class="col s1" [class.strikethrough] = product.edit>-->
+                  <!--{{ product.quantity }}-->
+                  <!--<a (click)="editQuantityToggle(product)" *ngIf="!product.edit">-->
+                    <!--<fa name="pencil" class="tealish-text"></fa>-->
+                  <!--</a>-->
+                <!--</div>-->
+                <!--<div class="col s4 tealish-text">-->
+                  <!--{{ product.item_name }}-->
+                <!--</div>-->
+                <!--<div class="col s4 tealish-text pointer" [routerLink]="['/locations','view',product.location_id]">-->
+                  <!--{{ product.location_name }}-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="row" *ngIf="product.edit">-->
+                <!--<div class="col s3">-->
+                  <!--<div class="input flex-center">-->
+                    <!--<input type="text" value="New Order Quantity"-->
+                      <!--disabled-->
+                      <!--name="edit{{i}}"-->
+                    <!--&gt;-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s1">-->
+                  <!--<div class="input flex-center">-->
+                    <!--<input type="text" value="{{product.quantity}}"-->
+                      <!--name="qty{{i}}"-->
+                      <!--(change)="onChangeProductQuantity(product)"-->
+                      <!--required-->
+                    <!--&gt;-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s7">-->
+                  <!--<div class="input flex-center">-->
+                    <!--<input type="text" placeholder="Custom Note">-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s1 flex-center justify-center trash-icon">-->
+                  <!--<a (click)="editQuantityToggle(product)">-->
+                    <!--<fa name="trash" class="tealish-text"></fa>-->
+                  <!--</a>-->
+                <!--</div>-->
+              <!--</div>-->
+              <!--<div class="row relative status-line" *ngFor="let statusLine of product.status_line_items">-->
+                <!--<div class="col s3">-->
+                  <!--{{ statusLine.status }}-->
+                <!--</div>-->
+                <!--<div class="col s1">-->
+                  <!--{{statusLine.quantity}}-->
+                <!--</div>-->
+                <!--<div class="col s4 tealish-text pointer" [routerLink]="['/', 'inventory','item', statusLine.inventory_group_id]">-->
+                  <!--{{statusLine.inventory_group_name}}-->
+                <!--</div>-->
+                <!--<div class="col s3">-->
+                  <!--{{statusLine.location_name}}: {{statusLine.storage_location_name}}-->
+                <!--</div>-->
+                <!--<div class="col s1 flex-center justify-center">-->
+                  <!--<a (click)="removePreviouslyReceivedToggle(statusLine)">-->
+                    <!--<fa name="trash" *ngIf="!statusLine.removed" class="tealish-text"></fa>-->
+                    <!--<fa name="undo" *ngIf="statusLine.removed" class="tealish-text"></fa>-->
+                  <!--</a>-->
+                <!--</div>-->
+                <!--<div class="col s11" [class.strikethrough-line]="statusLine.removed"></div>-->
+              <!--</div>-->
+
+              <!--<div class="row" *ngFor="let status of product.status; let i=index;">-->
+                <!--<div class="col s3">-->
+                  <!--<div class="select custom-select select-light flex-center" *ngIf="status.showStatusSelect">-->
+                    <!--<select-->
+                      <!--materialize="material_select"-->
+                      <!--[materializeSelectOptions]="statusList"-->
+                      <!--(ngModelChange)="changeStatus($event, product, status)"-->
+                      <!--[ngModel] = 'status.type'-->
+                      <!--name="status{{i}}"-->
+                    <!--&gt;-->
+                      <!--<ng-container *ngFor="let statusItem of statusList">-->
+                        <!--<option [value]="statusItem.value">{{ statusItem.text }}</option>-->
+                      <!--</ng-container>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s1">-->
+                  <!--<div class="input flex-center">-->
+                    <!--<input type="text" [(ngModel)]="status.qty"-->
+                      <!--[disabled]="status.type === 'pending'"-->
+                      <!--(change)="onchangeStatusQty(product, status, $event.target.value)"-->
+                      <!--name="qty{{i}}"-->
+                     <!--&gt;-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s4">-->
+                  <!--<div class="select select-light flex-center input relative" *ngIf="status.type === 'receive' || (status.type === 'partial receive' && status.inventoryHide)">-->
+                    <!--<input auto-complete-->
+                      <!--placeholder="Select one"-->
+                      <!--[source]="product.inventory_groups"-->
+                      <!--[disabled] = "product.existInvGroup"-->
+                      <!--[(ngModel)] = 'product.inventory_group'-->
+                      <!--(ngModelChange) = 'selectedAutocompledInventoryGroup($event, product)'-->
+                      <!--[list-formatter] = '"name"'-->
+                      <!--[tab-to-select] = 'false'-->
+                      <!--name="inventoryGroup"-->
+                      <!--#inventoryGroup = "ngModel"-->
+                      <!--required minlength="1"-->
+                      <!--[class.invalid]="!inventoryGroupValid && !product.existInvGroup"-->
+                    <!--/>-->
+                    <!--<div [hidden]="inventoryGroup.untouched || product.inventory_group_id" class="error red-text left-align error-absolute">-->
+                      <!--Inventory group is required-->
+                    <!--</div>-->
+                  <!--</div>-->
+                  <!--<div class="select select-light flex-center"-->
+                    <!--*ngIf="status.type === 'pending' || status.type === 'return' || status.type === 'backorder' || status.type === 'quantity increase' || status.type === 'quantity decrease'|| (status.type === 'partial receive' && !status.inventoryHide)">-->
+                    <!--<select-->
+                      <!--materialize="material_select"-->
+                      <!--[disabled]="true"-->
+                      <!--name="inventory{{i}}"-->
+                      <!--required-->
+                    <!--&gt;-->
+                      <!--<option value="null">N/A</option>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s3">-->
+                  <!--<div class="select select-light flex-center">-->
+                    <!--<select materialize="material_select"-->
+                      <!--[materializeSelectOptions]="product.locations"-->
+                      <!--(ngModelChange)="changeLocation($event, status)"-->
+                      <!--[ngModel] = 'status.location'-->
+                      <!--[disabled]="status.type === 'pending' || status.type === 'return' || status.type === 'backorder'"-->
+                      <!--name="location{{i}}"-->
+                    <!--&gt;-->
+                      <!--<ng-container *ngIf="status.type === 'pending' || status.type === 'return' || status.type === 'backorder' || !product.inventory_group_id">-->
+                        <!--<option value="null">N/A</option>-->
+                      <!--</ng-container>-->
+                      <!--<ng-container *ngIf="status.type === 'receive' || status.type === 'partial receive' || status.type === 'quantity increase' || status.type === 'quantity decrease'">-->
+                        <!--<option *ngFor="let location of product.locations" [ngValue]="location">{{location.location_name}}: {{ location.name }}-->
+                        <!--</option>-->
+                      <!--</ng-container>-->
+                    <!--</select>-->
+                  <!--</div>-->
+                <!--</div>-->
+                <!--<div class="col s1 flex-center justify-center trash-icon">-->
+                  <!--<a (click)="remove(product, status)" *ngIf="status.type !== 'pending'">-->
+                    <!--<fa name="trash" class="tealish-text"></fa>-->
+                  <!--</a>-->
+                <!--</div>-->
+              <!--</div>-->
+            </div>
+          </div>
+        <div class="row product-row">
+          <div class="col s12">
+            <button
+              (click)="addProduct()"
+              class="right mtop uptracker-form-btn white-text waves-effect waves-light"
+            >
+              <fa name="plus"></fa>
+              Add Product
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</form>

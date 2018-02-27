@@ -1,0 +1,20 @@
+<div class="inner add-to-order-modal">
+  <div>
+    You can only receive products from the same vendor. Which vendor would you like to receive now?
+  </div>
+  <div class="select select-light mrg-top-15">
+    <select
+            materialize="material_select"
+            [materializeSelectOptions]="context"
+      [(ngModel)] = 'selectedVendor'
+    >
+      <option *ngFor="let vendor of context">{{vendor.vendor_name}}</option>
+    </select>
+  </div>
+  <div class="row mtop">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+      <button class="uptracker-form-btn" (click)="onchooseVendor()">Ok</button>
+    </div>
+  </div>
+</div>

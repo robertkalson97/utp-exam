@@ -1,0 +1,28 @@
+$tealish: #33c6d9;
+
+
+.change-pass-btn {
+  button {
+    background-color: $tealish;
+    width: 100%;
+  }
+}
+
+.change-pass-form {
+  padding: 0 5%;
+}
+
+
+.buttons{
+  margin-top:44px;
+
+  .nav-btn{
+    display:inline-block;
+    width:45px;
+    min-height:20px;
+  }
+
+  button{
+    margin:0 5px;
+  }
+}

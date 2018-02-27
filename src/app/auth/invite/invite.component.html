@@ -1,0 +1,244 @@
+<div class="auth-box center-align" *ngIf="!terms && !privacy">
+  <div class="title">Create Account</div>
+  <div class="subtitle">You've got the invitation code.<br> Get started by entering the information below.</div>
+  <form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #signupForm="ngForm" autocomplete="off" novalidate>
+    <div class="input row">
+      <div class="label left-align">Your Name</div>
+      <input
+        id="name"
+        placeholder="Enter name"
+        class="validate col s12"
+        [(ngModel)]="invitationInfo.name"
+        name="name"
+        #name="ngModel"
+        required
+        type="text">
+      <div [hidden]="name.valid || name.pristine" class="error red-text left-align">
+        Name is required.
+      </div>
+    </div>
+
+    <div class="input row">
+      <div class="label left-align">Your Email</div>
+      <input
+        id="email"
+        class="validate col s12"
+        placeholder="Enter email"
+        [(ngModel)]="invitationInfo.email_address"
+        name="email"
+        #email="ngModel"
+        required minlength="6" maxlength="254" pattern=".+@.+\..+"
+        type="text">
+      <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+        Your email must be from 6 to 254 characters long and look like an e-mail address.
+      </div>
+    </div>
+
+    <div class="input row relative">
+      <div class="label left-align">
+        Create a password
+        <span class="toggle-show-password" title="Show/hide password" (click)="toggleShowPassword()">
+          <fa *ngIf="!showPwd" name="eye"></fa>
+          <fa *ngIf="showPwd" name="eye-slash"></fa>
+        </span>
+      </div>
+
+      <div *ngIf="!showPwd">
+        <input
+          id="password"
+          placeholder="Enter password"
+          class="validate col s12"
+          type="password"
+          [(ngModel)]="invitationInfo.password"
+          name="password"
+          minlength="6"
+          required
+          #password="ngModel">
+
+        <div [hidden]="password?.valid || password?.pristine" class="error red-text left-align">
+          *Min length of password must be at least 6 symbols.
+        </div>
+      </div>
+
+      <div *ngIf="showPwd">
+        <input
+          id="password2"
+          placeholder="Enter password"
+          class="validate col s12"
+          type="text"
+          [(ngModel)]="invitationInfo.password"
+          name="password2"
+          minlength="6"
+          required
+          #password2="ngModel">
+
+        <div [hidden]="password2?.valid || password2?.pristine" class="error red-text left-align">
+          *Min length of password must be at least 6 symbols.
+        </div>
+      </div>
+
+    </div>
+
+    <div class="input row">
+      <div class="label left-align">Phone number</div>
+      <phone-input
+        (onCountryChange)="onCountryChange($event)"
+        [selectedCountry]="selectedCountry">
+        <input
+          [textMask]="phoneMask"
+          id="phone"
+          placeholder="Enter phone number"
+          class="validate"
+          [(ngModel)]="signupFormPhone"
+          name="phone"
+          #phone="ngModel"
+          required minlength="11"
+          type="text">
+        <div [hidden]="phone.valid || phone.pristine" class="error red-text left-align">
+          Phone number required.
+        </div>
+      </phone-input>
+    </div>
+
+    <div class="buttons">
+      <button
+        type="submit"
+        class="btn white-text waves-effect waves-light"
+        [class.disabled]="!signupForm.form.valid"
+        [disabled]="!signupForm.form.valid">
+        Register
+      </button>
+    </div>
+
+    <div class="signup-terms">
+      By creating an account, you’re agreeing to Uptracker’s
+      <a (click)="viewTerms()">Terms of Service</a>
+      and
+      <a (click)="viewPrivacy()">Privacy Policy</a>
+    </div>
+  </form>
+</div>
+
+<div class="auth-box text-box" *ngIf="terms">
+  <div class="title">Terms of Service</div>
+  <div class="text">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in tincidunt diam. Nullam ornare tortor nunc,
+      vel luctus augue euismod ut. Sed lobortis urna eget ex dictum euismod. Morbi porta est nec sagittis fringilla.
+      Aenean egestas blandit dui eu facilisis. Sed ac laoreet leo. Nulla fermentum efficitur velit eget bibendum. Donec
+      eu tristique odio. Nulla at orci at metus consectetur convallis non fermentum tellus. Proin ut sem ut purus
+      scelerisque commodo quis in lorem. Nunc eget sapien diam. Curabitur dictum, ex quis porttitor rutrum, urna augue
+      vehicula lorem, quis dignissim orci ante vel dolor. Vestibulum at neque ac odio dignissim pellentesque. Praesent
+      vel efficitur urna. Nullam elementum dolor in ligula cursus lobortis nec at metus.</p>
+    <p>Pellentesque vel dolor nec quam mollis ornare a condimentum risus. Duis vel lacus id nulla aliquet pulvinar ac
+      nec diam. Phasellus sit amet imperdiet erat, iaculis elementum est. Nam fringilla euismod euismod. Morbi
+      condimentum hendrerit ex vel viverra. Ut ultricies lorem ac libero ultrices, a condimentum felis euismod. In
+      sollicitudin ex vitae pellentesque bibendum. Vivamus bibendum mi eleifend nisi aliquam congue.</p>
+    <p>Etiam quis augue rutrum, lobortis orci quis, consequat leo. Etiam at velit et mauris pharetra commodo id at nunc.
+      Mauris aliquet, turpis et elementum euismod, tortor purus sagittis orci, vel tristique neque augue non nisl. Morbi
+      vestibulum scelerisque euismod. Sed iaculis ipsum id mi tempor, eget blandit augue vehicula. Sed suscipit tempor
+      lacus, feugiat euismod ex aliquet quis. Nunc metus ligula, laoreet eget ligula sit amet, vestibulum suscipit
+      libero. Morbi vitae ex ultricies, vestibulum massa quis, venenatis felis. Sed euismod neque sit amet pulvinar
+      feugiat. Sed quam magna, rutrum mollis porta eget, congue sed tellus. Pellentesque ultricies risus vel sapien
+      dignissim vestibulum. Proin imperdiet dignissim nisl, id finibus metus gravida vel.</p>
+    <p>In aliquet, ante pretium tempus feugiat, turpis libero congue enim, vel condimentum diam ante nec est. Sed
+      consectetur dui nec auctor egestas. Nulla sollicitudin tempus pharetra. Nullam dapibus ac magna sed vehicula.
+      Mauris pharetra lorem in ligula pharetra, non imperdiet mi facilisis. Suspendisse at eros id ex rhoncus gravida.
+      Fusce vehicula feugiat dapibus. Praesent a efficitur ipsum.</p>
+    <p>Sed rutrum pretium auctor. Aenean in tellus velit. In hac habitasse platea dictumst. Phasellus elementum, justo
+      sit amet sollicitudin rutrum, lacus sapien sodales justo, a varius enim orci vel mauris. Phasellus sed hendrerit
+      odio. Aenean eleifend ipsum elit, sit amet iaculis ipsum fermentum eu. Mauris eu leo varius, luctus mauris at,
+      faucibus nunc.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in tincidunt diam. Nullam ornare tortor nunc,
+      vel luctus augue euismod ut. Sed lobortis urna eget ex dictum euismod. Morbi porta est nec sagittis fringilla.
+      Aenean egestas blandit dui eu facilisis. Sed ac laoreet leo. Nulla fermentum efficitur velit eget bibendum. Donec
+      eu tristique odio. Nulla at orci at metus consectetur convallis non fermentum tellus. Proin ut sem ut purus
+      scelerisque commodo quis in lorem. Nunc eget sapien diam. Curabitur dictum, ex quis porttitor rutrum, urna augue
+      vehicula lorem, quis dignissim orci ante vel dolor. Vestibulum at neque ac odio dignissim pellentesque. Praesent
+      vel efficitur urna. Nullam elementum dolor in ligula cursus lobortis nec at metus.</p>
+    <p>Pellentesque vel dolor nec quam mollis ornare a condimentum risus. Duis vel lacus id nulla aliquet pulvinar ac
+      nec diam. Phasellus sit amet imperdiet erat, iaculis elementum est. Nam fringilla euismod euismod. Morbi
+      condimentum hendrerit ex vel viverra. Ut ultricies lorem ac libero ultrices, a condimentum felis euismod. In
+      sollicitudin ex vitae pellentesque bibendum. Vivamus bibendum mi eleifend nisi aliquam congue.</p>
+    <p>Etiam quis augue rutrum, lobortis orci quis, consequat leo. Etiam at velit et mauris pharetra commodo id at nunc.
+      Mauris aliquet, turpis et elementum euismod, tortor purus sagittis orci, vel tristique neque augue non nisl. Morbi
+      vestibulum scelerisque euismod. Sed iaculis ipsum id mi tempor, eget blandit augue vehicula. Sed suscipit tempor
+      lacus, feugiat euismod ex aliquet quis. Nunc metus ligula, laoreet eget ligula sit amet, vestibulum suscipit
+      libero. Morbi vitae ex ultricies, vestibulum massa quis, venenatis felis. Sed euismod neque sit amet pulvinar
+      feugiat. Sed quam magna, rutrum mollis porta eget, congue sed tellus. Pellentesque ultricies risus vel sapien
+      dignissim vestibulum. Proin imperdiet dignissim nisl, id finibus metus gravida vel.</p>
+    <p>In aliquet, ante pretium tempus feugiat, turpis libero congue enim, vel condimentum diam ante nec est. Sed
+      consectetur dui nec auctor egestas. Nulla sollicitudin tempus pharetra. Nullam dapibus ac magna sed vehicula.
+      Mauris pharetra lorem in ligula pharetra, non imperdiet mi facilisis. Suspendisse at eros id ex rhoncus gravida.
+      Fusce vehicula feugiat dapibus. Praesent a efficitur ipsum.</p>
+    <p>Sed rutrum pretium auctor. Aenean in tellus velit. In hac habitasse platea dictumst. Phasellus elementum, justo
+      sit amet sollicitudin rutrum, lacus sapien sodales justo, a varius enim orci vel mauris. Phasellus sed hendrerit
+      odio. Aenean eleifend ipsum elit, sit amet iaculis ipsum fermentum eu. Mauris eu leo varius, luctus mauris at,
+      faucibus nunc.</p>
+  </div>
+  <button (click)="closeText()" class="uptracker-form-btn waves-effect waves-light">Back</button>
+</div>
+
+<div class="auth-box text-box" *ngIf="privacy">
+  <div class="title">Privacy Policy</div>
+  <div class="text">
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in tincidunt diam. Nullam ornare tortor nunc,
+      vel luctus augue euismod ut. Sed lobortis urna eget ex dictum euismod. Morbi porta est nec sagittis fringilla.
+      Aenean egestas blandit dui eu facilisis. Sed ac laoreet leo. Nulla fermentum efficitur velit eget bibendum. Donec
+      eu tristique odio. Nulla at orci at metus consectetur convallis non fermentum tellus. Proin ut sem ut purus
+      scelerisque commodo quis in lorem. Nunc eget sapien diam. Curabitur dictum, ex quis porttitor rutrum, urna augue
+      vehicula lorem, quis dignissim orci ante vel dolor. Vestibulum at neque ac odio dignissim pellentesque. Praesent
+      vel efficitur urna. Nullam elementum dolor in ligula cursus lobortis nec at metus.</p>
+    <p>Pellentesque vel dolor nec quam mollis ornare a condimentum risus. Duis vel lacus id nulla aliquet pulvinar ac
+      nec diam. Phasellus sit amet imperdiet erat, iaculis elementum est. Nam fringilla euismod euismod. Morbi
+      condimentum hendrerit ex vel viverra. Ut ultricies lorem ac libero ultrices, a condimentum felis euismod. In
+      sollicitudin ex vitae pellentesque bibendum. Vivamus bibendum mi eleifend nisi aliquam congue.</p>
+    <p>Etiam quis augue rutrum, lobortis orci quis, consequat leo. Etiam at velit et mauris pharetra commodo id at nunc.
+      Mauris aliquet, turpis et elementum euismod, tortor purus sagittis orci, vel tristique neque augue non nisl. Morbi
+      vestibulum scelerisque euismod. Sed iaculis ipsum id mi tempor, eget blandit augue vehicula. Sed suscipit tempor
+      lacus, feugiat euismod ex aliquet quis. Nunc metus ligula, laoreet eget ligula sit amet, vestibulum suscipit
+      libero. Morbi vitae ex ultricies, vestibulum massa quis, venenatis felis. Sed euismod neque sit amet pulvinar
+      feugiat. Sed quam magna, rutrum mollis porta eget, congue sed tellus. Pellentesque ultricies risus vel sapien
+      dignissim vestibulum. Proin imperdiet dignissim nisl, id finibus metus gravida vel.</p>
+    <p>In aliquet, ante pretium tempus feugiat, turpis libero congue enim, vel condimentum diam ante nec est. Sed
+      consectetur dui nec auctor egestas. Nulla sollicitudin tempus pharetra. Nullam dapibus ac magna sed vehicula.
+      Mauris pharetra lorem in ligula pharetra, non imperdiet mi facilisis. Suspendisse at eros id ex rhoncus gravida.
+      Fusce vehicula feugiat dapibus. Praesent a efficitur ipsum.</p>
+    <p>Sed rutrum pretium auctor. Aenean in tellus velit. In hac habitasse platea dictumst. Phasellus elementum, justo
+      sit amet sollicitudin rutrum, lacus sapien sodales justo, a varius enim orci vel mauris. Phasellus sed hendrerit
+      odio. Aenean eleifend ipsum elit, sit amet iaculis ipsum fermentum eu. Mauris eu leo varius, luctus mauris at,
+      faucibus nunc.</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent in tincidunt diam. Nullam ornare tortor nunc,
+      vel luctus augue euismod ut. Sed lobortis urna eget ex dictum euismod. Morbi porta est nec sagittis fringilla.
+      Aenean egestas blandit dui eu facilisis. Sed ac laoreet leo. Nulla fermentum efficitur velit eget bibendum. Donec
+      eu tristique odio. Nulla at orci at metus consectetur convallis non fermentum tellus. Proin ut sem ut purus
+      scelerisque commodo quis in lorem. Nunc eget sapien diam. Curabitur dictum, ex quis porttitor rutrum, urna augue
+      vehicula lorem, quis dignissim orci ante vel dolor. Vestibulum at neque ac odio dignissim pellentesque. Praesent
+      vel efficitur urna. Nullam elementum dolor in ligula cursus lobortis nec at metus.</p>
+    <p>Pellentesque vel dolor nec quam mollis ornare a condimentum risus. Duis vel lacus id nulla aliquet pulvinar ac
+      nec diam. Phasellus sit amet imperdiet erat, iaculis elementum est. Nam fringilla euismod euismod. Morbi
+      condimentum hendrerit ex vel viverra. Ut ultricies lorem ac libero ultrices, a condimentum felis euismod. In
+      sollicitudin ex vitae pellentesque bibendum. Vivamus bibendum mi eleifend nisi aliquam congue.</p>
+    <p>Etiam quis augue rutrum, lobortis orci quis, consequat leo. Etiam at velit et mauris pharetra commodo id at nunc.
+      Mauris aliquet, turpis et elementum euismod, tortor purus sagittis orci, vel tristique neque augue non nisl. Morbi
+      vestibulum scelerisque euismod. Sed iaculis ipsum id mi tempor, eget blandit augue vehicula. Sed suscipit tempor
+      lacus, feugiat euismod ex aliquet quis. Nunc metus ligula, laoreet eget ligula sit amet, vestibulum suscipit
+      libero. Morbi vitae ex ultricies, vestibulum massa quis, venenatis felis. Sed euismod neque sit amet pulvinar
+      feugiat. Sed quam magna, rutrum mollis porta eget, congue sed tellus. Pellentesque ultricies risus vel sapien
+      dignissim vestibulum. Proin imperdiet dignissim nisl, id finibus metus gravida vel.</p>
+    <p>In aliquet, ante pretium tempus feugiat, turpis libero congue enim, vel condimentum diam ante nec est. Sed
+      consectetur dui nec auctor egestas. Nulla sollicitudin tempus pharetra. Nullam dapibus ac magna sed vehicula.
+      Mauris pharetra lorem in ligula pharetra, non imperdiet mi facilisis. Suspendisse at eros id ex rhoncus gravida.
+      Fusce vehicula feugiat dapibus. Praesent a efficitur ipsum.</p>
+    <p>Sed rutrum pretium auctor. Aenean in tellus velit. In hac habitasse platea dictumst. Phasellus elementum, justo
+      sit amet sollicitudin rutrum, lacus sapien sodales justo, a varius enim orci vel mauris. Phasellus sed hendrerit
+      odio. Aenean eleifend ipsum elit, sit amet iaculis ipsum fermentum eu. Mauris eu leo varius, luctus mauris at,
+      faucibus nunc.</p>
+  </div>
+  <button (click)="closeText()" class="uptracker-form-btn waves-effect waves-light">Back</button>
+</div>
+
+<div class="footer row">
+  <div class="center-align">
+    <a [routerLink]="['/login']" class="white-text">Already have an account? Login here</a>
+  </div>
+</div>

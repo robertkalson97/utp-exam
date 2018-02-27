@@ -1,0 +1,106 @@
+.users {
+  .users-row{
+    .item{
+      width:250px;
+      height:250px;
+      display:inline-block;
+      vertical-align:top;
+      border-radius:5px;
+
+      &.empty{
+        background:#f5f6f7 url(/assets/img/onboard/button-add-location.svg) no-repeat center center;
+        border:1px dashed #a7a7a7;
+
+        &:hover{
+          cursor:pointer;
+        }
+      }
+    }
+
+    .list{
+      overflow-x:auto;
+      overflow-y:hidden;
+      white-space: nowrap;
+      letter-spacing: 0;
+      word-spacing: 0;
+      font-size:0;
+      padding-bottom:15px;
+      text-align:left;
+      max-width: calc(100% - 270px);
+      float:left;
+      margin-right:20px;
+
+      .item{
+        border: 1px solid #d6d6d6;
+        background:#fff;
+        max-width:100%;
+        margin-left:20px;
+        cursor:pointer;
+        transition: all .3s;
+
+
+        &:first-child{
+          margin:0;
+        }
+
+        .img{
+          margin:28px auto 40px;
+          height:144px;
+          width:144px;
+          border-radius:50%;
+          background:transparent no-repeat center center;
+          background-size:cover;
+          transition: all .3s;
+
+
+          //TODO: remove after check
+          //img{
+          //  display:block;
+          //  border-radius:50%;
+          //  max-height: 100%;
+          //  max-width:100%;
+          //}
+        }
+
+        .ttl{
+          font-size:12px;
+        }
+      }
+    }
+  }
+
+  .buttons{
+    padding-top:25px !important;
+  }
+}
+
+@media all and (max-width: 500px){
+  .users{
+    .users-row{
+      .add-item{
+        width:100%;
+        text-align:center;
+        margin-bottom:20px;
+      }
+
+      .list{
+        text-align:center;
+        clear:both;
+        width:250px;
+        max-width: inherit;
+        float:none;
+        margin:0 auto;
+        overflow:inherit;
+
+        .item{
+          display:block;
+          margin:0 0 20px !important;
+        }
+      }
+    }
+
+    .buttons{
+      padding:20px !important;
+    }
+  }
+}

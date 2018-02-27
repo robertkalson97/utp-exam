@@ -1,0 +1,11 @@
+<div class="auth-wrapper">
+  <div class="auth-content">
+    <div class="logo">
+      <a [routerLink]="['/']">uptracker</a>
+    </div>
+    <div class="signup-user-menu" *ngIf="showUserMenu$ | async">
+      <user-dropdown-menu onlyLogout="true"></user-dropdown-menu>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

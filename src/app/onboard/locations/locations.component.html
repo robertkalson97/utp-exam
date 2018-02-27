@@ -1,0 +1,15 @@
+<div class="locations content">
+  <div class="title">Set up your locations</div>
+  <div class="subtitle">Please enter one location per card below then click next.</div>
+  <div class="list left-align">
+    <div class="item" *ngFor="let location of locations$ | async" (click)="viewLocationModal(location)">
+      <div class="img" [ngStyle]="{ 'background-image': 'url('+location.image+')' }"></div>
+      <div class="ttl">{{location.name}}</div>
+    </div>
+    <div class="empty item" (click)="viewLocationModal()"></div>
+  </div>
+  <div class="buttons">
+    <button class="next waves-effect waves-light right" [disabled]="!(locations$ | async) || (locations$ | async)?.length == 0" (click)="goNext()">Next</button>
+    <div class="clearfix"></div>
+  </div>
+</div>

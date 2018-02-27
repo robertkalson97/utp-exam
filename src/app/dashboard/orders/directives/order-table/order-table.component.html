@@ -1,0 +1,79 @@
+<div class="sub-title tealish-text">
+  {{(orderTableService.countOrders$ | async) ? (orderTableService.countOrders$ | async) : '0'}} items
+</div>
+<div class="list is-grid-view">
+  <div class="heading row flex-center">
+    <div class="input-checkbox left checkbox"
+    >
+      <input
+        type="checkbox"
+        class="checkbox-input"
+        [id]="componentId + '-checkbox'"
+        [ngModel]="orderTableService.batchSelect$ | async"
+        (click)="toggleSelectAll()"
+      />
+      <label [for]="componentId + '-checkbox'"></label>
+    </div>
+    <div class="col pointer"
+      (click)="sortByHeaderCol(headerCol)"
+      [ngClass]="headerCol.className"
+      *ngFor="let headerCol of header;">
+      {{headerCol.name}}
+      <app-order-table-header-action
+        [orders]="checkedOrders$ | async"
+        [isShow]="headerCol.actions && showHeaderMenu$ | async"
+        [listName]="listName"
+      ></app-order-table-header-action>
+    </div>
+
+  </div>
+
+  <div class="item" *ngFor="let item of filteredOrders$ | async; index as i;">
+    <div class="row flex-center mrg-btm-0 main-row"
+      [class.pointer] = "listName !== 'backordered' && item.status_line_items"
+      (click)="(listName !== 'backordered') ? toggleStatusHistoryDetail(item) : ''">
+      <div class="input-checkbox left checkbox">
+        <input
+          type="checkbox"
+          [ngModel]='item.checked'
+          (ngModelChange)="setCheckbox(item)"
+          class="selected-input{{i + item[uniqueField]}}"
+          id="selected{{i + item[uniqueField] + componentId}}"
+        />
+        <label for="selected{{i + item[uniqueField] + componentId}}"></label>
+      </div>
+
+      <div class="col"
+        *ngFor="let headerCol of header;"
+        (click)="headerCol?.filterBy ? onFilterBy(item[headerCol.alias], headerCol) : ''"
+        [ngClass]="headerCol.className"
+        [class.tealish-text]="headerCol?.filterBy"
+        [class.pointer]="headerCol?.filterBy"
+      >
+        <ng-template
+          [ngIf]="headerCol.alias && item[headerCol.alias]"
+        >
+          {{item[headerCol.alias]}}
+        </ng-template>
+
+        <app-order-table-item-action
+          [item]="item"
+          [isShow]="headerCol.actions"
+          [listName]="listName"
+          [uniqueField]="uniqueField"
+          [i]="i"
+        ></app-order-table-item-action>
+
+      </div>
+    </div>
+    <div *ngIf="item.statusHistoryVisibility">
+      <div class="row flex-center mrg-l-30 mrg-btm-0" *ngFor="let statusLine of item.status_line_items">
+        <div class="col" *ngFor="let headerCol of header;" [ngClass]="headerCol.className">
+          {{statusLine[headerCol.alias]}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+

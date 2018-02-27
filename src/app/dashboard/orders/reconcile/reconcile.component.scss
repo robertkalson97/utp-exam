@@ -1,0 +1,129 @@
+@import "../../../../colors.scss";
+
+:host /deep/ {
+  .list {
+    letter-spacing: 0;
+    word-spacing: 0;
+    font-size: 0;
+    //padding-bottom: 15px;
+    text-align: left;
+
+    &.is-grid-view {
+      .row {
+        .col {
+          display: block;
+          label {
+            vertical-align: middle;
+          }
+        }
+      }
+      .heading {
+        margin: 10px 0;
+        //padding-bottom: 20px;
+        color: #444;
+        border-bottom: 1px solid #888;
+        font-size: 14px;
+        font-weight: bold;
+        .col {
+        }
+        button {
+          width: 30px;
+          i {
+            font-size: 20px;
+            line-height: 28px;
+          }
+        }
+      }
+      .item {
+        margin-bottom: 0;
+        font-size: 14px;
+
+        .col {
+          min-height: 40px;
+          line-height: 40px;
+          color: #888;
+          &.pointer {
+            cursor: pointer;
+          }
+          &:nth-of-type(5) {
+            white-space: nowrap;
+          }
+          &:nth-of-type(1) {
+            color: $tealish;
+            cursor: pointer;
+          }
+          .fa-eye, .fa-eye-slash {
+            margin-right: 9px;
+            line-height: 35px;
+            transition: color .7s;
+            cursor: pointer;
+          }
+          .fa-eye {
+            color: $tealish;
+          }
+          .fa-eye-slash {
+            color: $red;
+          }
+        }
+        .edititem {
+          visibility: hidden;
+        }
+        &:hover {
+          .edititem {
+            visibility: visible;
+          }
+        }
+      }
+
+      input {
+        margin: 0;
+        height: 25px;
+        font-size: 11px;
+        padding-left: 8px;
+        text-indent: 0;
+        text-overflow: ellipsis;
+        color: $grey;
+        background-color: $white;
+
+
+        &.empty {
+          color: $light-grey;
+        }
+      }
+    }
+  }
+  .checkbox {
+    margin-right: 10px;
+  }
+  .item {
+    //padding-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+    .text-right {
+      padding-right: 5px;
+    }
+    input {
+      margin-top: 0;
+    }
+    .flex-center {
+      padding-top: 5px;
+      padding-bottom: 5px;
+    }
+  }
+  .right-bottom-part {
+    .row {
+      margin-bottom: 0;
+    }
+    input {
+      margin-top: 0;
+      text-align: right;
+      padding-right: 5px;
+    }
+    .pdg-r-0 {
+      padding-right: 0;
+    }
+  }
+  .edititem {
+    margin: 0 0 10px 0;
+  }
+}
+

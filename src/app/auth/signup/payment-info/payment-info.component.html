@@ -1,0 +1,123 @@
+<div class="auth-box center-align">
+  <!--<div [class.hidden]="!isHidden" >-->
+    <!--<div class="title">Please wait...</div>-->
+  <!--</div>-->
+
+  <div>
+    <div class="title">Payment Information</div>
+    <div class="subtitle">How will you be paying for orders?</div>
+    <form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #signupForm="ngForm" autocomplete="off" novalidate>
+      <div class="input row">
+        <div class="label left-align">Credit Card Number</div>
+        <input
+          id="cardNumber"
+          placeholder="Enter a valid creditcard number here"
+          class="validate col s12"
+          [textMask]="{mask: cardMask, guide: false}"
+          [(ngModel)]="creditCard.cardNumber"
+          name="cardNumber" data-stripe="exp_number"
+          #cardNumber="ngModel"
+          required minlength="17"
+          type="text">
+        <div [hidden]="cardNumber.valid || cardNumber.untouched" class="error red-text left-align">
+          Credit card number is required.
+        </div>
+      </div>
+
+      <div class="row split-input-row">
+        <div class="input col s4">
+          <div class="label left-align">CVC Code</div>
+          <input
+            id="number"
+            class="validate col s12"
+            placeholder="222"
+            [textMask]="{mask: cvcMaskFunction, guide: false}"
+            [(ngModel)]="creditCard.cvc"
+            name="number" data-stripe="number"
+            required minlength="3"
+            #number="ngModel"
+            type="text">
+          <div [hidden]="number.valid || number.untouched" class="error red-text left-align">
+            CVC code is required.
+          </div>
+        </div>
+        <div class="col s8">
+          <div class="expiration-row">
+            <div class="label left-align col s12">Expiration Date</div>
+            <div class="input col s6 expMonth">
+              <div class="select" [class.dirty]="monthDirty">
+                <select
+                  [(ngModel)]="creditCard.expMonth"
+                  #expMonth="ngModel"
+                  name="expMonth"
+                  id="expMonth"
+                  materialize="material_select"
+                  data-stripe="exp_month"
+                  (change)="changeMonth()"
+                  required>
+                  <option value="" selected>Month</option>
+                  <option *ngFor="let monthNumber of selectMonth" [value]="monthNumber">{{monthNumber}}</option>
+                </select>
+              </div>
+              <div [hidden]="expMonth.valid || expMonth.untouched" class="error red-text left-align">
+                Expiration month is required.
+              </div>
+            </div>
+            <div class="input col s6">
+              <div class="select" [class.dirty]="yearDirty">
+                <select
+                  [(ngModel)]="creditCard.expYear"
+                  #expYear="ngModel"
+                  name="expYear"
+                  id="expYear"
+                  materialize="material_select" value=""
+                  data-stripe="exp_year"
+                  (change)="changeYear()"
+                  required>
+                  <option value="" selected>Year</option>
+                  <option *ngFor="let yearNumber of selectYear" [value]="yearNumber">{{yearNumber}}</option>
+                </select>
+              </div>
+              <div [hidden]="expYear.valid || expYear.untouched" class="error red-text left-align">
+                Expiration year is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="input row">
+        <div class="label left-align">Trial Code</div>
+        <input
+          id="trial"
+          placeholder="Enter trial code"
+          class="validate col s12"
+          [(ngModel)]="trialCode"
+          name="trial"
+          #trial="ngModel"
+          type="text">
+        <div [hidden]="trial.valid || trial.pristine" class="error red-text left-align">
+          Trial Code number is required.
+        </div>
+      </div>
+
+      <div class="buttons">
+        <button
+          type="button"
+          [routerLink]="['/signup', 'about-company']"
+          class="btn-flat left back-btn">
+          Back
+        </button>
+        <button
+          #buttonsubmit
+          type="submit"
+          class="btn white-text waves-effect waves-light right"
+          [class.disabled]="!signupForm.form.valid && trialCode == ''"
+          [disabled]="!signupForm.form.valid && trialCode == ''">
+          Next
+        </button>
+        <div class="clearfix"></div>
+      </div>
+    </form>
+  </div>
+</div>

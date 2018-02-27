@@ -1,0 +1,165 @@
+<div class="accounting content">
+  <div class="title">Enter your accounting details</div>
+  <div class="subtitle">Please provide details regarding your company’s accounting.</div>
+  <form class="uptracker-form left-align" materialize (ngSubmit)="onSubmit()" #accountingForm="ngForm"
+        autocomplete="off" novalidate>
+    <div class="form-box white">
+      <div class="inner">
+        <div class="input row">
+          <div class="col s12 m6">
+            <div class="label">When does your fiscal year start</div>
+            <div class="select" [class.dirty]="monthDirty">
+              <select
+                      [(ngModel)]="accounting.fiscal_year"
+                      name="fiscal_year"
+                      #fiscal_year="ngModel"
+                      materialize="material_select"
+                      class="validate"
+                      required
+                      (change)="changeDate($event)"
+                      [materializeSelectOptions]="monthArr">
+                <option value="">Select Date</option>
+                <option *ngFor="let month of monthArr" [value]="month">{{month}}</option>
+              </select>
+            </div>
+            <div [hidden]="fiscal_year.valid || fiscal_year.pristine" class="error red-text left-align">
+              Date is required.
+            </div>
+          </div>
+          <div class="col s12 m6">
+            <div class="label">Currency</div>
+            <div  *ngIf="currencyArr"  class="select" [class.dirty]="currencyDirty">
+              <select
+                      [(ngModel)]="accounting.currency"
+                      name="currency"
+                      #currency="ngModel"
+                      materialize="material_select"
+                      required
+                      (change)="changeCurrency($event)"
+                      [materializeSelectOptions]="currencyArr">
+                <option value="">Please select one</option>
+                <option *ngFor="let currency of currencyArr" [value]="currency.iso_code">{{currency.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m6 with-helper">
+            <div class="helper"></div>
+            <div class="label">Annual Gross Income</div>
+            <div class="prefix-input">
+              <div class="prefix" [innerHTML]="viewCurrencySign()"></div>
+              <input
+                      id="income"
+                      class="validate col s12"
+                      placeholder="Enter amount here"
+                      [(ngModel)]="accounting.annual_income"
+                      [textMask]="{mask: amountMask, guide: false}"
+                      (change)="changeAnnualIncome($event)"
+                      (blur)="changeAnnualIncome($event)"
+                      name="income"
+                      #income="ngModel"
+                      required
+                      type="text">
+            </div>
+            <div [hidden]="income.valid || income.pristine" class="error red-text left-align">
+              Annual Income is required.
+            </div>
+          </div>
+          <div class="col s12 m6 with-helper">
+            <div class="helper"></div>
+            <div class="label">Annual Inventory Budget</div>
+            <div class="prefix-input">
+              <div class="prefix" [innerHTML]="viewCurrencySign()"></div>
+              <input
+                      id="budget"
+                      class="validate col s12"
+                      placeholder="Enter Value"
+                      [(ngModel)]="accounting.annual_inventory_budget"
+                      [textMask]="{mask: amountMask, guide: false}"
+                      (change)="annualInventoryBudgetChange($event)"
+                      (blur)="annualInventoryBudgetChange($event)"
+                      name="budget"
+                      #budget="ngModel"
+                      required
+                      type="text">
+            </div>
+            <div [hidden]="budget.valid || budget.pristine" class="error red-text left-align">
+              Annual Inventory Budget is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m6">
+            <div class="label">Sales Tax Rate</div>
+            <div class="prefix-input">
+              <div class="suffix">%</div>
+              <input
+                      id="tax-rate"
+                      class="validate col s12"
+                      placeholder="Enter Tax Rate here"
+                      [(ngModel)]="accounting.taxRate"
+                      (change)="changeTaxRate($event)"
+                      (blur)="changeTaxRate($event)"
+                      name="tax-rate"
+                      #taxRate="ngModel"
+                      required
+                      type="text">
+            </div>
+          </div>
+        </div>
+        <div class="total-budget row" *ngIf="locationArr.length > 0">
+          <div class="col s12">
+            <div class="label main-label">Total Budget Distribution (Per Location)</div>
+          </div>
+          <div class="location-budget" *ngFor="let location of locationArr; let i=index">
+            <div class="top col s12">
+              <div class="label left">{{location.name}}</div>
+              <div class="right">
+                <div class="value input left">
+                  <input
+                          id="rangeInput{{i}}"
+                          class="range-value-input"
+                          [(ngModel)]="textInputRangeTotal[i]"
+                          [textMask]="{mask: amountMask, guide: false}"
+                          [disabled]="disabledRange[i]"
+                          (change)="changingRange($event, i, true)"
+                          (blur)="changingRange($event, i, true)"
+                          name="rangeInput{{i}}"
+                          #rangeInput{{i}}="ngModel"
+                          type="text">
+                </div>
+                <div class="lock-box right" [class.locked]="disabledRange[i]" (click)="toggleLock(i)"></div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+            <div class="range-field col s12">
+              <input
+                      type="range"
+                      id="location{{i}}"
+                      min="0" max="{{maxRange}}" step="{{rangeStep}}"
+                      [(ngModel)]="accounting.total[i]"
+                      [disabled]="disabledRange[i]"
+                      (input)="changingRange($event, i); loc.value = accounting.total[i]"
+                      (mousedown)="saveOldValue(i)"
+                      (mouseup)="rangeChanged($event, i)"
+                      name="location{{i}}"
+                      #loc
+                      #location{{i}}="ngModel">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button type="button" class="back left waves-effect waves-light" (click)="goBack()">Back</button>
+      <button class="next right waves-effect waves-light"
+              type="submit"
+              [class.disabled]="!accountingForm.form.valid"
+              [disabled]="!accountingForm.form.valid">
+        Done
+      </button>
+      <div class="clearfix"></div>
+    </div>
+  </form>
+</div>

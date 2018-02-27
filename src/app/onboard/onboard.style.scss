@@ -1,0 +1,210 @@
+:host /deep/ {
+  .onboard-wrapper{
+    min-height:100vh;
+    background:#f5f6f7;
+
+    .header{
+      height:159px;
+      background:#33c6d9;
+      position:relative;
+      z-index:5;
+
+      .top{
+        height:70px;
+        margin:0;
+
+        .logo{
+          padding:15px 0 0 8px;
+
+          a{
+            margin:0;
+          }
+        }
+
+        .user-menu-col {
+          .user-menu {
+            .btn-floating{
+              color:#33c6d9;
+              background:#fff;
+            }
+
+            .name{
+              color:#fff;
+            }
+          }
+        }
+      }
+
+      .onboard-nav{
+        position:relative;
+
+        .inner{
+          position:absolute;
+          width:0;
+          height:0;
+          left:50%;
+          top:0;
+          white-space:nowrap;
+          letter-spacing:0;
+          font-size:0;
+
+          .img{
+            width:190px;
+            display:inline-block;
+            vertical-align: top;
+            text-align:center;
+            margin-right:-18px;
+            position:relative;
+          }
+
+          .empty{
+            margin:41px 0 0 20px;
+            display:inline-block;
+            vertical-align: top;
+            width:11px;
+            height:11px;
+            border:1px solid #fff;
+            border-radius:50%;
+          }
+
+          .nav{
+            position:relative;
+
+            &.locations-nav{
+              left:-95px;
+            }
+
+            &.users-nav{
+              left:-126px;
+
+              .img{
+                top:3px;
+              }
+            }
+
+            &.products-nav{
+              left:-157px;
+
+              .img{
+                top:-9px;
+              }
+            }
+
+            &.vendors-nav{
+              left:-188px;
+
+              .img{
+                //top:-9px;
+              }
+            }
+
+            &.accounting-nav{
+              left:-219px;
+
+              .img{
+                top:17px;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .content-wrapper{
+      background:#f5f6f7;
+      z-index:4;
+
+      .content{
+        text-align:center;
+        max-width:1060px;
+        margin:0 auto;
+        position:relative;
+
+        .arrow-buttons{
+          position: absolute;
+          right:0;
+          top:-29px;
+          z-index:5;
+
+          button{
+            box-shadow:none;
+            margin-left:11px;
+            width:52px;
+            height:52px;
+            background-repeat: no-repeat;
+            background-color:transparent;
+
+            &.up-btn{
+              background-image:url(/assets/img/onboard/button-upload.svg)
+            }
+
+            &.down-btn{
+              background-image:url(/assets/img/onboard/button-download.svg)
+            }
+          }
+        }
+
+        .title{
+          font:bold 36px/43px 'Ubuntu';
+          padding:67px 0 12px;
+        }
+
+        .subtitle{
+          font-size:18px;
+          color:#9a9c9e;
+          margin-bottom:57px;
+        }
+
+        .buttons{
+          padding:40px 0;
+
+          button{
+            width:122px;
+            height:42px;
+            font-size:16px;
+            font-weight:900;
+            padding:0;
+            border:0;
+            color:#fff;
+            background:transparent no-repeat center center;
+
+            &.next{
+              background-image:url(/assets/img/onboard/button-next-bg.svg);
+              text-align:left;
+              text-indent:37px;
+
+              &[disabled]{
+                opacity:0.4;
+                color:#fff;
+                backgound-color:transparent;
+              }
+            }
+
+            &.back{
+              background-image:url(/assets/img/onboard/button-back-bg.svg);
+              text-align:left;
+              text-indent:46px;
+              color:#33c6d9;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media all and (max-width: 320px) {
+  .onboard-wrapper {
+    .header {
+      .onboard-nav {
+        .inner {
+          left:0;
+
+          .nav{
+            left:0;
+          }
+        }
+      }
+    }
+  }
+}

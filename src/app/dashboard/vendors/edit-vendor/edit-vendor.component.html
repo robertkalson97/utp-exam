@@ -1,0 +1,299 @@
+<div class="close fa fa-chevron-left" (click)="goBack()"></div>
+<div class="inner">
+  <div [class.notabs]="(accountService.locations$ | async)?.length < 2" class="title center-align">Vendor Info</div>
+  <div class="row">
+    <div class="col s4">
+      <div class="img-container">
+        <div class="img" *ngIf="vendor.logo" [ngStyle]="{ 'background-image': 'url(' + vendor.logo + ')' }"></div>
+      </div>
+    </div>
+    <div class="col s8">
+      <div class="ttl-box">
+        <div class="ttl">{{vendor.name}}</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <ul class="tabs location-tabs" materialize="tabs">
+    <li class="tab col" [class.s12]="(accountService.locations$ | async)?.length < 2" (click)="selectTabLocation()" [class.s4]="(accountService.locations$ | async)?.length > 1">
+      <a #all [class.active]="!currentLocation?.id && inited">All Locations</a>
+    </li>
+    <li class="tab col s4">
+      <a href="#general" #primary *ngIf="(accountService.locations$ | async)?.length > 1" (click)="selectTabLocation(primaryLocation)"
+        [class.active]="(primaryLocation?.id == currentLocation?.id) && inited">
+        {{primaryLocation?.name}}
+      </a>
+    </li>
+    <li class="tab col s4 uptracker-dropdown" *ngIf="(accountService.locations$ | async)?.length > 1">
+      <a (click)="selectTabLocation(secondaryLocation)" *ngIf="(accountService.locations$ | async)?.length == 2" href="#general"
+        data-activates="location_dropdown5" [class.active]="sateliteLocationActive && inited" #secondary>
+        <span>{{secondaryLocation?.name}}</span>
+
+      </a>
+      <a *ngIf="(accountService.locations$ | async)?.length > 2" href="#general" materialize="dropdown" data-activates="location_dropdown5"
+        [class.active]="sateliteLocationActive" #secondary>
+        <span>{{secondaryLocation?.name}}</span>
+        <i class="caret"></i>
+      </a>
+      <ul id="location_dropdown5" class="dropdown-content">
+        <li *ngFor="let location of locations$ | async" (click)="selectTabLocation(location)" [class.active]="location.id == currentLocation?.id">
+          {{location.name}}
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+<div id="general">
+  <form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #vendorForm="ngForm" autocomplete="off" novalidate>
+    <div class="input row">
+      <div class="col s12 m4">
+        <div class="label left-align">Currency</div>
+        <div class="select" [class.dirty]="currencyDirty">
+          <select [(ngModel)]="vendor.currency" name="currency" #currency="ngModel" materialize="material_select" (change)="changeCurrency($event)"
+            [materializeSelectOptions]="currencyArr">
+            <option value="">Please select one</option>
+            <option *ngFor="let currency of currencyArr" [value]="currency.iso_code">{{currency.name}}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Default Order Type</div>
+        <div class="select">
+          <select [(ngModel)]="vendor.default_order_type" name="order_type" #order_type="ngModel" materialize="material_select">
+            <option value="email">Email</option>
+            <option value="phone">Phone</option>
+            <option value="fax">Fax</option>
+          </select>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Payment Method</div>
+        <div class="select">
+          <select [(ngModel)]="vendor.payment_method" name="method" #method="ngModel" materialize="material_select">
+            <option value="check">Check</option>
+            <option value="credit">Credit card</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="input row">
+      <div class="col s12 m4">
+        <div class="label left-align">Discount</div>
+        <div class="suffix-input">
+          <div class="suffix">%</div>
+          <input id="discount" placeholder="{{placeholder.discount_percentage}}" class="validate col s12" [(ngModel)]="vendor.discount_percentage"
+            [textMask]="{mask: discountMask, guide: false}" name="discount" #discount="ngModel" type="text">
+          <div [hidden]="discount.valid || discount.pristine" class="error red-text left-align">
+            Discount is required.
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="label">Shipping & Handling Fee</div>
+        <div class="prefix-input">
+          <div class="prefix" [innerHTML]="currencySign"></div>
+          <input id="shipping" class="validate col s12" placeholder="{{placeholder.shipping_handling}}" [(ngModel)]="vendor.shipping_handling"
+            [textMask]="{mask: amountMask, guide: false}" name="shipping" #shipping="ngModel" type="text">
+        </div>
+        <div [hidden]="shipping.valid || shipping.pristine" class="error red-text left-align">
+          Shipping & Handling Fee is required.
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Average Lead Time</div>
+        <div class="suffix-input">
+          <input id="lead_time" placeholder="{{placeholder.avg_lead_time}}" class="validate col s12" [(ngModel)]="vendor.avg_lead_time"
+            name="lead_time" #lead_time="ngModel" type="text">
+          <div class="suffix">days</div>
+        </div>
+        <div [hidden]="lead_time.valid || lead_time.pristine" class="error red-text left-align">
+          Average Lead Time is required.
+        </div>
+      </div>
+    </div>
+    <div class="upload row">
+      <div class="col s12 m6">
+        <div class="label left-align">Priority</div>
+        <div class="tip">Select how important this vendor is to you.</div>
+        <div class="range-field">
+          <input type="range" min="1" max="10" step="1" [(ngModel)]="vendor.priority" name="priority" (input)="changePriority($event)"
+            #priority="ngModel">
+          <div class="value-container">
+            <div class="value" [ngStyle]="{ 'left': priorityMargin }">{{vendor.priority}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="col s7">
+          <div class="img-container" fileDrop [ngClass]="{'file-is-over': fileIsOver}" [options]="options" (fileOver)="fileOver($event)"
+            (onFileDrop)="onFileDrop($event)">
+          </div>
+        </div>
+        <div class="col s5">
+          <div class="text">
+            <div class="label">Documents</div>
+            <div class="file-field">
+              <div class="upload-link">
+                <input type="file" (change)="changeListener($event)" />
+                <a>Please upload here</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="file-list col s12">
+          <div class="item" *ngFor="let file of files$ | async">
+            <a href="{{file.uri}}" target="_blank" *ngIf="file.uri">
+              <img src="/assets/img/icon-info.svg" alt="" /> {{file.name}}
+            </a>
+            <div class="tip" *ngIf="!file.uri">
+              <img src="/assets/img/icon-info.svg" alt="" /> {{file.name}}
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="input row">
+      <div class="col s12 m4">
+        <div class="label left-align">Account #</div>
+        <input id="ext_account_number" placeholder="{{placeholder.ext_account_number}}" class="validate col s12" [(ngModel)]="vendor.ext_account_number"
+          name="ext_account_number" #ext_account_number="ngModel" type="text">
+        <div [hidden]="ext_account_number.valid || ext_account_number.pristine" class="error red-text left-align">
+          Account # is required.
+        </div>
+      </div>
+    </div>
+    <div class="input row">
+        <div class="col s12 divider-container">
+          <div class="divider-header">
+            Primary
+          </div>
+          <div class='divider-line'></div>
+        </div>
+      </div>
+    <div class="input row rep">
+      <div class="col s12 m6">
+        <div class="label left-align">Rep Name</div>
+        <input id="name" placeholder="{{placeholder.rep_name}}" class="validate col s12" [(ngModel)]="vendor.rep_name" name="name"
+          #name="ngModel" type="text">
+        <div [hidden]="name.valid || name.pristine" class="error red-text left-align">
+          Rep Name is required.
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="label left-align">Rep Email</div>
+        <input id="email" class="validate col s12" placeholder="{{placeholder.rep_email}}" [(ngModel)]="vendor.rep_email" name="email"
+          #email="ngModel" minlength="6" maxlength="254" type="text">
+        <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+          Your email must be from 6 to 254 characters long and look like an e-mail address.
+        </div>
+      </div>
+    </div>
+    <div class="input row rep">
+      <div class="col s12 m4">
+        <div class="label left-align">Rep Office Phone</div>
+        <phone-input (onCountryChange)="onCountryChange($event)" [selectedCountry]="selectedCountry">
+          <input [textMask]="phoneMask" id="phone" placeholder="{{placeholder.vendorFormPhone}}" class="validate col s12" [(ngModel)]="vendorFormPhone"
+            name="phone" #phone="ngModel" minlength="11" type="text">
+          <div [hidden]="phone.valid || phone.pristine" class="error red-text left-align">
+            Rep Office Phone number required.
+          </div>
+        </phone-input>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Rep Mobile Phone</div>
+        <phone-input (onCountryChange)="onCountryChange2($event)" [selectedCountry]="selectedCountry2">
+          <input [textMask]="phoneMask" id="phone2" placeholder="{{placeholder.vendorFormPhone2}}" class="validate col s12" [(ngModel)]="vendorFormPhone2"
+            name="phone2" #phone2="ngModel" minlength="11" type="text">
+          <div [hidden]="phone2.valid || phone2.pristine" class="error red-text left-align">
+            Rep Mobile Phone number required.
+          </div>
+        </phone-input>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Rep Fax</div>
+        <phone-input (onCountryChange)="onFaxCountryChange($event)" [selectedCountry]="selectedFaxCountry">
+          <input [textMask]="phoneMask" id="fax" placeholder="{{placeholder.vendorFormFax}}" class="validate col s12" [(ngModel)]="vendorFormFax"
+            name="fax" #fax="ngModel" type="text">
+        </phone-input>
+      </div>
+    </div>
+    <div class="input row">
+      <div class="col s12 divider-container">
+        <div class="divider-header">
+          Secondary
+        </div>
+        <div class='divider-line'></div>
+      </div>
+    </div>
+    <div class="input row rep">
+      <div class="col s12 m6">
+        <div class="label left-align">Rep Name</div>
+        <input id="secondaryname" placeholder="{{placeholder.rep_name}}" class="validate col s12" [(ngModel)]="vendor.secondary_rep_name"
+          name="secondaryname" #secondaryname="ngModel" type="text">
+        <div [hidden]="name.valid || name.pristine" class="error red-text left-align">
+          Rep Name is required.
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="label left-align">Rep Email</div>
+        <input id="email" class="validate col s12" placeholder="{{placeholder.rep_email}}" [(ngModel)]="vendor.secondary_rep_email" name="secondaryemail"
+          #secondaryemail="ngModel" minlength="6" maxlength="254" type="text">
+        <div [hidden]="secondaryemail.valid || secondaryemail.pristine" class="error red-text left-align">
+          Your email must be from 6 to 254 characters long and look like an e-mail address.
+        </div>
+      </div>
+    </div>
+    <div class="input row rep">
+      <div class="col s12 m4">
+        <div class="label left-align">Rep Office Phone</div>
+        <phone-input (onCountryChange)="onSecondaryCountryChange($event)" [selectedCountry]="selectedSecondaryCountry">
+          <input [textMask]="phoneMask" id="secondaryphone" placeholder="{{placeholder.vendorFormPhone}}" class="validate col s12"
+            [(ngModel)]="secondaryFormPhone" name="secondaryphone" #secondaryphone="ngModel" minlength="11" type="text">
+          <div [hidden]="secondaryphone.valid || secondaryphone.pristine" class="error red-text left-align">
+            Rep Office Phone number required.
+          </div>
+        </phone-input>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Rep Mobile Phone</div>
+        <phone-input (onCountryChange)="onSecondaryCountryChange2($event)" [selectedCountry]="selectedSecondaryCountry2">
+          <input [textMask]="phoneMask" id="secondaryphone2" placeholder="{{placeholder.vendorFormPhone2}}" [(ngModel)]="secondaryFormPhone2"
+            class="validate col s12" name="secondaryphone2" #secondaryphone2="ngModel" minlength="11" type="text">
+        </phone-input>
+        <div [hidden]="secondaryphone2.valid || secondaryphone2.pristine" class="error red-text left-align">
+          Rep Mobile Phone number required.
+        </div>
+      </div>
+      <div class="col s12 m4">
+        <div class="label left-align">Rep Fax</div>
+        <phone-input (onCountryChange)="onSecondaryFaxCountryChange($event)" [selectedCountry]="selectedSecondaryFaxCountry">
+          <input [textMask]="phoneMask" id="secondaryfax" placeholder="{{placeholder.vendorFormFax}}" class="validate col s12" [(ngModel)]="secondaryFormFax"
+            #secondaryfax="ngModel" name="secondaryfax" type="text">
+        </phone-input>
+      </div>
+    </div>
+
+    <div class="input row textarea-row">
+      <div class="col s12">
+        <div class="label left-align">Notes</div>
+        <div class="textarea">
+          <textarea placeholder="{{placeholder.notes}}" class="validate materialize-textarea col s12" [(ngModel)]="vendor.notes" name="notes"
+            #notes="ngModel">
+          </textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="buttons-topright">
+      <button type="submit" class="uptracker-form-btn white-text waves-effect waves-light" [class.disabled]="!vendorForm.form.valid"
+        [disabled]="!vendorForm.form.valid">
+        <fa [name]="'check'"></fa>
+        Save
+      </button>
+    </div>
+  </form>
+</div>

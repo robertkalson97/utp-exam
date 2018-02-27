@@ -1,0 +1,232 @@
+<form class="uptracker-form" (ngSubmit)="saveReconcile()" materialize #reconcileProductForm="ngForm" autocomplete="off" novalidate>
+  <div class="top">
+    <div class="row filter clearfix">
+      <div class="col l3 m6 title">
+        <span class="main-title">Reconcile Invoice</span>
+      </div>
+      <div class="col l3 m6">
+        <div class="select">
+          <select
+            class="wide"
+            materialize="material_select"
+            [materializeSelectOptions]=""
+            name="vendor"
+          >
+            <option value="">Patterson</option>
+          </select>
+        </div>
+      </div>
+      <div class="col l1 m2">
+        <div class="input">
+          <input
+            type="text"
+            placeholder="Invoice #"
+          >
+        </div>
+      </div>
+      <div class="col l1 m2">
+        <div class="input">
+          <input
+            type="text"
+            placeholder="Invoice Date"
+          >
+        </div>
+      </div>
+      <div class="col l1 m2">
+        <div class="select">
+          <select
+            class="wide"
+            materialize="material_select"
+            [materializeSelectOptions]=""
+            name="currency"
+          >
+            <option value="">USD</option>
+          </select>
+        </div>
+      </div>
+      <div class="col l1 m2">
+        <div class="input">
+          <input
+            type="text"
+            placeholder="1.0"
+          >
+        </div>
+      </div>
+      <div class="col l2 m4 right-align">
+        <button
+          type="submit"
+          class="uptracker-form-btn no-min-width white-text waves-effect waves-light"
+        >
+          <fa name="check"></fa>
+          Save
+        </button>
+      </div>
+    </div>
+
+    <div class="list is-grid-view">
+      <div class="heading row">
+        <div class="col s4 left-align">
+          <div class="input-checkbox left checkbox">
+            <input
+              type="checkbox"
+              class="checkbox-input"
+              id="selectAll"
+              name="selectAll"
+            />
+            <label for="selectAll"></label>
+          </div>
+          <div class="left">
+            Product
+          </div>
+        </div>
+        <div class="col s7">
+          <div class="row mrg-btm-0">
+            <div class="col s2">Quantity</div>
+            <div class="col s3">Pkg Price</div>
+            <div class="col s3">Discount</div>
+            <div class="col s2">Disc Price</div>
+            <div class="col s2">Total Price</div>
+          </div>
+        </div>
+        <div class="col s1">
+          <div class="right edititem">
+            <fa name="pencil"></fa>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="item row">
+      <div class="table-item flex-center">
+        <div class="col s4 left-align flex-center">
+          <div class="input-checkbox left checkbox">
+            <input
+              type="checkbox"
+              class="checkbox-input"
+              id="selectProduct"
+              name="selectProduct"
+            />
+            <label for="selectProduct"></label>
+          </div>
+          <div class="left">
+            <a>Some Product Name Which We Know Is Longgggg</a>
+          </div>
+        </div>
+
+        <div class="col s7">
+          <div class="row mrg-btm-0 flex-center">
+            <div class="col s2">
+              <div class="text-right">20</div>
+            </div>
+            <div class="col s3">
+              <div class="text-right">$10.00</div>
+            </div>
+            <div class="col s3">
+              <div class="text-right">$0.00</div>
+            </div>
+            <div class="col s2">
+              <div><i>$10.00</i></div>
+            </div>
+            <div class="col s2">
+              <div>$200.00</div>
+            </div>
+          </div>
+          <div class="row mrg-btm-0 flex-center">
+            <div class="col s2">
+              <div class="input">
+                <input class="text-right" type="text" value="20">
+              </div>
+            </div>
+            <div class="col s3">
+              <div class="input">
+                <input class="text-right" type="text" value="$10.00">
+              </div>
+            </div>
+            <div class="col s3">
+              <div class="input">
+                <input class="text-right" type="text" value="$0.00">
+              </div>
+            </div>
+            <div class="col s2">
+              <div><i>$10.00</i></div>
+            </div>
+            <div class="col s2">
+              <div>$200.00</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col s1 flex-center justify-center trash-icon">
+          <a>
+            <fa name="trash" class="tealish-text"></fa>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col s12">
+        <button
+          (click)="addProduct()"
+          class="right mtop uptracker-form-btn white-text waves-effect waves-light"
+        >
+          <fa name="plus"></fa>
+          Add Product
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row right-bottom-part">
+    <div class="col s3 right">
+      <div class="row flex-center">
+        <div class="col s6">
+          Sub-Total
+        </div>
+        <div class="col s6 text-right pdg-r-0">
+          $200.00
+        </div>
+      </div>
+      <div class="row flex-center">
+        <div class="col s6">
+          Shipping
+        </div>
+        <div class="col s6 text-right input pdg-r-0">
+          <input type="text" value="$0.00">
+        </div>
+      </div>
+      <div class="row flex-center">
+        <div class="col s6">
+          Handing
+        </div>
+        <div class="col s6 text-right input pdg-r-0">
+          <input type="text" value="$0.00">
+        </div>
+      </div>
+      <div class="row flex-center">
+        <div class="col s6">
+          Tax
+        </div>
+        <div class="col s6 text-right input pdg-r-0">
+          <input type="text" value="$0.00">
+        </div>
+      </div>
+      <div class="row flex-center">
+        <div class="col s6">
+          P.O. Discount
+        </div>
+        <div class="col s6 text-right input pdg-r-0">
+          <input type="text" value="$0.00">
+        </div>
+      </div>
+      <div class="row flex-center">
+        <h5 class="col s6">
+          Total
+        </h5>
+        <h5 class="col s6 text-right pdg-r-0">
+          $200.00
+        </h5>
+      </div>
+    </div>
+  </div>
+</form>

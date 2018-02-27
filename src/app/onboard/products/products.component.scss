@@ -1,0 +1,39 @@
+.products {
+  .search-box{
+    max-width:100%;
+    width:610px;
+    border-radius:5px;
+    padding:20px;
+    margin:75px auto 43px;
+    background: #404852;
+    border:1px solid #000;
+
+    .search-form{
+      background:#fff;
+      border-radius:2px;
+      height:50px;
+      position:relative;
+
+      input{
+        height:22px;
+        border:0;
+        margin:12px 0 0;
+        padding:0 40px 0 20px;
+        width:100%;
+        font:18px Lato;
+        box-sizing: border-box;
+        box-shadow:none;
+      }
+
+      button{
+        position: absolute;
+        top:14px;
+        right:16px;
+        width:19px;
+        height:19px;
+        border:0;
+        background:url(/assets/img/onboard/icon-search.svg) no-repeat;
+      }
+    }
+  }
+}

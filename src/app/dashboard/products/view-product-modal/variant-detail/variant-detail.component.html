@@ -1,0 +1,75 @@
+<div class="variant-detail-wrapper">
+    <div class="variant-detail-top">
+        <div *ngFor="let attr of variant.custom_attr" class="variant-detail-top-item">
+            <div class="top">{{attr.name}}</div>
+            <div>{{attr.value}}</div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="variant-detail-table">
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col18">Vendor Name</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col10">Catalog#</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col11">Avg Lead Time</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">Book $</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">Your $</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">Club $</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">Forum $</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon">
+            <fa [name]="'filter'"></fa>
+        </div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon"></div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon"></div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon"></div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon"></div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div *ngFor="let item of variant.vendor_variants" class="variant-detail-table variant-detail-table-body-row">
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col18">{{item.vendor_name}}
+        </div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col10">
+            {{item.catalog_number}}
+        </div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col11">{{item.avg_lead_time}}</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">{{item.price}}</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">
+            <span *ngIf="!showEdit">
+                {{item.your_price}}
+            </span>
+            <div *ngIf="showEdit" class="input">
+                <input type="text" class="yourprice"  [(ngModel)]="item.your_price" >
+            </div>
+        </div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">{{item.club_price}}</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col6-5">{{item.forum_price}}</div>
+        <div class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon">
+        </div>
+        <div class="right sub-edit-block">
+            <div *ngIf="!showEdit"  class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon">
+                <i class="fa fa-shopping-cart" aria-hidden="true"></i></div>
+            <div *ngIf="!showEdit"  class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon">
+                <i class="fa fa-flag" aria-hidden="true"></i></div>
+            <div *ngIf="showEdit"  class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon">
+                <i class="fa fa-eye "
+                  [class.fa-eye]="item.status == 1"
+                  [class.fa-eye-slash]="item.status == 2"
+                  (click)="toggleVariantVisibility(item)"
+                  ></i>
+            </div>
+            <div *ngIf="showEdit" class="name-column variant-detail-table-head-item variant-detail-table-head-col3 variant-detail-table-icon">
+                <i class="fa fa-flag" aria-hidden="true"></i></div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+
+    <div class="variant-detail-table variant-detail-table-view-all noselect">
+        View All Vendors
+    </div>
+
+    <div class="right variant-detail-collapse">
+        <span (click)="variantDetailCollapse()"><i class="fa fa-chevron-up" aria-hidden="true"></i> Collapse</span>
+    </div>
+
+    <div class="clearfix"></div>
+</div>

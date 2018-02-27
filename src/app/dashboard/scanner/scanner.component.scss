@@ -1,0 +1,21 @@
+.scanner {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  input {
+    padding-left: 0 !important;
+    position: absolute;
+    height: 32px;
+    width: 50px;
+    opacity: 0;
+    z-index: 5;
+    cursor: pointer;
+  }
+  .start {
+    position: relative;
+    height: 32px;
+    width: 50px;
+    z-index: 55;
+  }
+}

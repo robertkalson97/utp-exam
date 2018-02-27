@@ -1,0 +1,177 @@
+<div class="inner toprint">
+  <div class="row">
+    <div class="col s3 close tealish-text noprint" (click)="goBack()">
+      <i class="fa fa-chevron-left"></i>
+      Orders
+    </div>
+    <div class="col s6  main-title center-align title">
+      Order #{{ (order$ | async).po_number }}
+      <span class="red-text smaller-txt">({{(order$ | async).status_label}})</span>
+    </div>
+    <div class="col s3 relative">
+      <div class="right edit-buttons buttons-topright noprint">
+        <button materialize="dropdown" data-activates="drdnPO" class="bluebtn">
+          <fa name="bars"></fa>
+          Actions
+        </button>
+        <ul id='drdnPO' class='dropdown-content'>
+          <li>
+            <a class="tealish-text" (click) = "setFlag($event)">
+              <fa name="flag-o" *ngIf="!(order$ | async)?.favorite"></fa>
+              <fa name="flag" *ngIf="(order$ | async)?.favorite"></fa>
+              {{(order$ | async).flagged ? 'Unflag' : 'Flag'}}
+            </a>
+          </li>
+          <li>
+            <a href="{{ apiUrl }}/po/{{ (order$ | async).order_id }}/download"  target="_blank" class="tealish-text">
+              <fa name="print"></fa>
+              Print
+            </a>
+          </li>
+          <li *ngIf="(order$ | async).order_method">
+            <a class="tealish-text" (click)="sendOrder()">
+              <fa name="send-o"></fa>
+              Send
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="item-card">
+    <div class="row-half">
+      <h3>Vendor</h3>
+      <p>{{ (order$ | async).vendor_name }}</p>
+      <p>{{ (order$ | async).vendor_address?.postal_code}}</p>
+      <p>{{ (order$ | async).vendor_address?.street_1 }},
+        {{ (order$ | async).vendor_address?.city }},
+        {{ (order$ | async).vendor_address?.state }}
+      </p>
+      <p>Phone: {{ (order$ | async).vendor_phone_number}}</p>
+      <p>Fax: {{ (order$ | async).vendor_fax_number}}</p>
+      <p>E-mail: {{ (order$ | async).vendor_email_address}}</p>
+    </div>
+    <div class="row-quarter">
+      <h3>Account #</h3>
+      <p>{{ (order$ | async).vendor_account_number || 'N/A' }}</p>
+      <br>
+      <h3>Order Date</h3>
+      <p>{{ (order$ | async).order_date || 'N/A' }}</p>
+      <br>
+      <h3>Order Type</h3>
+      <p>{{ (order$ | async).order_method || 'N/A' }}</p>
+      <br>
+    </div>
+    <div class="row-quarter">
+      <h3>Shipping Method</h3>
+      <p>{{ (order$ | async).shipping_method || 'N/A' }}</p>
+      <br>
+      <h3>Payment Method</h3>
+      <p>{{ (order$ | async).payment_method || 'N/A' }}</p>
+      <br>
+      <h3>Ordered By</h3>
+      <p>{{ (order$ | async).ordered_by_name || 'N/A' }}</p>
+      <br>
+    </div>
+    <div class="row-half">
+      <h3>From</h3>
+      <p>{{ (order$ | async).from_co_name }}</p>
+      <p>{{ (order$ | async).from_address?.postal_code}}</p>
+      <p>{{ (order$ | async).from_address?.formattedAddress }}</p>
+      <p>Phone: {{ (order$ | async).from_phone_number}}</p>
+      <p>Fax: {{ (order$ | async).from_fax_number}}</p>
+      <p>E-mail: {{ (order$ | async).from_email_address}}</p>
+    </div>
+    <div class="row-half">
+      <h3>Ship To</h3>
+      <p>{{ (order$ | async).ship_to_co_name }}</p>
+      <p>{{ (order$ | async).ship_to_address?.postal_code}}</p>
+      <p>{{ (order$ | async).ship_to_address?.formattedAddress }}</p>
+      <p>Phone: {{ (order$ | async).ship_to_phone_number}}</p>
+      <p>Fax: {{ (order$ | async).ship_to_fax_number}}</p>
+      <p>E-mail: {{ (order$ | async).ship_to_email_address}}</p>
+    </div>
+    <div class="header-with-line">
+      <div>Line Items</div>
+    </div>
+    <div class="price-table">
+      <div class="price-row headings">
+        <div class="price-item">Catalog #</div>
+        <div class="price-item">Description</div>
+        <div class="price-item">Qty</div>
+        <div class="price-item">Unit Price</div>
+        <div class="price-item">Pkg Price</div>
+        <div class="price-item">Subtotal</div>
+      </div>
+      <div class="price-row" *ngFor="let item of (order$ | async).order_items">
+        <div class="price-item">{{item.catalog_number || '&nbsp;' }}</div>
+        <div class="price-item">
+          {{ item.item_description || '&nbsp;' }}
+        </div>
+        <div class="price-item">{{ item.quantity || '&nbsp;' }}</div>
+        <div class="price-item">{{ item.unit_price || '&nbsp;' }}</div>
+        <div class="price-item">{{ item.package_price || '&nbsp;' }}</div>
+        <div class="price-item">{{ item.sub_total || '&nbsp;' }}</div>
+      </div>
+    </div>
+    <div *ngIf="(order$ | async).discount" class="header-with-line">
+      <div>Discounts</div>
+    </div>
+    <div *ngIf="(order$ | async).discount" class="price-table">
+      <div class="price-row headings">
+        <div class="price-item">Type</div>
+        <div class="price-item">Description</div>
+        <div class="price-item">&nbsp;</div>
+        <div class="price-item">Discount Qty</div>
+        <div class="price-item">Reward Pts</div>
+        <div class="price-item">Discount</div>
+      </div>
+      <div *ngFor="let item of (order$ | async).discount_items" class="price-row">
+        <div class="price-item">{{ item.discount_type }}&nbsp;</div>
+        <div class="price-item">{{ item.item_description }}&nbsp;
+        </div>
+        <div class="price-item">&nbsp;</div>
+        <div class="price-item">{{ item.discount_bogo_discounted }}&nbsp;</div>
+        <div class="price-item">{{ item.discount_reward_points }}&nbsp;</div>
+        <div class="price-item">-{{ item.discount_amount }}&nbsp;</div>
+      </div>
+    </div>
+    <div class="header-with-line">
+      <div>Total</div>
+    </div>
+    <div class="totals">
+      <div *ngIf="(order$ | async).discount">
+        <div class="total-name">
+          Discounts
+        </div>
+        <div class="total-value">
+          ${{ (order$ | async).discount/100  | number : '1.2-2' }}
+        </div>
+      </div>
+      <div>
+        <div class="total-name">
+          Primary Tax
+        </div>
+        <div class="total-value">
+          ${{ (order$ | async).primary_tax/100 | number : '1.2-2' }}
+        </div>
+      </div>
+      <div>
+        <div class="total-name">
+          Shipping & Handling
+        </div>
+        <div class="total-value">
+          ${{ (order$ | async).shipping_handling/100 | number : '1.2-2' }}
+        </div>
+      </div>
+      <div>
+        <div class="total-name bigger">
+          Total
+        </div>
+        <div class="total-value bigger">
+          ${{ (order$ | async).total/100 | number : '1.2-2' }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

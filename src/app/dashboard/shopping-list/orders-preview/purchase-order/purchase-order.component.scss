@@ -1,0 +1,190 @@
+@import "../../../../../colors";
+
+.title.main-title {
+  font-size: 1.8rem;
+  text-align: center;
+  font-family: Ubuntu, sans-serif;
+  line-height: 1;
+  font-weight: bold;
+  color:$black;
+}
+
+.close {
+  font-size:16px;
+  cursor:pointer;
+}
+
+.inner {
+  width:100%;
+  font-size:20px;
+  color:$dark;
+  padding:20px;
+
+  p {
+    margin:0;
+    line-height:1.2;
+  }
+
+  h2 {
+    font-size:1.8rem;
+    color:$dark;
+    font-weight: bold;
+    text-align:center;
+    margin: 0 0 30px;
+  }
+
+  h3 {
+    font-size: 1em;
+    font-weight:bold;
+    color: $black;
+    margin:0 0 5px;
+  }
+
+
+  .item-card {
+    min-height: 200px;
+    width:100%;
+    background-color: $white;
+    border-radius: 10px;
+    border: 1px solid $grey;
+    margin: 10px 0;
+    padding: 20px 30px;
+    float:left;
+
+    .row-half{
+      width:50%;
+      float:left;
+      margin-bottom:1.5em;
+      line-height:20px;
+    }
+    .row-quarter{
+      width:25%;
+      float:left;
+      margin-bottom:1.5em;
+      line-height:20px;
+    }
+
+    .header-with-line{
+      top:-14px;
+      float:left;
+      color:$black;
+      font-size:24px;
+      line-height:24px;
+      position:relative;
+      font-weight:bold;
+      width:100%;
+      border-bottom:2px solid $grey;
+      div{
+        top:14px;
+         float:left;
+        position: relative;
+        z-index: 2;
+        background-color: $white;
+        display:block;
+        padding:5px 15px 5px 0;
+      }
+    }
+
+    .price-table {
+      width:100%;
+      float:left;
+      font-size:16px;
+      .price-row{
+        color:$black;
+        padding:5px 0;
+        float:left;
+        width:100%;
+        .price-item{
+          float:left;
+          &:nth-of-type(1){
+            width:12%;
+          }
+          &:nth-of-type(2){
+            width:42%;
+          }
+          &:nth-of-type(3){
+            width:10%;
+          }
+          &:nth-of-type(4){
+            width:12%;
+          }
+          &:nth-of-type(5){
+            width:12%;
+          }
+          &:nth-of-type(6){
+            width:12%;
+          }
+        }
+        &.headings {
+          .price-item {
+            font-weight: bold;
+          }
+        }
+        &:last-of-type{margin-bottom:15px;}
+      }
+    }
+    .totals {
+      float:left;
+      width:100%;
+      &>div{
+        width:100%;
+        float:none;
+        display:block;
+        text-align: right;
+        &>div {
+          display: inline-block;
+          &.total-value {
+            min-width:120px;
+          }
+        }
+      }
+      .bigger {
+        font-weight:bold;
+        font-size: 1.2em;
+      }
+    }
+  }
+
+
+}
+
+.dd-bt {
+  width: 141px;
+  display: inline-block;
+  .uptracker-form-btn.tealish {
+    background-color:$tealish;
+    height:30px;
+    display: block;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    width: 110px;
+    line-height: 28px;
+    min-width: 110px;
+    font-size: 14px;
+    float: left;
+    &.square {
+      float: left;
+      display: block;
+      margin-left: 1px;
+      font-size: 14px;
+      width: 30px;
+      line-height: 28px;
+      min-width: 30px;
+      border-top-right-radius: 4px;
+      border-bottom-right-radius: 4px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+  .dropdown-content {
+    margin-top: 30px;
+  }
+  input {
+    opacity: 0;
+    color: $tealish;
+  }
+}
+
+

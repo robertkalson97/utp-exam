@@ -1,0 +1,28 @@
+<div class="products content">
+  <div class="arrow-buttons">
+    <button class="btn-floating up-btn"></button>
+    <button class="btn-floating down-btn"></button>
+  </div>
+  <div class="title">Add products you need</div>
+  <div class="subtitle">Please add the products that you will need to buy for your locations.</div>
+  <div class="search-box">
+    <div class="search-form">
+      <form (ngSubmit)="onSubmit()" #loginForm="ngForm" autocomplete="off" novalidate>
+        <input
+            id="search"
+            placeholder="To get started, enter a product name to search the master list"
+            [(ngModel)]="searchText"
+            name="search"
+            #search="ngModel"
+            required
+            type="text">
+        <button type="submit"></button>
+      </form>
+    </div>
+  </div>
+  <div class="buttons">
+    <button class="back left" (click)="goBack()">Back</button>
+    <button class="next waves-effect waves-light right" (click)="goNext()">Next</button>
+    <div class="clearfix"></div>
+  </div>
+</div>

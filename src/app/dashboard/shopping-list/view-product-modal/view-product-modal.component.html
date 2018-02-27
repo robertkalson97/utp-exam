@@ -1,0 +1,214 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner">
+  <div class="title center-align">{{product.name}}</div>
+  <div class="row">
+    <div class="col s12 m3">
+      <div class="img-container">
+        <div class="img" *ngIf="product?.image" [ngStyle]="{ 'background-image': 'url(' + product?.image + ')' }"></div>
+      </div>
+    </div>
+    <div class="info-box col s12 m9">
+      <div class="ttl-box row">
+        <div class="ttl col s12">{{product.name}}</div>
+      </div>
+      <div class="row">
+        <div class="col s4">
+          <label>Hazardous</label>
+          <span class="value">{{product.hazardous_string}}</span>
+        </div>
+        <div class="col s4">
+          <label>Trackable</label>
+          <span class="value">{{product.trackable_string}}</span>
+        </div>
+        <div class="col s4">
+          <label>Tax Exempt</label>
+          <span class="value">{{product.tax_exempt_string}}</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s4">
+          <label>Department</label>
+          <div class="value">{{product.department}}</div>
+        </div>
+        <div class="col s4">
+          <label>Category</label>
+          <div class="value">{{product.category}}</div>
+        </div>
+        <div class="col s4">
+          <label>Accounting</label>
+          <div class="value">{{product.tax_exempt_string}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row">
+    <div class="col s12">
+      <ul class="tabs" materialize="tabs">
+        <li class="tab col s2"><a href="#variations">Variations</a></li>
+        <li class="tab col s2"><a href="#info">Info</a></li>
+        <li class="tab col s2"><a href="#inventory">Inventory</a></li>
+        <li class="tab col s2" *ngIf="product.trackable"><a href="#tracking">Tracking</a></li>
+        <li class="tab col s2"><a href="#history">Order History</a></li>
+        <li class="tab col s2"><a href="#comments">Comments</a></li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div id="variations">
+    <div class="inner">
+      <table>
+        <tr class="uptracker-form row">
+          <th>
+            <div class="input">
+              <input
+                      type="text"
+                      class="col s12 name-input"
+                      ngModel
+                      (input)="changeName($event)"
+                      placeholder="Name"
+                      #name="ngModel"/>
+            </div>
+          </th>
+          <th>
+            <div class="select">
+              <select
+                      [(ngModel)]="variation.package_type"
+                      #pkg="ngModel"
+                      materialize="material_select"
+                      (change)="changePkg($event)"
+                      [materializeSelectOptions]="variationArrs.package_type">
+                <option value="">Pkg Type</option>
+                <option *ngFor="let item of variationArrs.package_type" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </th>
+          <th>
+            <div class="select">
+              <select
+                      [(ngModel)]="variation.unit_type"
+                      #unit="ngModel"
+                      materialize="material_select"
+                      (change)="changeUnit($event)"
+                      [materializeSelectOptions]="variationArrs.unit_type">
+                <option value="">Unit Type</option>
+                <option *ngFor="let item of variationArrs.unit_type" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </th>
+          <th>
+            <div class="select">
+              <select
+                      [(ngModel)]="variation.units_per_package"
+                      #units_pkg="ngModel"
+                      materialize="material_select"
+                      (change)="changeUnitsPkg($event)"
+                      [materializeSelectOptions]="variationArrs.units_per_package">
+                <option value="">Units/pkg.</option>
+                <option *ngFor="let item of variationArrs.units_per_package" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </th>
+          <th>
+            <div class="select">
+              <select
+                      [(ngModel)]="variation.size"
+                      #size="ngModel"
+                      materialize="material_select"
+                      (change)="changeSize($event)"
+                      [materializeSelectOptions]="variationArrs.size">
+                <option value="">Size</option>
+                <option *ngFor="let item of variationArrs.size" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </th>
+          <th>
+            <div class="select">
+              <select
+                      [(ngModel)]="variation.material"
+                      #material="ngModel"
+                      materialize="material_select"
+                      (change)="changeMaterial($event)"
+                      [materializeSelectOptions]="variationArrs.material">
+                <option value="">Material</option>
+                <option *ngFor="let item of variationArrs.material" [value]="item">{{item}}</option>
+              </select>
+            </div>
+          </th>
+          <th>
+            <div class="price-range-head">
+              Price Range
+            </div>
+          </th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let variant of filteredVariants$ | async">
+          <td>{{variant.name || "Product Here"}}</td>
+          <td>{{variant.package_type || "Value Here"}}</td>
+          <td>{{variant.unit_type || "Value Here"}}</td>
+          <td>{{variant.units_per_package || ""}}</td>
+          <td>{{variant.size || ""}}</td>
+          <td>{{variant.material || ""}}</td>
+          <td>{{variant.price_range || ""}}</td>
+          <td>
+            <button type="button" class="uptracker-form-btn not-submit">Add</button>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+  <div id="info">
+    <div class="inner">
+      Info tab
+    </div>
+  </div>
+  <div id="inventory">
+    <div class="inner">
+      Inventory tab
+    </div>
+  </div>
+  <div id="tracking" *ngIf="product.trackable">
+    <div class="inner">
+      Tracking tab
+    </div>
+  </div>
+  <div id="history">
+    <div class="inner">
+      History tab
+    </div>
+  </div>
+  <div id="comments">
+    <div class="inner">
+
+      <div class="uptracker-form">
+        <div class="input row textarea-row">
+          <div class="label col s12">Add Comment</div>
+          <div class="col s10">
+            <div class="textarea">
+              <textarea id="comments-textarea" class="materialize-textarea" [(ngModel)]="comment.body"></textarea>
+            </div>
+          </div>
+          <div class="buttons col s2">
+            <button (click)="sendComment()" class="btn white-text waves-effect waves-light">Send</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="comments">
+        <ul class="collection">
+          <li class="collection-item avatar" *ngFor="let comment of filteredComments$ | async">
+            <img [src]="comment.author_avatar || ''" class="responsive-img circle author-avatar">
+            <span class="title">{{comment.author_name}}</span>
+            <p [innerHtml]="comment.body"></p>
+            <span class="secondary-content">{{comment.created_at}}</span>
+            <div class="delete-comment" (click)="deleteComment(comment)">
+              <i class="fa fa-times" aria-hidden="true"></i>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>

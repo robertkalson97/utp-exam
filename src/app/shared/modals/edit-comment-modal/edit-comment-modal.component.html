@@ -1,0 +1,19 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="title center-align">Edit Comment</div>
+
+<div class="inner" >
+  <form class="uptracker-form" (submit)="onSubmit()" #commentForm="ngForm" novalidate autocomplete="off">
+    <div class="input row textarea-row">
+      <div class="col s12">
+        <div class="textarea">
+        <textarea id="comments-textarea" class="validate materialize-textarea" name="comment_body" required
+                  #inputComment [(ngModel)]="comment.body"></textarea>
+        </div>
+      </div>
+      <div class="buttons col s12 center-align">
+        <button class="btn white-text waves-effect waves-light" [disabled]="!commentForm.valid">Save</button>
+        <button class="btn white-text waves-effect waves-light" (click)="dismissModal()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</div>

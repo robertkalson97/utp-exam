@@ -1,0 +1,53 @@
+:host /deep/ {
+  .inner{
+    width:280px;
+    margin:0 auto;
+
+    .img-container{
+      width:80px;
+      height:80px;
+      border:1px solid #d6d6d6;
+
+      .img{
+        height:100%;
+        background-position: center center;
+        background-size:cover;
+      }
+    }
+
+    .ttl-box{
+      height:80px;
+
+      .ttl{
+        position:relative;
+        top:50%;
+        transform:translateY(-50%);
+        font-size:18px;
+      }
+    }
+
+    .separator{
+      height:1px;
+      background:#d6d6d6;
+      margin:24px 0 20px;
+    }
+
+    .info{
+      .row{
+        margin-bottom:12px;
+
+        .label{
+          color:#9a9c9e;
+        }
+      }
+
+      .buttons{
+        margin-top:30px;
+      }
+    }
+  }
+
+  #general{
+    display:block !important;
+  }
+}

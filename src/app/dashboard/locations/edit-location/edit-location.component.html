@@ -1,0 +1,350 @@
+<div class="close fa fa-chevron-left" (click)="goBack()"></div>
+
+<div class="title center-align">Location Details</div>
+<div class="row">
+  <ul class="tabs user-tabs" materialize="tabs">
+    <li class="tab col s3">
+      <a href="#location-view">Info</a>
+    </li>
+    <li class="tab col s3">
+      <a href="#location-storage">Storage Locations</a>
+    </li>
+  </ul>
+</div>
+<div id="location-storage" class="row">
+  <div class="uptracker-form">
+    <div class="top filter">
+      <div class="row">
+        <div class="col m4 s12 filter-item">
+          <div class="input">
+            <input type="text" placeholder="Keyword search" [(ngModel)]="searchKey"
+              (input)="changeSearchName($event)"/>
+          </div>
+        </div>
+        <div class="col l3 offset-l5 offset-m4 m4 s12 filter-item">
+          <button type="button" (click)="showAddStorageLocationForm()"
+            class="uptracker-form-btn waves-light waves-effect">Add Storage Location
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <form class="add-storage-form" [hidden]="isStorageLocationFormShow" #addStorageForm="ngForm"
+      (ngSubmit)="addStorageLocation(inventory_location)" novalidate materialize autocomplete="off">
+      <div class="top row">
+        <div class="col m6 s12">
+          <div class="input">
+            <input type="text" class="col s12" placeholder="Enter Storage Location Here" required
+              name="name" [(ngModel)]="inventory_location.name" #storageName="ngModel"/>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="col l3 m6 s12 toggle-stock checkbox input-checkbox">
+          <div class="switch-box">
+            <div class="switcher active" [class.active]="!inventory_location.floor_stock"
+              (click)="toggleFloorStock()">Back Stock
+            </div>
+            <div class="switcher" [class.active]="inventory_location.floor_stock"
+              (click)="toggleFloorStock()">Floor Stock
+            </div>
+          </div>
+        </div>
+        <div class="col l3 m6 s12 add-storage-location-buttons">
+          <button type="submit"
+            [disabled]="!addStorageForm.form.valid"
+            class="not-submit add-btn uptracker-form-btn waves-light waves-effect">
+            <span *ngIf="!inventory_location._id">Add</span>
+            <span *ngIf="inventory_location._id">Save</span>
+          </button>
+          <button type="button" (click)="showAddStorageLocationForm()"
+            class="not-submit right cancel-btn uptracker-form-btn waves-light waves-effect">Cancel
+          </button>
+        </div>
+        <div class="col m2 s6">
+        </div>
+        <div class="clearfix"></div>
+      </div>
+      <div class="bottom row">
+      </div>
+    </form>
+  </div>
+  <div class="location-storage-list collection row">
+    <div class="col m6 s12">
+      <div class="title">Back Stock</div>
+      <div class="item" *ngFor="let storagelocation of backStockStorageLocations$ | async">
+        <div class="text">{{storagelocation.name}}</div>
+        <div class="edit-btns">
+          <span class="edit-btn-wrapper noselect">
+            <i class="fa fa-pencil" (click)="editStorageLocation(storagelocation)" aria-hidden="true"></i>
+          </span>
+          <span class="delete-btn-wrapper noselect" [class.disabled]="storagelocation.default_location">
+            <i class="fa fa-trash" (click)="deleteStorageLocation(storagelocation)" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col m6 s12">
+      <div class="title">Floor Stock</div>
+      <div class="item" *ngFor="let storagelocation of floorStockStorageLocations$ | async">
+        <div class="text">{{storagelocation.name}}</div>
+        <div class="edit-btns">
+          <span class="edit-btn-wrapper noselect">
+            <i class="fa fa-pencil" (click)="editStorageLocation(storagelocation)" aria-hidden="true"></i>
+          </span>
+          <span class="delete-btn-wrapper noselect" [class.disabled]="storagelocation.default_location">
+            <i class="fa fa-trash" (click)="deleteStorageLocation(storagelocation)" aria-hidden="true"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #locationForm="ngForm" autocomplete="off"
+  id="location-view" novalidate>
+  <div class="input row">
+    <div class="col s12 m6">
+      <div class="label left-align">Location Name</div>
+      <input
+        id="name"
+        placeholder="Enter name here"
+        class="validate col s12"
+        [(ngModel)]="location.name"
+        name="name"
+        #name="ngModel"
+        required
+        type="text">
+      <div [hidden]="name.valid || name.pristine" class="error red-text left-align">
+        Location Name is required.
+      </div>
+    </div>
+    <div class="col s12 m6 location-type">
+      <div class="helper"></div>
+      <div class="label left-align">Location Type</div>
+      <div class="select" [class.dirty]="typeDirty">
+        <select
+          [(ngModel)]="location.location_type"
+          name="type"
+          #type="ngModel"
+          materialize="material_select"
+          required
+          (change)="changeType()"
+          [materializeSelectOptions]="locationTypesArr">
+          <option value="">Please select one</option>
+          <option *ngFor="let type of locationTypesArr" [value]="type">{{type}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="input row">
+    <div class="col s12 m8">
+      <div class="label left-align">Address</div>
+      <input
+        id="google_adrress"
+        placeholder="123 Main St."
+        class="validate col s12"
+        [(ngModel)]="location.formattedAddress"
+        name="google_adrress"
+        #google_adrress="ngModel"
+        required
+        type="text"
+        (googleAdress)="addGoogleAddress($event)"
+        googlePlacesInput
+        (change)="addAddress($event)"
+      >
+      <div [hidden]="google_adrress.valid || google_adrress.pristine" class="error red-text left-align">
+        Google Address is required.
+      </div>
+    </div>
+    <div class="col s12 m4">
+      <div class="label left-align">Postal Code</div>
+      <input
+        id="zip_code"
+        placeholder="Enter Postal Code"
+        class="validate col s12 minlength-validation"
+        [(ngModel)]="location.zip_code"
+        name="zip_code"
+        #zip_code="ngModel"
+        required minlength="4"
+        type="text"
+      [ngClass]="classValid"
+      >
+      <div [hidden]="zip_code.valid || zip_code.pristine" class="error red-text left-align">
+        Postal Code is required.
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden">
+    <input
+      id="city"
+      placeholder="Enter city here"
+      class="validate col s12"
+      [(ngModel)]="location.city"
+      name="city"
+      #city="ngModel"
+      type="hidden">
+
+    <input
+      id="street_2"
+      class="validate col s12"
+      [(ngModel)]="location.street_2"
+      name="street_2"
+      #street_2="ngModel"
+      type="hidden">
+    <input
+      [(ngModel)]="location.state"
+      name="state"
+      #state="ngModel"
+      type="hidden">
+  </div>
+
+  <div class="input row">
+    <div class="col s8 m3">
+      <div class="label left-align">Phone</div>
+      <phone-input
+        (onCountryChange)="onCountryChange($event)"
+        [selectedCountry]="selectedCountry">
+        <input
+          [textMask]="phoneMask"
+          id="phone"
+          placeholder="Enter phone number"
+          class="validate col s12"
+          [(ngModel)]="locationFormPhone"
+          name="phone"
+          #phone="ngModel"
+          required
+          minlength="11"
+          type="text">
+        <div [hidden]="phone.valid || phone.pristine" class="error red-text left-align">
+          Phone number required.
+        </div>
+      </phone-input>
+    </div>
+    <div class="col s4 m1 no-pad-left">
+      <div class="label  left-align"> Ext.</div>
+      <input
+        name="phone_ext"
+        placeholder="Phone number extension"
+        class="col s12"
+        [(ngModel)]="locationFormPhoneExt"
+        type="text">
+    </div>
+    <div class="col s12 m4">
+      <div class="label left-align">Email</div>
+      <input
+        id="email"
+        class="validate col s12"
+        placeholder="Enter email"
+        [(ngModel)]="location.email"
+        name="email"
+        #email="ngModel"
+        required minlength="6" maxlength="254" pattern=".+@.+\..+"
+        type="text">
+      <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+        Your email must be from 6 to 254 characters long and look like an e-mail address.
+      </div>
+    </div>
+    <div class="col s8 m3">
+      <div class="label left-align">Fax</div>
+      <phone-input
+        (onCountryChange)="onFaxCountryChange($event)"
+        [selectedCountry]="selectedFaxCountry">
+        <input
+          [textMask]="phoneMask"
+          id="fax"
+          placeholder="Enter fax number"
+          class="validate col s12"
+          [(ngModel)]="locationFormFax"
+          name="fax"
+          #fax="ngModel"
+          type="text">
+      </phone-input>
+    </div>
+    <div class="col s4 m1 no-pad-left">
+      <div class="label left-align">Ext.</div>
+      <input
+        name="fax_ext"
+        placeholder="Fax extension"
+        class="col s12"
+        [(ngModel)]="locationFormFaxExt"
+        type="text">
+    </div>
+
+  </div>
+
+  <div class="input row location-image">
+    <div class="col s12 m5">
+      <div class="img-container"
+        fileDrop
+        [ngClass]="{'file-is-over': fileIsOver}"
+        [options]="options"
+        (fileOver)="fileOver($event)"
+        (onFileDrop)="onFileDrop($event)">
+        <div class="img" *ngIf="uploadedImage" [ngStyle]="{ 'background-image': 'url(' + uploadedImage + ')' }">
+          <div class="del-img-btn" (click)="uploadedImage = null">
+            <i class="material-icons">delete</i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m3">
+      <div class="text">
+        <div class="label">Location Image</div>
+        <div class="tip">Please upload a JPG or PNG max size 10 MB</div>
+        <div class="file-field">
+          <div class="upload-link">
+            <input type="file" accept="image/*" (change)="changeListener($event)"/>
+            <a>Upload a photo</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col s12 m4">
+      <div class="row ">
+        <div class="col s6 m12 nopad">
+          <div class="label left-align thinner-line">Primary Tax Rate</div>
+          <input
+            name="primary_tax_rate"
+            placeholder="Leave empty for default"
+            class="col s12"
+            [(ngModel)]="primaryTaxRate"
+            type="text">
+        </div>
+        <div class="col s6 m12 nopad">
+          <div class="label left-align thinner-line">Secondary Tax Rate</div>
+          <input
+            name="secondary_tax_rate"
+            placeholder="Leave empty for default"
+            class="col s12"
+            [(ngModel)]="secondaryTaxRate"
+            type="text">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="buttons-topright">
+    <button
+      type="submit"
+      class="uptracker-form-btn white-text waves-effect waves-light"
+      [class.disabled]="!locationForm.form.valid"
+      [disabled]="!locationForm.form.valid">
+      <fa [name]="'check'"></fa>
+      Save
+    </button>
+    <button
+      type="button"
+      class="uptracker-form-btn white-text waves-effect waves-light uptracker-form-delete-btn"
+      *ngIf="location.id"
+      (click)="deleteLocation(location)">
+      <i class="fa fa-trash"></i>
+      Delete
+    </button>
+
+  </div>
+
+</form>

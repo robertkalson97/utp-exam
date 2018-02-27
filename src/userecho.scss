@@ -1,0 +1,23 @@
+@import "colors.scss";
+
+#ue-dlg-content > iframe {
+  z-index: 9999;
+}
+
+div.ue-tab-container {
+
+  right:0!important;
+  width:100px;
+  left:0;
+  margin: auto;
+
+  .ue-button {
+    //background-color: $button-red;
+    transition: all .3s;
+    border: none;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px;
+  }
+  .ue-button:hover {
+    opacity: .8;
+  }
+}

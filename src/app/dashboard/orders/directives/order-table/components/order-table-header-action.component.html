@@ -1,0 +1,27 @@
+<ng-template [ngIf]="isShow">
+
+  <div class="right edititem"
+    materialize="dropdown"
+    [attr.data-activates]='listName'
+  >
+    <fa name="ellipsis-h"></fa>
+  </div>
+
+  <ul [id]='listName' class='dropdown-content'>
+    <li>
+      <a class="tealish-text" (click)="onReceiveOrders()">Edit</a>
+    </li>
+    <li *ngIf="listName !== 'received'">
+      <a class="tealish-text" (click)="onReceiveOrders()">Receive</a>
+    </li>
+    <li *ngIf="listName === 'received'">
+      <a class="tealish-text" [routerLink]="['/orders/reconcile']">Reconcile</a>
+    </li>
+    <li>
+      <a class="tealish-text" (click)=buyAgainOrders()>Buy Again</a>
+    </li>
+    <li *ngIf="listName !== 'received'">
+      <a class="red-text" (click)="onVoidOrder()">Void</a>
+    </li>
+  </ul>
+</ng-template>

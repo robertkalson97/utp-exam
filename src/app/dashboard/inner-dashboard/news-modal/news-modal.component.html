@@ -1,0 +1,17 @@
+<div class="inner">
+  <div class="row title center-align">Dear {{ userService.selfData.name }}!</div>
+  <div class="row">
+    <div class="col flex-center s12 grey-text ">
+      <div [innerHtml]="context?.text">
+      </div>
+    </div>
+  </div>
+
+  <div class="row buttons">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="dismissModal()">
+        Ok
+      </button>
+    </div>
+  </div>
+</div>

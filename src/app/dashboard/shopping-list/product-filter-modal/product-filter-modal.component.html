@@ -1,0 +1,53 @@
+<div class="inner">
+  <div class="row title center-align">Shopping List Filters</div>
+  <div class="row">
+    <div class="col s12 select-title">Department</div>
+    <div class="col s12">
+      <div class="left select">
+        <select [(ngModel)]="filter.location" materialize="material_select">
+          <option value="">All</option>
+          <option *ngFor="let loc of (accountService.locations$ | async)" [value]="loc.name">{{ loc.name }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 select-title">Vendor</div>
+    <div class="col s12">
+      <div class="left select">
+        <select [(ngModel)]="filter.vendor" materialize="material_select">
+          <option value="">All</option>
+          <option *ngFor="let vendor of context.vendors" [value]="vendor">{{ vendor }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row check">
+    <div class="col s1 select-title">
+      <div class="input-checkbox checkbox">
+        <input
+          type="checkbox"
+          class="checkbox-input"
+          [(ngModel)]="filter.onlymy"
+          id="filtercheck"
+        />
+        <label for="filtercheck"></label>
+      </div>
+    </div>
+    <div class="col s11 select-title">
+      Show Only My Products
+    </div>
+  </div>
+  <div class="row">
+    <div class="center-align col s12">
+      <a class="transparent inline-block" (click)="resetFilters()" [class.opacity]="(filter.location || filter.vendor || filter.onlymy)">Reset filters</a>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+      <button class="uptracker-form-btn" (click)="triggerFilterChange()">Search</button>
+    </div>
+  </div>
+</div>

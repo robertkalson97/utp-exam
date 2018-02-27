@@ -1,0 +1,57 @@
+@import "../../../../colors";
+:host /deep/ {
+  .inner {
+    .uptracker-form-btn {
+      height: 36px;
+      font-size: 14px;
+      border: 1px solid #fff;
+      width: 100px;
+      margin: 0 10px;
+      font-weight: normal;
+
+      &:first-of-type {
+        border-color: red;
+        background-color: #fff;
+        color: red;
+      }
+      &:last-of-type {
+        border-color: $tealish;
+        background-color: $tealish;
+        color: #fff;
+      }
+    }
+  }
+  .bold{
+    font-weight: bold;
+  }
+  .no-margin-bottom{
+    margin-bottom: 0;
+  }
+  input {
+    padding: 0 10px;
+    box-sizing: border-box;
+  }
+  .text{
+    line-height:1;
+  }
+
+  button{
+    transition: all .3s;
+  }
+  button[disabled]{
+    background-color: $light-grey!important;
+    border: none!important;
+  }
+  .row.small-margin input{
+    margin-bottom: 0;
+  }
+  .row.buttons{
+    margin-bottom: 5px;
+  }
+  .bigger{
+    font-size:1.1rem;
+  }
+  .flex-center.s8.grey-text {
+    height:75px;
+  }
+}

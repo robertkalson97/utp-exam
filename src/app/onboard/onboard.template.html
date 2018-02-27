@@ -1,0 +1,49 @@
+<div class="onboard-wrapper">
+  <div class="header">
+
+    <div class="top row">
+      <div class="col s6">
+        <div class="logo">
+          <a [routerLink]="['']">uptracker</a>
+        </div>
+      </div>
+      <div class="col s6 user-menu-col">
+        <user-dropdown-menu></user-dropdown-menu>
+      </div>
+    </div>
+
+    <div class="onboard-nav">
+      <div class="inner">
+
+        <div class="locations-nav nav" *ngIf="stateService.isUrl('/onboard/locations')">
+          <div class="img">
+            <img src="/assets/img/onboard/icon-onboarding-locations.svg" alt="" />
+          </div>
+          <div class="empty"></div>
+          <div class="empty"></div>
+        </div>
+
+        <div class="users-nav nav" *ngIf="stateService.isUrl('/onboard/users')">
+          <div class="empty"></div>
+          <div class="img">
+            <img src="/assets/img/onboard/icon-onboarding-users.svg" alt="" />
+          </div>
+          <div class="empty"></div>
+        </div>
+
+        <div class="accounting-nav nav" *ngIf="stateService.isUrl('/onboard/accounting')">
+          <div class="empty"></div>
+          <div class="empty"></div>
+          <div class="img">
+            <img src="/assets/img/onboard/icon-onboarding-accounting.svg" alt="" />
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+  <div class="content-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</div>

@@ -1,0 +1,189 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="title center-align">
+  Bulk Edit
+  <button class="uptracker-form-btn right" (click)="saveBulkEdit()">
+    <i class="fa fa-check"></i>
+    Save
+  </button>
+</div>
+<div *ngIf="(selectInfoReady$ | async)">
+  <div class="row">
+    <div class="col s6 input">
+      <label>Department</label>
+      <div class="select">
+        <select
+          [(ngModel)]="bulk.department"
+          materialize="material_select"
+          [materializeSelectOptions]="dropdowns[0]">
+          <option value=""  selected>No Change</option>
+          <option *ngFor="let item of dropdowns[0]" [value]="item">{{item}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col s6 input">
+      <label>Working Stock Location</label>
+      <div class="select inbl relative">
+        <span class="caret-select"></span>
+        <input type="text"
+          materialize="dropdown"
+          data-activates="dropd1"
+          [(ngModel)]="bulk.working_stock_name">
+        <ul id="dropd1" materialize="dropdown" class='dropdown-content vendors-dd'>
+          <li>
+            <div class="col s12 inblock" (click)="updWorkingStock('')">No change</div>
+          </li>
+          <li *ngFor="let location of dropdowns[3]" >
+            <div class="col s12 inblock">{{ location.name }}</div>
+            <ul class="inner-list">
+              <li class="inblock" (click)="updWorkingStock(item,location)" *ngFor="let item of location.working_stock_locations">
+                {{ item.name }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6 input">
+      <label>Category</label>
+      <div class="select">
+        <select
+          [(ngModel)]="bulk.category"
+          materialize="material_select"
+          [materializeSelectOptions]="dropdowns[2]">
+          <option value=""  selected>No Change</option>
+          <option *ngFor="let item of dropdowns[2]" [value]="item">{{item}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col s6 input">
+      <label>Back Stock Location</label>
+      <div class="select inbl relative">
+        <span class="caret-select"></span>
+        <input type="text"
+          materialize="dropdown"
+          data-activates="dropd2"
+          [(ngModel)]="bulk.back_stock_name">
+        <ul id="dropd2" materialize="dropdown" class='dropdown-content vendors-dd'>
+          <li >
+            <div class="col s12 inblock" (click)="updBackStock('')">No change</div>
+          </li>
+          <li *ngFor="let location of dropdowns[3]" >
+            <div class="col s12 inblock">{{ location.name }}</div>
+            <ul class="inner-list">
+              <li class="inblock" (click)="updBackStock(item,location)" *ngFor="let item of location.back_stock_locations">
+                {{ item.name }}
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="row last-row">
+    <div class="col s6 input">
+      <label>Accounting</label>
+      <div class="select">
+        <select
+          [(ngModel)]="bulk.account_category"
+          [materializeSelectOptions]="dropdowns[1]"
+          materialize="material_select">
+          <option value=""  selected>No Change</option>
+          <option *ngFor="let item of dropdowns[1]" [value]="item">{{item}}</option>
+        </select>
+      </div>
+    </div>
+    <div class="col s6 input">
+      <label>Preferred Vendor</label>
+      <div class="select">
+        <select
+          [materializeSelectOptions]="dropdowns[5]"
+          [(ngModel)]="bulk.vendor"
+          materialize="material_select">
+          <option value=""  selected>No Change</option>
+          <option *ngFor="let item of dropdowns[5]" [value]="item.id">{{item.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row tiny-margin">
+  <div class="checkbox input-checkbox col s6">
+    <input
+      type="checkbox"
+      [indeterminate]="bulk.hazardous === null"
+      class="checkbox-input"
+      [(ngModel)]="bulk.hazardous"
+      (change)="checkboxChange($event,bulk.hazardous)"
+      id="hazardous-checkbox"
+    />
+    <label for="hazardous-checkbox"></label>
+    <label>Hazardous</label>
+  </div>
+  <div class="checkbox input-checkbox col s6 ">
+    <input
+      type="checkbox"
+      [indeterminate]="bulk.perpetual_inventory === null"
+      class="checkbox-input"
+      [(ngModel)]="bulk.perpetual_inventory"
+      (change)="checkboxChange($event,bulk.perpetual)"
+      id="inv-checkbox"
+    />
+    <label for="inv-checkbox"></label>
+    <label>Perpetual Inventory</label>
+  </div>
+</div>
+<div class="row tiny-margin">
+  <div class="checkbox input-checkbox col s6 ">
+    <input
+      type="checkbox"
+      [indeterminate]="bulk.trackable === null"
+      class="checkbox-input"
+      [(ngModel)]="bulk.trackable"
+      (change)="checkboxChange($event,bulk.trackable)"
+      id="trackable-checkbox"
+    />
+    <label for="trackable-checkbox"></label>
+    <label>Trackable</label>
+  </div>
+  <div class="checkbox input-checkbox col s6 ">
+    <input
+      type="checkbox"
+      [indeterminate]="bulk.status === null"
+      class="checkbox-input"
+      [(ngModel)]="bulk.status"
+      (change)="checkboxChange($event,bulk.status)"
+      id="hidden-checkbox"
+    />
+    <label for="hidden-checkbox"></label>
+    <label>Hidden</label>
+  </div>
+</div>
+<div class="row tiny-margin">
+  <div class="checkbox input-checkbox col s6 ">
+    <input
+      type="checkbox"
+      [indeterminate]="bulk.tax_exempt === null"
+      class="checkbox-input"
+      [(ngModel)]="bulk.tax_exempt"
+      (change)="checkboxChange($event,bulk.tax_excempt)"
+      id="ex-checkbox"
+    />
+    <label for="ex-checkbox"></label>
+    <label>Tax Exempt</label>
+  </div>
+  <div class="checkbox input-checkbox col s6 ">
+    <input
+      type="checkbox"
+      [indeterminate]="bulk.reset_msds === null"
+      class="checkbox-input"
+      [(ngModel)]="bulk.reset_msds"
+      (change)="checkboxChange($event,bulk.reset_msds)"
+      id="msds-checkbox"
+    />
+    <label for="msds-checkbox"></label>
+    <label>Reset MSDS</label>
+  </div>
+
+</div>

@@ -1,0 +1,95 @@
+<div class="auth-box center-align">
+  <div class="title">Welcome back!</div>
+  <div class="subtitle">Please enter your credentials below to continue.</div>
+  <form class="uptracker-form"
+    materialize
+    (ngSubmit)="onSubmit($event)"
+    #loginForm="ngForm"
+    autocomplete="off"
+    novalidate>
+    <div class="input row">
+      <div class="label left-align">Email</div>
+      <input
+        id="email"
+        class="validate col s12"
+        placeholder="Enter email here"
+        [(ngModel)]="loginUser.email"
+        name="email"
+        #email="ngModel"
+        required minlength="6" maxlength="254" pattern=".+@.+\..+"
+        type="text">
+
+      <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+        Your email must be from 6 to 254 characters long and look like an e-mail address.
+      </div>
+
+      <!--<div *ngIf="!email.valid && loginForm._submitted" class="error red-text left-align">-->
+      <!--*Min length of password must be at least 6 symbols.-->
+      <!--</div>-->
+    </div>
+
+    <div class="input row">
+      <div class="label left-align">
+        Password
+        <span class="toggle-show-password" title="Show/hide password" (click)="toggleShowPassword()">
+            <fa *ngIf="!showPwd" name="eye"></fa>
+            <fa *ngIf="showPwd" name="eye-slash"></fa>
+          </span>
+      </div>
+
+      <div *ngIf="!showPwd">
+        <input
+          id="password"
+          placeholder="Enter password"
+          class="validate col s12"
+          type="password"
+          [(ngModel)]="loginUser.password"
+          name="password"
+          minlength="6"
+          required
+          #password="ngModel">
+
+        <div [hidden]="password.valid || password.pristine" class="error red-text left-align">
+          *Min length of password must be at least 6 symbols.
+        </div>
+      </div>
+
+      <div *ngIf="showPwd">
+        <input
+          id="password_"
+          placeholder="Enter password"
+          class="validate col s12"
+          type="text"
+          [(ngModel)]="loginUser.password"
+          name="password_"
+          minlength="6"
+          required
+          #password_="ngModel">
+
+        <div [hidden]="password_.valid || password_.pristine" class="error red-text left-align">
+          *Min length of password must be at least 6 symbols.
+        </div>
+      </div>
+
+      <!--<div *ngIf="(password.errors?.required || password.errors?.minlength) && loginForm._submitted" class="error red-text left-align">-->
+      <!--*Min length of password must be at least 6 symbols.-->
+      <!--</div>-->
+    </div>
+
+    <button
+      type="submit"
+      class="btn white-text waves-effect waves-light"
+      [class.disabled]="!loginForm.form.valid"
+      [disabled]="!loginForm.form.valid">
+      Login
+    </button>
+  </form>
+</div>
+<div class="footer row">
+  <div class="col s12 m6">
+    <a [routerLink]="['/forgot-password']" class="white-text">Forgot password?</a>
+  </div>
+  <div class="col s12 m6 right-align">
+    <a [routerLink]="['/signup']" class="white-text">Don’t have an account? Register here</a>
+  </div>
+</div>

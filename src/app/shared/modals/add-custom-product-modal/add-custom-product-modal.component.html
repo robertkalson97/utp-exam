@@ -1,0 +1,7 @@
+<div class="close" (click)="dismissModal()"></div>
+<app-add-custom-product
+  [editCustomProduct] = "editCustomProduct"
+  [newProductData] = "newProductData"
+  (cancelEvent)="dismissModal()"
+  (addEvent)="addNewProduct()"
+></app-add-custom-product>

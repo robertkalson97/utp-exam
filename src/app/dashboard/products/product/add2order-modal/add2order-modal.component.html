@@ -1,0 +1,61 @@
+<div class="inner">
+  <div class="row title center-align">Add to Order</div>
+  <div class="row">
+    <div class="col s12 red-text center-align mbot">
+      1 {{ context.data.package_type }}
+      <span *ngIf="context.data.sub_unit_per_package "> = {{ context.data.sub_unit_per_package }} {{ context.data.sub_unit_type }}</span>
+      <span *ngIf="context.data.units_per_package "> = {{ context.data.units_per_package }} {{ context.data.unit_type }}</span>
+    </div>
+
+    <div class="col s3 select-title">Quantity</div>
+    <div class="col s9 select-title">Unit Type</div>
+    <div class="col s3 ">
+      <div class="input" (change)="validateFields()" [class.invalid]="parseInt(quantity)<1">
+        <input
+          type="text"
+          class="quantity"
+          [(ngModel)]="quantity"
+          id="quantity"
+        />
+        <label for="quantity"></label>
+      </div>
+    </div>
+    <div class="col s9 ">
+      <div class="left select">
+        <select (change)="changeUnitType()"  [(ngModel)]="unit_type" materialize="material_select">
+          <option *ngIf="context.data.package_type" value="package">{{ context.data.package_type }}</option>
+          <option *ngIf="context.data.unit_type" value="unit">{{ context.data.unit_type }}</option>
+          <option *ngIf="context.data.sub_unit_type"  value="subunit">{{ context.data.sub_unit_type }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 select-title">Vendor</div>
+    <div class="col s12">
+      <div class="left select">
+        <select  [(ngModel)]="vendor.vendor_id"  (change)="validateFields();vendorChange($event)" materialize="material_select"  >
+          <option  value="">Auto</option>
+          <option *ngFor="let v of context.data.vendorArr" [value]="v.vendor_id">{{v.vendor_name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 select-title">Location</div>
+    <div class="col s12">
+      <div class="left select">
+        <select (change)="validateFields()" [(ngModel)]="location" materialize="material_select"  [class.invalid]="!location">
+          <option *ngFor="let location of context.data.locationArr" [value]="location.id">{{location.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mtop">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+      <button [disabled]="!valid" class="uptracker-form-btn " (click)="saveOrder()">Add</button>
+    </div>
+  </div>
+</div>

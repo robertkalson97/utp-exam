@@ -1,0 +1,16 @@
+<div class="intl-tel-input allow-dropdown">
+  <div class="flag-container">
+    <div class="selected-flag" (click)="onViewCountryList()">
+      <div class="iti-flag {{selectedCountry[1]}}"></div>
+      <div class="iti-arrow"></div>
+    </div>
+    <ul class="country-list" [class.hide]="!viewCountryList" #countryParent>
+      <li class="country country_{{country[1]}}" [class.highlight]="country[1] == selectedCountry[1]" *ngFor="let country of allCountries" (click)="selectCountry(country)" id="country{{country[1]}}">
+        <div class="flag-box"><div class="iti-flag {{country[1]}}"></div></div>
+        <span class="country-name">{{country[0]}}</span>
+        <span class="dial-code">+{{country[2]}}</span>
+      </li>
+    </ul>
+  </div>
+  <ng-content></ng-content>
+</div>

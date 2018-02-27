@@ -1,0 +1,582 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner">
+  <div class="row title center-align relative">
+    <div class="col s12">
+      <button class="uptracker-form-btn back-btn tealish tealish-text waves-effect waves-light"
+        *ngIf="step2.className == 'active' || step3.className=='active' || step4.className=='active'" (click)="prevTab()">
+        <fa name="chevron-left"></fa>
+        Back
+      </button>
+      <span>{{context.inventoryGroup ? 'Edit' : 'Add' }}</span> Inventory Group
+      <button class="uptracker-form-btn next-btn white-text tealish waves-effect waves-light"
+        *ngIf="step4.className != 'active'" (click)="nextTab()"
+        [disabled] = '!items.length || (step2.className === "active" && !newInventory.inventory_by)'>
+        Next
+        <fa name="chevron-right "></fa>
+      </button>
+      <button (click)="saveAdded()"
+        class="uptracker-form-btn save-btn white-text tealish waves-effect waves-light right"
+        *ngIf="step4.className == 'active'"
+      >
+      <fa name="check"></fa>
+      Save
+      </button>
+    </div>
+  </div>
+  <div class="row" class="hidden">
+    <ul class="tabs" materialize="tabs">
+      <li class="tab col s4"><a href="#step1" #step1>step1</a></li>
+      <li class="tab col s4"><a href="#step2" #step2>step2</a></li>
+      <li class="tab col s4"><a href="#step3" #step3>step3</a></li>
+      <li class="tab col s4"><a href="#step4" #step4>step4</a></li>
+    </ul>
+  </div>
+  <div id="step1">
+    <div class="row">
+      <div *ngIf="addCustomProduct" class="col s12 m6">
+        <app-add-custom-product
+          [editCustomProduct] = "editCustomProduct"
+          [newProductData] = "newProductData"
+          [items] = "items"
+          [innerPack] = "innerPack"
+          [outerPack] = "outerPack"
+          (cancelEvent)="toggleCustomCancel()"
+          (addEvent)="addNewProduct()"
+          [autocompleteConsPackage] ="autocompleteConsPackage"
+          [packageType] = "packageType$ | async"
+        ></app-add-custom-product>
+      </div>
+      <div *ngIf="!addCustomProduct">
+          <div class="col s12 ttl">Search Products</div>
+          <div class="col s12 input search">
+            <input auto-complete (input)="onSearchTypeIn($event)"
+            placeholder="Enter Product Name, UPC, or Catalog #"
+              [source]="observableSource.bind(this)"
+              (ngModelChange) = 'selectedAutocompled($event)'
+              [min-chars] = '3'
+              [ngModel] = 'searchText'
+              [no-match-found-text] ='noSearchedRes'
+              [tab-to-select] = 'false'
+            />
+            <app-scanner (searchText)="onSearchTextUpdated($event)"></app-scanner>
+          </div>
+
+        <div class="col s12 m6 mrg-top-20">
+          <div *ngIf="total" class="row border-bottom">
+            <div class="col s12 ">
+              <div class="input-checkbox checkbox inline-block" *ngIf="matchingProductDisabled">
+              <input [(ngModel)]="checkBoxCandidates" [disabled]="!matchingProductDisabled" (change)="selectAllCandidates()" id="variantsAll" type="checkbox">
+              <label for="variantsAll"></label>
+              </div>
+              <span class="bold">Matching Products</span>
+              <div (click)="bulkAdd()" class="right tealish-text bulk-actions">
+                <fa name="plus"></fa>
+                Add Selected
+              </div>
+            </div>
+          </div>
+          <div
+            *ngFor="let item of (resultItems$ | async); let i=index;"
+            class="row search-results" [class.warning]="item.notActive">
+            <div class="col s9 product-row-fields">
+              <div class="input-checkbox  checkbox">
+                <input [ngModel]="item.checked" [disabled]="item.notActive" id="variant{{ i }}" type="checkbox" (click)="putCheckbox(item)">
+                <label for="variant{{ i }}"></label>
+              </div>
+              <div class="image" *ngIf="(item.images && item.images[0])"
+                [ngStyle]="{'background-image':'url(\''+item.images[0]+'\')'}">
+              </div>
+              <div class="image no-image" *ngIf="(!item.images || !item.images[0])"
+                [ngStyle]="{'background-image':'url(/assets/img/onboard/icon-onboarding-products.svg)'}">
+              </div>
+              <div>
+                <div class="product-name tealish-text">{{ item.name }}</div>
+                <div class="vendor-name">
+                  <span *ngFor="let vendor of item.vendors" class="vendor">{{ vendor?.vendor_name }}<span>,</span> </span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+            <div (click)="addToInventory([item])" class="action-button waves-light waves-effect" *ngIf="!item.notActive">
+              <fa name="plus"></fa>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+          <div class="row">
+            <div class="col s12">
+              <div class="no_results_container" [class.not_hidden]="!total">
+                <div class="img">
+                  <i class="fa fa-question" aria-hidden="true"></i>
+                </div>
+                <div class="text">No Products Found</div>
+              </div>
+              <div class="sub-buttons" [class.hidden] = "!showAddCustomBtn">
+                <button (click)="toggleCustomAdd()"
+                  class="uptracker-form-btn waves-effect waves-light tealish white-text">
+                  <fa name="plus"></fa>
+                  Add Custom Product
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6 mrg-top-20">
+        <div class="row border-bottom">
+          <div class="col s12 low-padding">
+            <div class="input-checkbox checkbox inline-block">
+              <input (change)="selectAllItems()" [(ngModel)]="checkBoxItems" id="chkAll" type="checkbox">
+              <label for="chkAll"></label>
+            </div>
+            <span class="bold">Selected Products</span>
+            <div (click)="bulkDelete()" class="right tealish-text bulk-actions">
+              <fa name="minus"></fa>
+              Remove Selected
+            </div>
+          </div>
+        </div>
+        <div
+          *ngFor="let item of (items$ | async); let i=index;"
+          class="row added-items">
+          <div class="col s9 product-row-fields low-padding">
+            <div class="input-checkbox  checkbox">
+              <input [(ngModel)]="item.checked" id="addeditem{{ i }}" type="checkbox">
+              <label for="addeditem{{ i }}"></label>
+            </div>
+            <div class="image" *ngIf="(item?.images && item?.images[0])"
+              [ngStyle]="{'background-image':'url(\''+item?.images[0]+'\')'}">
+            </div>
+            <div class="image no-image" *ngIf="(!item?.images || !item?.images[0])"
+              [ngStyle]="{'background-image':'url(/assets/img/onboard/icon-onboarding-products.svg)'}">
+            </div>
+            <div>
+              <div class="product-name tealish-text">
+                <a (click)="editProduct(item)">{{ item?.name }}</a>
+              </div>
+              <div class="vendor-name">
+                <span *ngFor="let vendor of item.vendors" class="vendor">{{ vendor?.vendor_name }}<span>,</span> </span>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div (click)="deleteFromInventory([item])" class="action-button">
+            <fa name="minus"></fa>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="step2">
+    <div class="row">
+      <div class="col s12 m6">
+        <div class="ttl">Name</div>
+        <div class="input">
+          <input type="text" [(ngModel)]="newInventory.name">
+        </div>
+        <div class="ttl mrg-top-15">How do you count this?</div>
+        <div class="row">
+          <div class="col s5 select select-light">
+            <select materialize="material_select"
+              [(ngModel)]="newInventory.inventory_selected"
+              (ngModelChange)="selectPackageType($event)"
+              [materializeSelectOptions]="newInventory.inventory_by_array"
+              required minlength="1"
+              name="inventory_by"
+              #inventory_by = "ngModel"
+              class="validate minlength-validation"
+            >
+              <option [ngValue]="" disabled>Select One</option>
+              <ng-container *ngFor="let package of newInventory.inventory_by_array">
+                <option *ngIf="package.label" [ngValue]="package">1 {{ package.label }}</option>
+              </ng-container>
+            </select>
+          </div>
+          <div class="col s2 input">
+            <span class="mrg-top-5 sign">=</span>
+            <input type="text" placeholder="Qty." [(ngModel)]='newInventory.inventory_by_qty'>
+          </div>
+          <div class="col s5 mrg-top-10 custom-pdg-l custom-height">Total Consumable Units</div>
+        </div>
+        <div [hidden]="inventory_by.valid || inventory_by.pristine" class="error red-text left-align">
+          How do you count this is required
+        </div>
+        <div class="row mrg-top-15">
+          <div class="col s6">
+            <div class="img-container"
+              fileDrop
+              [ngClass]="{'file-is-over': fileIsOver}"
+              (fileOver)="fileOver($event)"
+              (onImgDrop)="onImgDrop($event)">
+              <div class="img" *ngIf="!uploadedImage" [ngStyle]="{ 'background-image': 'url(' + newInventory.image + ')' }">
+                <div class="del-img-btn" (click)="newInventory.image = ''">
+                  <i class="material-icons">delete</i>
+                </div>
+              </div>
+              <div class="img" *ngIf="uploadedImage" [ngStyle]="{ 'background-image': 'url(' + uploadedImage + ')' }">
+                <div class="del-img-btn" (click)="uploadedImage = null">
+                  <i class="material-icons">delete</i>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col s6">
+            <div class="ttl">
+              Product photo
+            </div>
+            <div>
+              Please upload a JPG or PNG max size 10 MB
+            </div>
+            <div class="input add-attachment">
+              <div class="file-field">
+                <div class="upload-link">
+                  <input type="file" accept="image/*" (change)="changeListener($event)"/>
+                  <a>Upload a photo</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m6">
+        <div class="row border-bottom">
+          <div class="col s12 ttl">
+            Selected products
+            <div class="right tealish-text bulk-actions">
+              <a (click)="prevTab()">Change Products</a>
+            </div>
+          </div>
+        </div>
+        <div
+          *ngFor="let item of newInventory.products; let i=index;"
+          class="row added-items">
+          <div class="col s8 product-row-fields">
+            <div class="image" *ngIf="(item.images && item.images[0])"
+              [ngStyle]="{'background-image':'url(\''+item?.images[0]+'\')'}">
+            </div>
+            <div class="image no-image" *ngIf="(!item.images || !item.images[0])"
+              [ngStyle]="{'background-image':'url(/assets/img/onboard/icon-onboarding-products.svg)'}">
+            </div>
+            <div>
+              <div class="product-name tealish-text">
+                {{ item?.name }}
+              </div>
+              <div class="vendor-name">
+                <span>{{ item.vendors[0]?.vendor_name }} <span *ngIf="item?.vendors.length > 1">& {{ item?.vendors.length-1 }} more</span></span>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+          <div class="col s4">
+            <div class="select select-light">
+              <select materialize="material_select"
+                (ngModelChange)="selectVendor(item, $event)"
+                [(ngModel)]="item.selectedVendor"
+                [compareWith] = "compareVendor"
+              >
+                <option [ngValue]="">Auto</option>
+                <option *ngFor="let vendor of item.vendors" [ngValue]="vendor">{{ vendor?.vendor_name }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="step3">
+    <div *ngIf="(locations$ | async)?.length > 1" class="row">
+      <perfect-scrollbar class="tabs-scroll" [config]="scrollConfig">
+      <ul class="tabs location-tabs content" materialize="tabs">
+        <li class="tab" *ngFor="let location of newInventory.locations; let i=index;">
+          <a href="#{{location.location_id}}" (click)="selectTab(location)" #locationTab>
+            {{ location.name }}
+          </a>
+        </li>
+      </ul>
+      </perfect-scrollbar>
+    </div>
+
+    <div *ngFor="let location of newInventory.locations">
+      <div id="{{ location.location_id }}" [hidden]="!location.active">
+        <div class="row">
+          <div class="col s6 custom-col-pdg">
+            <div class="ttl">Tracking Method</div>
+            <div class="select select-light">
+              <select materialize="material_select"
+                [(ngModel)]="location.tracking_method"
+              >
+                <option value="Perpetual">Perpetual</option>
+                <option value="None">None</option>
+                <option value="Scheduled">Scheduled</option>
+              </select>
+            </div>
+            <div *ngIf="location.tracking_method != 'None'" class="border-btm pdg-btm-5">
+              <div class="ttl mrg-top-15">Inventory Levels</div>
+              <div class="row mrg-btm-5">
+                <div class="col s4">Critical</div>
+                <div class="col s4">Fully Stocked</div>
+                <div class="col s4">Overstocked</div>
+              </div>
+              <div class="row">
+                <div class="col s2 input">
+                  <input type="text" placeholder="Qty."
+                    [(ngModel)]="location.critical_level"
+                  >
+                </div>
+                <div class="col s2 mrg-top-5 custom-pdg-l">{{ newInventory?.inventory_by_label }}</div>
+                <div class="col s2 input">
+                  <input type="text" placeholder="Qty."
+                    [(ngModel)]="location.fully_stocked"
+                    >
+                </div>
+                <div class="col s2 mrg-top-5 custom-pdg-l">{{ newInventory?.inventory_by_label }}</div>
+                <div class="col s2 input">
+                  <input type="text" placeholder="Qty."
+                    [(ngModel)]="location.overstock_level"
+                    >
+                </div>
+                <div class="col s2 mrg-top-5 custom-pdg-l">{{ newInventory?.inventory_by_label }}</div>
+              </div>
+              <div *ngIf="location.tracking_method != 'Perpetual'">
+                <div class="ttl">Auto Reorder</div>
+                <div class="row">
+                  <div class="col s3">Start Date</div>
+                  <div class="col s2">Frequency</div>
+                  <div class="col s3"></div>
+                  <div class="col s4">Quantity</div>
+                </div>
+                <div class="row">
+                  <div class="col s3 input">
+                    <input materialize="pickadate"
+                      [(ngModel)]="location.auto_reorder_start_date"
+                      [materializeParams]="[{format:'dd/mm/yyyy', selectMonths: true, selectYears: 10}]"
+                      type="text"
+                      placeholder = 'dd/mm/yyyy'
+                    >
+                  </div>
+                  <div class="col s2 input">
+                    <input type="text" [(ngModel)]="location.auto_reorder_frequency">
+                  </div>
+                  <div class="col s3">
+                    <div class="input select select-light">
+                      <select materialize="material_select"
+                        [(ngModel)]="location.auto_reorder_timespan"
+                      >
+                        <option value="Days">Days</option>
+                        <option value="Weeks">Weeks</option>
+                        <option value="Months">Months</option>
+                        <option value="Quarters">Quarters</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col s2 input">
+                    <input type="text" placeholder="Qty." [(ngModel)]="location.auto_reorder_qty">
+                  </div>
+                  <div class="col s2 mrg-top-5 custom-pdg-l">
+                    {{ newInventory?.inventory_by_label }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="ttl mrg-top-15">Floor Restock Frequency</div>
+            <div class="input select select-light">
+              <select materialize="material_select"
+                [(ngModel)]="location.restock_frequency"
+              >
+                <option value="N/A">N/A</option>
+                <option value="Daily">Daily</option>
+                <option value="Weekly">Weekly</option>
+                <option value="Monthly">Monthly</option>
+                <option value="Quarterly">Quarterly</option>
+              </select>
+            </div>
+          </div>
+          <div class="col s6">
+            <div class="row">
+              <div class="ttl ttl-stock border-btm col s12">On-Hand Quantities</div>
+              <div class="border-btm col s12 descr-text">
+                This is the quantity you currently have on-hand at each storage location.
+                This number will automatically increase when items are received and decrease when marked as used.
+              </div>
+            </div>
+            <div *ngFor="let stock of location.storage_locations">
+              <div class="row border-btm stock" *ngIf="(!stock?.floor_stock && !context.inventoryGroup) || (context.inventoryGroup && !stock?.floorstock)">
+                <div class="col s10">
+                  {{ stock.name }}
+                </div>
+                <div class="col s2 input">
+                  <input type="text" placeholder="Qty."
+                    [(ngModel)]="stock.on_hand"
+                    >
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="ttl ttl-stock border-btm col s12">Refill Quantities</div>
+              <div class="border-btm col s12 descr-text">
+                This is the quantity you refill the floor locations with on a regular basis as your working stock.
+                It is not counted toward your inventory total.
+              </div>
+            </div>
+            <div *ngFor="let stock of location.storage_locations">
+              <div class="row border-btm stock" *ngIf="stock?.floor_stock || stock?.floorstock">
+                <div class="col s10">
+                  {{ stock.name }}
+                </div>
+                <div class="col s2 input" *ngIf="stock?.floor_stock">
+                  <input type="text" placeholder="Qty."
+                    [(ngModel)]="stock.on_hand"
+                    >
+                </div>
+                <div class="col s2 input" *ngIf="stock?.floorstock">
+                  <input type="text" placeholder="Qty."
+                    [(ngModel)]="stock.on_hand"
+                    >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="step4">
+    <div class="row uptracker-form">
+      <div class="col s6">
+        <div class="ttl">Department</div>
+        <div class="select select-light">
+          <select materialize="material_select"
+            [(ngModel)]="newInventory.department"
+            [materializeSelectOptions]="departmentCollection">
+            <option *ngFor="let item of departmentCollection" [value]="item">{{item}}</option>
+          </select>
+        </div>
+        <div class="ttl mrg-top-15">Category</div>
+        <div class="select select-light">
+          <select materialize="material_select"
+            [(ngModel)]="newInventory.category"
+            [materializeSelectOptions]="productCategoriesCollection"
+            required minlength="1"
+            name="cat"
+            #cat="ngModel"
+            class="validate minlength-validation"
+          >
+            <option value="">N/A</option>
+            <option *ngFor="let cat of productCategoriesCollection" [value]="cat">{{cat}}
+            </option>
+          </select>
+        </div>
+        <div [hidden]="categoryValid || newInventory.category" class="error red-text left-align">
+          Category is required
+        </div>
+        <div class="ttl mrg-top-15">Accounting</div>
+        <div class="select select-light">
+          <select materialize="material_select"
+            [(ngModel)]="newInventory.account_category"
+            [materializeSelectOptions]="productAccountingCollection">
+            <option *ngFor="let acc of productAccountingCollection" [value]="acc">{{acc}}
+            </option>
+          </select>
+        </div>
+        <div class="row mrg-top-15">
+          <div class="col s6">
+            <div class="input-checkbox  checkbox">
+              <input id="taxExempt" type="checkbox"
+                [(ngModel)]="newInventory.tax_exempt">
+              <label for="taxExempt"></label>
+              <span>Tax Exempt</span>
+            </div>
+          </div>
+          <div class="col s6">
+            <div class="input-checkbox  checkbox">
+              <input id="trackable" type="checkbox"
+                [(ngModel)]="newInventory.trackable">
+              <label for="trackable"></label>
+              <span>Trackable</span>
+            </div>
+          </div>
+        </div>
+        <div class="ttl">Description</div>
+        <div class="textarea">
+          <textarea class="materialize-textarea" type="text"
+            [(ngModel)]="newInventory.description"></textarea>
+        </div>
+      </div>
+      <div class="col s6">
+        <div class="ttl">Notes</div>
+        <div class="textarea">
+          <textarea class="materialize-textarea"
+            [(ngModel)]="newInventory.notes"></textarea>
+        </div>
+        <div class="ttl mrg-top-15">MSDS/Hazardous Form</div>
+        <div *ngFor="let msds of (msds$ | async)" class="attachments mrg-btm-5">
+          <a href="{{ msds.public_url }}"  target="_blank">
+            <fa *ngIf="msds.type == 'application/pdf'" name="file-pdf-o"></fa>
+            <fa *ngIf="msds.type == 'application/zip'" name="file-zip-o"></fa>
+            <fa *ngIf="(getType(msds.type) == 'application')
+          && (msds.type != 'application/pdf')
+          && (msds.type != 'application/zip')"
+              name="file-code-o"></fa>
+            <fa *ngIf="getType(msds.type) == 'image'" name="file-image-o"></fa>
+            <fa *ngIf="getType(msds.type) == 'text'" name="file-word-o"></fa>
+            <fa *ngIf="getType(msds.type) == 'audio'" name="file-audio-o"></fa>
+            <fa *ngIf="getType(msds.type) == 'video'" name="file-video-o"></fa>
+            MSDS/Hazardous Form - {{ msds.file_name }}
+          </a>
+          <a href="{{ msds.public_url }}"  target="_blank" class="link-icon">
+            <fa class="tealish-text invis" name="external-link"></fa>
+          </a>
+          <fa class="red-text invis" name="trash" (click)="removeMsds(msds)"></fa>
+        </div>
+        <div class="input input-file">
+          <input type="file" (change)="onMSDCFileUpload($event)">
+          <div class="ttl tealish-text input-placeholder">Upload File</div>
+        </div>
+        <div class="row mrg-top-15">
+          <div class="col s12">
+            <div class="input-checkbox  checkbox">
+              <input id="hazardous" type="checkbox"
+                [(ngModel)]="newInventory.hazardous">
+              <label for="hazardous"></label>
+              <span>Hazardous</span>
+            </div>
+          </div>
+        </div>
+        <div class="ttl mrg-top-15">Attachments</div>
+        <div *ngFor="let file of (file$ | async)" class="attachments">
+          <a href="{{ file.public_url }}"  target="_blank">
+            <fa *ngIf="file.type == 'application/pdf'" name="file-pdf-o"></fa>
+            <fa *ngIf="file.type == 'application/zip'" name="file-zip-o"></fa>
+            <fa *ngIf="(getType(file.type) == 'application')
+          && (file.type != 'application/pdf')
+          && (file.type != 'application/zip')"
+              name="file-code-o"></fa>
+            <fa *ngIf="getType(file.type) == 'image'" name="file-image-o"></fa>
+            <fa *ngIf="getType(file.type) == 'text'" name="file-word-o"></fa>
+            <fa *ngIf="getType(file.type) == 'audio'" name="file-audio-o"></fa>
+            <fa *ngIf="getType(file.type) == 'video'" name="file-video-o"></fa>
+            Attachment - {{ file.file_name }}
+          </a>
+          <a href="{{ file.public_url }}"  target="_blank" class="link-icon">
+            <fa class="tealish-text invis" name="external-link"></fa>
+          </a>
+          <fa class="red-text invis" name="trash" (click)="removeFile(file)"></fa>
+        </div>
+        <div class="mrg-top-15">
+          <div class="input add-attachment">
+            <input type="file" (change)="onAttachmentUpload($event)">
+            <div class="ttl tealish-text input-placeholder">
+              <fa name="plus">
+                <i class="fa fa-plus"></i>
+              </fa>
+              Add Attachment
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

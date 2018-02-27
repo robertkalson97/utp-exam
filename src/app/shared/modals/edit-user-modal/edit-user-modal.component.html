@@ -1,0 +1,279 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="title center-align">User Details</div>
+
+
+<form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #profileForm="ngForm" autocomplete="off" novalidate>
+
+
+  <div class="col s12">
+        <ul class="tabs" materialize="tabs">
+          <li class="tab col s4"><a href="#profile" #tabProfile>Profile</a></li>
+          <li class="tab col s4"><a href="#permissions" #tabPermissions>Permissions</a></li>
+          <li class="tab col s4"><a href="#template" #tabTemplate>Template</a></li>
+        </ul>
+  </div>
+
+
+  <div id="profile">
+    <div class="row user-image">
+      <div class="col s12 m4">
+        <div class="row">
+          <div class="col s12">
+            <div class="img-container"
+                 fileDrop
+                 [ngClass]="{'file-is-over': fileIsOver}"
+                 [options]="options"
+                 (fileOver)="fileOver($event)"
+                 (onFileDrop)="onFileDrop($event)">
+              <div class="file-field" [hidden]="uploadedImage">
+                <div class="upload-link">
+                  <input
+                      type="file"
+                      accept="image/*"
+                      (change)="changeListener($event)" />
+                  <a>Upload a photo</a>
+                </div>
+              </div>
+              <div class="img" *ngIf="uploadedImage" [ngStyle]="{ 'background-image': 'url(' + uploadedImage + ')' }">
+                <div class="del-img-btn" (click)="uploadedImage = null"><i class="material-icons">delete</i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 tutorial-mode">
+            <div class="helper"></div>
+            <div class="label left-align">Tutorial Mode</div>
+            <div class="switch-box">
+              <div class="switcher active" [class.active]="user.tutorial_mode" (click)="toggleTutorialMode()">On</div>
+              <div class="switcher" [class.active]="!user.tutorial_mode" (click)="toggleTutorialMode()">Off</div>
+            </div>
+          </div>
+        </div>
+        <div class="row" *ngIf="user.id && user.id==userService.selfData.id">
+          <div class="col s12 change-pass-btn">
+            <button class="btn btn-floating" (click)="changePassword(); $event.preventDefault()">Change Password</button>
+          </div>
+        </div>
+      </div>
+      <div class="col s12 m8 input second-column">
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="label left-align">Name</div>
+            <input
+                id="name"
+                placeholder="Enter name here"
+                class="validate col s12"
+                [(ngModel)]="user.name"
+                name="name"
+                #name="ngModel"
+                required
+                type="text">
+            <div [hidden]="name.valid || name.pristine" class="error red-text left-align">
+              Name is required.
+            </div>
+          </div>
+          <div class="col s12 m6">
+            <div class="label left-align">Default Location</div>
+            <div class="select" [class.dirty]="locationDirty">
+              <select
+                  [(ngModel)]="user.default_location"
+                  name="location"
+                  #location="ngModel"
+                  materialize="material_select"
+                  required
+                  (change)="changeLocation($event)"
+                  [materializeSelectOptions]="locationArr">
+                <option *ngFor="let location of locationArr" [value]="location.id">{{location.name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s12 m6">
+            <div class="row">
+              <div class="col s12">
+                <div class="label left-align">Email</div>
+                <input
+                    id="email"
+                    class="validate col s12"
+                    placeholder="username@email.com"
+                    [(ngModel)]="user.email_address"
+                    name="email"
+                    #email="ngModel"
+                    required minlength="6" maxlength="254" pattern=".+@.+\..+"
+                    type="text">
+                <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+                  Your email must be from 6 to 254 characters long and look like an e-mail address.
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s8">
+                <div class="row phone-row">
+                  <div class="label left-align s10 col">Phone number</div>
+                </div>
+                <phone-input
+                  (onCountryChange)="onCountryChange($event)"
+                  [selectedCountry]="selectedCountry">
+                  <input
+                    [textMask]="phoneMask"
+                    id="phone"
+                    placeholder="Enter a phone number"
+                    class="validate col s12"
+                    [(ngModel)]="profileFormPhone"
+                    name="phone"
+                    #phone="ngModel"
+                    minlength="11"
+                    type="text">
+                  <div [hidden]="phone.valid || phone.pristine" class="error red-text left-align">
+                    Phone number required.
+                  </div>
+                </phone-input>
+              </div>
+
+              <div class="col s4 ">
+                <div class="row phone-row">
+                  <div class="label left-align s10 col">Ext.</div>
+                </div>
+                  <input
+                  name="phone_ext"
+                  placeholder="Phone extension"
+                  class=" col s12"
+                  [(ngModel)]="phone_ext"
+                  type="text">
+              </div>
+
+            </div>
+
+            <div class="row">
+              <div class="col s12">
+                <div class="label left-align">Department</div>
+                <div class="select" [class.dirty]="departmentDirty">
+                  <select
+                      [(ngModel)]="user.department"
+                      name="department"
+                      #department="ngModel"
+                      materialize="material_select"
+                      required
+                      (change)="changeDepartment()"
+                      [materializeSelectOptions]="departmentsArr">
+                    <option value="">Please select one</option>
+                    <option *ngFor="let department of departmentsArr" [value]="department">{{department}}</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col s12 m6">
+            <div class="label left-align">Locations</div>
+            <div class="location-box">
+              <ul>
+                <li class="input-checkbox" *ngFor="let location of locations$ | async; let i = index">
+                  <input
+                      type="checkbox"
+                      id="loc{{i}}"
+                      name="loc{{i}}"
+                      [(ngModel)]="location.checkbox"
+                      (change)="changeLocationCheckbox($event, i)"
+                      [disabled]="location.id == user.default_location" />
+                  <label for="loc{{i}}">{{location.name}}</label>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="permissions">
+    <div class="input row">
+      <div class="col s12 m8">
+        <div class="label left-align">Permission Pre-sets</div>
+        <div class="select" [class.dirty]="roleDirty">
+          <select
+              [(ngModel)]="selectedRole"
+              name="role"
+              #role="ngModel"
+              materialize="material_select"
+              (change)="onRoleChange($event)"
+              [materializeSelectOptions]="roleArr">
+            <option value="">Please select one</option>
+            <option *ngFor="let role of rolesArr; let i = index" [value]="role.role">{{role.label}}</option>
+            <option value="custom" *ngIf="showCustomRole">Custom</option>
+          </select>
+        </div>
+      </div>
+      <div class="col s12 m4 no-label">
+        <button type="button" class="not-submit" (click)="showAddPresetForm()" [disabled]="!showCustomRole">Add Pre-set</button>
+      </div>
+    </div>
+    <div class="input row add-preset-form" *ngIf="addPresetForm">
+      <div class="col s12 m8">
+        <input
+            id="presetName"
+            placeholder="Enter preset name here"
+            class="validate col s12"
+            [(ngModel)]="preset.role"
+            name="presetName"
+            #presetName="ngModel"
+            type="text">
+      </div>
+      <div class="col s12 m2">
+        <button type="button" class="not-submit" (click)="addRole()">Add</button>
+      </div>
+      <div class="col s12 m2">
+        <button type="button" class="not-submit" (click)="hideAddPresetForm()">Cancel</button>
+      </div>
+    </div>
+    <div class="row permission-row">
+      <div class="col s12 m4 item" *ngFor="let permission of permissionArr; let j = index">
+        <div class="inner" [style.margin-left]="j%3 == 2 ? '15%' : j%3 == 1 ? '7.5%' : ''">
+          <div class="preset-ttl">{{permission.label}}</div>
+          <div class="switch-box" (click)="togglePreset(j)">
+            <div class="switcher active" [class.active]="permission.default">On</div>
+            <div class="switcher" [class.active]="!permission.default">Off</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div id="template">
+    <div class="ttl">P.O. Template</div>
+    <div class="textarea">
+      <textarea
+          class="validate materialize-textarea col s12"
+          [(ngModel)]="user.template"
+          name="template"
+          #template="ngModel">
+      </textarea>
+      <div [hidden]="template.valid || template.pristine" class="error red-text left-align">
+        P.O. Template required.
+      </div>
+    </div>
+  </div>
+
+
+  <div class="buttons center-align">
+    <span class="nav-btn"><button type="button" class="btn-flat back-btn" *ngIf="tabProfile.className != 'active'" (click)="prevTab()">Prev</button></span>
+    <button
+        type="submit"
+        class="btn white-text waves-effect waves-light"
+        [class.disabled]="!profileForm.form.valid"
+        [disabled]="!profileForm.form.valid">
+      Save
+    </button>
+    <button
+        type="button"
+        class="btn white-text waves-effect waves-light uptracker-form-delete-btn"
+        *ngIf="user.id && user.id!=userService.selfData.id"
+        (click)="deleteUser(user)">
+      Delete
+    </button>
+    <span class="nav-btn"><button type="button" class="btn-flat back-btn" *ngIf="tabTemplate.className != 'active'" (click)="nextTab()">Next</button></span>
+  </div>
+</form>

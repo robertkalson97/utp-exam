@@ -1,0 +1,15 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner">
+  <div class="row title center-align">Would you like to:</div>
+  <div class="row mtop">
+    <div class="center-align col s12">
+      <a href="{{ apiUrl }}/po/{{ context.order_id }}/download"  target="_blank">
+        <button (click)="dismissModal()" class="uptracker-form-btn back-btn tealish tealish-text waves-effect waves-light">
+          Print
+        </button>
+      </a>
+      <button class="uptracker-form-btn next-btn white-text tealish waves-effect waves-light" (click)="openEmailModal()">Email</button>
+    </div>
+  </div>
+</div>
+

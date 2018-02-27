@@ -1,0 +1,127 @@
+<div class="close fa fa-chevron-left" (click)="goBack()"></div>
+<div *ngIf="user && user.id">
+  <div class="buttons-topright">
+    <button
+      type="button"
+      class="uptracker-form-btn  white-text waves-effect waves-light left"
+      [routerLink]="'/users/edit/'+[user.id]">
+      <i class="fa fa-pencil"></i>
+      Edit
+    </button>
+    <button
+      type="button"
+      class="uptracker-form-btn  white-text waves-effect waves-light left uptracker-form-delete-btn"
+      *ngIf="user.id!=userService.selfData.id"
+      (click)="deleteUser(user)">
+      <i class="fa fa-trash"></i>
+      Delete
+    </button>
+
+    <div class="clearfix"></div>
+  </div>
+  <div class="title center-align">{{user.name}}</div>
+  <div class="row" [hidden]="user.id==userService.selfData.id">
+    <ul class="tabs user-tabs" materialize="tabs">
+      <li class="tab col s6">
+        <a href="#user-view" [class.active]="!toSendMessage">Info</a>
+      </li>
+      <li class="tab col s6">
+        <a href="#user-message" [class.active]="toSendMessage">Send Message</a>
+      </li>
+    </ul>
+  </div>
+  <div *ngIf="user.id!=userService.selfData.id">
+    <form class="uptracker-form"
+      materialize
+      (ngSubmit)="confirmMessage()"
+      #messageForm="ngForm"
+      autocomplete="off"
+      novalidate
+      id="user-message">
+      <div class="row" *ngIf="!messageConfirm">
+        <div class="col s12">
+          <div class="input row">
+            <div class="col s12 title-input">
+              <div class="label left-align">Title</div>
+              <input
+                placeholder="Title"
+                class="validate col s12"
+                [(ngModel)]="message.title"
+                name="title"
+                #title="ngModel"
+                required minlength="1"
+                type="text">
+              <div [hidden]="title.valid || title.pristine" class="error red-text left-align">
+                Title is required.
+              </div>
+            </div>
+            <div class="col s12">
+              <div class="label left-align">Message</div>
+              <div class="textarea">
+            <textarea
+              placeholder="Enter your message"
+              class="validate materialize-textarea col s12"
+              [(ngModel)]="message.text"
+              name="text"
+              #text="ngModel">
+            </textarea>
+              </div>
+            </div>
+            <div class="col s12 center-align buttons">
+              <button
+                type="submit"
+                class="btn white-text waves-effect waves-light"
+                [class.disabled]="!messageForm.form.valid"
+                [disabled]="!messageForm.form.valid">
+                Send
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="messageConfirm">
+        <div class="col s12 buttons center-align">
+          <button
+            type="button"
+            class="confirm-btn btn white-text waves-effect waves-light left"
+            (click)="goBack()">Send
+          </button>
+          <button
+            type="button"
+            class="confirm-btn btn white-text waves-effect waves-light left"
+            (click)="sendNewMessage()">Send and Start New Message
+          </button>
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+  <div class="row uptracker-form" id="user-view">
+    <div class="col s12 m4 user-image">
+      <img class="img" *ngIf="user.avatar" [src]="user.avatar" alt="Profile image">
+      <img class="img" *ngIf="!user.avatar" src="/assets/img/onboard/icon-onboarding-users.svg" alt="Profile image">
+    </div>
+    <div class="col s12 m8 info">
+      <div class="contacts">
+        <div class="ttl">Contacts</div>
+        <div class="phone">+{{user.phone}}, {{user.phone_ext}}</div>
+        <div class="email">{{user.email_address}}</div>
+      </div>
+      <div class="department">
+        <div class="ttl">Department</div>
+        <div>{{user.department}}</div>
+      </div>
+      <div class="role">
+        <div class="ttl">Role</div>
+        <div>{{user.role}}</div>
+      </div>
+      <div class="locations" *ngIf="userLocations.length">
+        <div class="ttl">Locations</div>
+        <div *ngFor="let location of userLocations">{{location.name}}</div>
+      </div>
+
+    </div>
+  </div>
+</div>

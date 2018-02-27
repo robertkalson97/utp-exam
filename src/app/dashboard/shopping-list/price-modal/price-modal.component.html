@@ -1,0 +1,119 @@
+<div class="inner" [class.grey-blocks]="discounts.length>0">
+  <div class="clearfix row title center-align">Pricing Info</div>
+  <div class="row checks-row">
+    <div class="col s4" (click)="setPrice(selectedVendor.book_price,'book')">
+      <input [attr.checked]="selectedPriceType=='book' ?  'checked' : null" [attr.disabled]="!selectedVendor.book_price?'true':null" value="book" type="radio" name="price_type" id="price_type_book">
+      <label for="price_type_book"></label>
+      <label *ngIf="selectedVendor.book_price" for="price_type_book" class="grey-text smaller">${{ selectedVendor.book_price | number:'1.2-2'}}</label>
+      <label *ngIf="!selectedVendor.book_price" for="price_type_book" class="grey-text smaller">N/A</label>
+      <label for="price_type_book" [class.light-grey]="!selectedVendor.book_price">Book</label>
+    </div>
+    <div class="col s4" (click)="setPrice(selectedVendor.your_price,'your')">
+      <input  [attr.checked]="selectedPriceType=='your' ?  'checked' : null" [attr.disabled]="!selectedVendor.your_price?'true':null" value="negotiated" type="radio" name="price_type" id="price_type_negotiated">
+      <label for="price_type_negotiated" ></label>
+      <label *ngIf="selectedVendor.your_price" for="price_type_negotiated"  class="grey-text smaller">${{ selectedVendor.your_price | number:'1.2-2'}}</label>
+      <label *ngIf="!selectedVendor.your_price" for="price_type_negotiated" class="grey-text smaller">N/A</label>
+      <label for="price_type_negotiated" [class.light-grey]="!selectedVendor.your_price">Negotiated</label>
+    </div>
+    <div class="col s4" (click)="setPrice(selectedVendor.club_price,'club')">
+      <input  [attr.checked]="selectedPriceType=='club' ?  'checked' : null" [attr.disabled]="!selectedVendor.club_price?'true':null" value="club" type="radio" name="price_type" id="price_type_club">
+      <label for="price_type_club"></label>
+      <label *ngIf="selectedVendor.club_price" for="price_type_club" class="grey-text smaller">${{ selectedVendor.club_price | number:'1.2-2'}}</label>
+      <label *ngIf="!selectedVendor.club_price" for="price_type_club" class="grey-text smaller">N/A</label>
+      <label for="price_type_club" [class.light-grey]="!selectedVendor.club_price">Club</label>
+    </div>
+    <div class="right-grey">
+      <div class="right-ttl">Org. Price</div>
+      <div class="right-price">${{ selectedPrice  | number : '1.2-2' }}</div>
+    </div>
+  </div>
+
+  <div class="row discounts clearfix" *ngFor="let d of discounts">
+    <div class="discount_row">
+      <div class="row titles">
+        <div class="grey-text ">
+          <div class="col s4">Type</div>
+          <div class="col s3">Amount</div>
+          <div class="col s4">Rewards Pts.</div>
+          <div class="col s1"></div>
+        </div>
+      </div>
+      <div class="row thinrow">
+        <div class="col s4 padnoright">
+          <div class="left select low-height ng-dark">
+            <select [(ngModel)]="d.type" (change)="calcDiscount()" materialize="material_select">
+              <option value="fixed">Fixed</option>
+              <option value="percentage">Percentage</option>
+              <option value="bogo">BoGo</option>
+            </select>
+          </div>
+        </div>
+        <div class="col s3 pad7px">
+          <div class="input">
+            <input type="text" [(ngModel)]="d.amount" (change)="calcDiscount()">
+          </div>
+        </div>
+        <div class="col s3">
+          <div class="input">
+            <input type="text" [(ngModel)]="d.reward_points" (change)="calcDiscount()">
+          </div>
+        </div>
+        <div class="col s1 trash">
+          <i (click)="removeDiscount()" class="fa fa-trash red-text"></i>
+        </div>
+      </div>
+
+      <div class="row titles" *ngIf="d.type=='bogo'">
+        <div class="grey-text ">
+          <div class="col s4">BoGo Type</div>
+          <div class="col s3">#Discounted</div>
+          <div class="col s3">#Full price</div>
+        </div>
+      </div>
+      <div class="row thinrow" *ngIf="d.type=='bogo'">
+
+        <div class="col s4 padnoright">
+          <div class="left select low-height ng-dark">
+            <select [(ngModel)]="d.bogo_type" (change)="calcDiscount()" materialize="material_select">
+              <option value="free">Free</option>
+              <option value="fixed">Fixed</option>
+              <option value="percentage">Percentage</option>
+            </select>
+          </div>
+        </div>
+        <div class="col s3 pad7px">
+          <div class="input">
+            <input type="text" [(ngModel)]="d.discounted" (change)="calcDiscount()">
+          </div>
+        </div>
+        <div class="col s3 pad7px">
+          <div class="input">
+            <input type="text" [(ngModel)]="d.full_price" (change)="calcDiscount()">
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="right-grey flex-center">
+      <div class="right-price ">-${{ d.total | number : '1.2-2' }}</div>
+    </div>
+  </div>
+
+  <div class="row discount-adder">
+    <div class="col s12">
+      <div class="add-discount right tealish-text clearfix" (click)="addDiscount()">
+        <i class="fa fa-plus"></i>
+        Add discount
+      </div>
+    </div>
+    <div class="right-grey">
+      <div class="right-ttl">Total</div>
+      <div class="right-price">${{ totalPrice | number : '1.2-2'}}</div>
+    </div>
+  </div>
+  <div class="center-align col s12 clearfix bottom-buttons">
+    <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+    <button class="uptracker-form-btn" (click)="savePriceInfo()">Save</button>
+  </div>
+</div>
+

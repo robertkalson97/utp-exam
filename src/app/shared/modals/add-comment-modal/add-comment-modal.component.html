@@ -1,0 +1,21 @@
+<div class="inner" >
+  <form class="uptracker-form" (submit)="onSubmit()" #commentForm="ngForm" novalidate autocomplete="off">
+    <div class="input row textarea-row">
+      <div class="col s12 title center-align">
+        Add a comment
+      </div>
+      <div class="col s12">
+        <div class="textarea">
+        <textarea id="comments-textarea" class="validate materialize-textarea" name="comment_body" required
+          #inputComment [(ngModel)]="comment.body" placeholder="Please, type your comment here."></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="row mtop mbot">
+      <div class="center-align col s12">
+        <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+        <button  class="uptracker-form-btn " [disabled]="!commentForm.valid" >Save</button>
+      </div>
+    </div>
+  </form>
+</div>

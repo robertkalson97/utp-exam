@@ -1,0 +1,42 @@
+@import "../../../../colors";
+.close {
+  display: block !important;
+}
+
+.uptracker-form-btn, .uptracker-form-btn.tealish {
+  height:25px;
+  line-height:20px;
+  min-width: 80px;
+  padding-left:3px;
+  background: $tealish;
+
+  &.redbtn {
+    color:$red!important;
+    border: 1px solid $red;
+    background-color: $white;
+  }
+
+  &[disabled] {
+    background: $grey!important;
+    pointer-events: none;
+  }
+
+}
+
+.buttons-group {
+  text-align: center;
+
+  button:first-child {
+    margin-right: 50px;
+  }
+}
+
+img.preview {
+  padding-top: 10px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.row:last-child {
+  margin-bottom: 0;
+}

@@ -1,0 +1,106 @@
+@import "../../../colors.scss";
+@import "../../../spinner.scss";
+
+:host /deep/ {
+  .vendors {
+    .list{
+      letter-spacing: 0;
+      word-spacing: 0;
+      font-size:0;
+      padding-bottom:15px;
+      text-align:left;
+      margin-left:-20px;
+      position: relative;
+
+      .item{
+        display:inline-block;
+        vertical-align:top;
+        width:250px;
+        height:250px;
+        margin-left:20px;
+        margin-bottom:20px;
+        max-width:100%;
+
+        .inner{
+          width:250px;
+          height:250px;
+          border: 1px solid #d6d6d6;
+          background:#fff;
+          cursor:pointer;
+          border-radius:5px;
+          transition: all .3s;
+
+          &:hover{
+            width:260px;
+            height:260px;
+            transform: translateX(-5px) translateY(-5px);
+            box-shadow: 2px 2px 0 0 #e6e6e6;
+
+            .img{
+              margin-top:29px;
+              margin-bottom:23px;
+              height:170px;
+              width:170px;
+            }
+          }
+        }
+
+        .img{
+          margin:27px auto 27px;
+          height:160px;
+          width:160px;
+          background:transparent no-repeat center center;
+          background-size:contain;
+          transition: all .3s;
+        }
+
+        .info{
+          position:relative;
+
+          .ttl{
+            font-size:12px;
+          }
+
+          .edit{
+            display: none;
+            cursor:pointer;
+            position:absolute;
+            width:15px;
+            height:15px;
+            background:url(/assets/img/icon-edit.svg) no-repeat;
+            right:21px;
+            top:2px;
+            left:auto;
+          }
+        }
+
+        &:hover{
+          .info{
+            .edit{
+              display:block;
+            }
+          }
+        }
+      }
+    }
+    .tabs {
+      .tab {
+        text-transform: none;
+        a {
+          font-size: 1.2rem;
+        }
+      }
+    }
+  }
+
+  @media all and (max-width: 500px){
+    .vendors{
+      .list{
+        text-align:center;
+        clear:both;
+      }
+    }
+  }
+}
+
+

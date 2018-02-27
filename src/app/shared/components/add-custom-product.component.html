@@ -1,0 +1,281 @@
+<form materialize (ngSubmit)="addNewProduct()" novalidate #customProdForm="ngForm" autocomplete="off" class="uptracker-form custom-prod-form">
+  <div class="custom-product-add">
+    <div class="row">
+      <div class="col s6 title">
+        {{editCustomProduct ? 'Edit' : 'Add'}} {{newProductData.custom_product ? 'Custom' : 'Global'}} Product
+      </div>
+      <div class="col s6 right-align">
+        <button class="uptracker-form-btn  redbtn waves-effect waves-light" type="button" (click)="toggleCustomCancel()">
+          Cancel
+        </button>
+        <button class="uptracker-form-btn tealish  white-text waves-effect waves-light" type="submit"
+          *ngIf="newProductData.custom_product && !editCustomProduct"
+          [disabled] = '!customProdForm.form.valid || !newProductData.vendors || !newProductData.consumable_unit.properties.unit_type'>
+          <fa name="plus"></fa>
+          Add
+        </button>
+        <button class="uptracker-form-btn tealish  white-text waves-effect waves-light" type="submit"
+          *ngIf="newProductData.custom_product && editCustomProduct"
+          [disabled] = '!customProdForm.form.valid || !newProductData.vendors || !newProductData.consumable_unit.properties.unit_type'>
+          Save
+        </button>
+      </div>
+    </div>
+    <div *ngIf="editCustomProduct && !newProductData.custom_product">
+      Editing global products not supported yet.
+    </div>
+    <div *ngIf="newProductData.custom_product">
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Name</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.name" type="text" placeholder="Product Name" required
+              name="name"
+              #name="ngModel" class="validate" id="name">
+            <div *ngIf="name.invalid && (name.dirty || name.touched)"
+              class="error red-text left-align">
+              <div *ngIf="name.errors.required">
+                Name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Vendor</div>
+          <div class="input search" [class.dirty]="vendorDirty" [class.valid]="vendorValid">
+            <input auto-complete
+              placeholder="Vendor Name"
+              [source]="observableSourceVendor.bind(this)"
+              (input) = 'onSearchVendor($event)'
+              [min-chars] = '1'
+              (ngModelChange) = 'selectedAutocompledVendor($event)'
+              [list-formatter] = '"vendor_name"'
+              [ngModel] = "newProductData.vendor.vendor_name"
+              [tab-to-select] = 'false'
+              name="vendor"
+              required
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Outer Package</div>
+          <div class="row relative">
+            <div class="col s11">
+              <div class="input search">
+                <input class="caret" auto-complete
+                  placeholder="Type"
+                  [source]="observableSourceOuterPackage.bind(this)"
+                  (input) = 'onSearchOuterPackage($event)'
+                  (blur)="updateOuterPackege($event)"
+                  (ngModelChange) = 'selectedAutocompledOuterPackage($event)'
+                  [list-formatter] = '"unit_name"'
+                  [tab-to-select] = 'false'
+                  name="package_type"
+                  [(ngModel)] = 'outerPack'
+                  required
+                >
+              </div>
+            </div>
+            <a class="helper" (click)="openHelperModal()"></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Inner Packages</div>
+          <div class="row relative">
+            <div class="col s3">
+              <div class="input">
+                <input [(ngModel)]="newProductData.sub_package.properties.qty"
+                  type="text" placeholder="Qty"
+                  [disabled] ="!newProductData.sub_package.properties.unit_type"
+                  [required] = "newProductData.sub_package.properties.unit_type"
+                  name="qty"
+                  #qty="ngModel"
+                >
+              </div>
+            </div>
+            <div class="col s8">
+              <div class="input search">
+                <input class="caret" auto-complete
+                  placeholder="Type"
+                  [source]="observableSourceInnerPackage.bind(this)"
+                  (input) = 'onSearchInnerPackage($event)'
+                  (blur)="updateInnerPackege($event)"
+                  (ngModelChange) = 'selectedAutocompledInnerPackage($event)'
+                  [list-formatter] = '"plural_unit_name"'
+                  [tab-to-select] = 'false'
+                  name="sub_package_type"
+                  [(ngModel)] = 'innerPack'
+                >
+              </div>
+            </div>
+            <a class="helper" (click)="openHelperModal()"></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">
+            Consumable Units
+            <span *ngIf="newProductData.sub_package.properties.unit_type">per {{ newProductData.sub_package.properties.unit_type }}</span>
+            <span *ngIf="!newProductData.sub_package.properties.unit_type && newProductData.package_type">per {{ newProductData.package_type }}</span>
+          </div>
+          <div class="row relative">
+            <div class="col s3">
+              <div class="input">
+                <input [(ngModel)]="newProductData.consumableUnitQty" type="text" placeholder="Qty"
+                  name="qty2"
+                  #qty2="ngModel"
+                  required>
+              </div>
+            </div>
+            <div class="col s8">
+              <div class="input search" [class.dirty]="packDirty"
+                [class.valid]="newProductData.consumable_unit.properties.unit_type">
+                <input auto-complete
+                  placeholder="Type"
+                  [source]="observableSourceConsPackage.bind(this)"
+                  (input) = 'onSearchConsPackage($event)'
+                  (ngModelChange) = 'selectedAutocompledConsPackage($event)'
+                  [ngModel] = "newProductData.consumable_unit.properties.unit_type"
+                  [list-formatter] = '"unit_name"'
+                  [tab-to-select] = 'false'
+                  name="cons_package_type"
+                  [disabled] = "(packageType && packageType.consumable_unit)"
+                required
+                >
+              </div>
+            </div>
+            <a class="helper" (click)="openHelperModal()"></a>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Packaging Summary</div>
+          <div class="row relative packaging_summary">
+            <div class="col s3">
+              <div class="text-center">1</div>
+              <div class="text-center">{{outerPack || 'Outer Pkg'}}</div>
+            </div>
+            <div class="col s1" *ngIf="innerPack">=</div>
+            <div class="col s3" *ngIf="innerPack">
+              <div class="text-center">{{newProductData.sub_package.properties.qty || '?'}}</div>
+              <div class="text-center">{{innerPack || 'Inner Pkg'}}</div>
+            </div>
+            <div class="col s1">=</div>
+            <div class="col s3">
+              <div class="text-center">
+                {{(newProductData.sub_package.properties.unit_type && newProductData.sub_package.properties.qty) ? newProductData.sub_package.properties.qty*newProductData.consumableUnitQty : newProductData.consumableUnitQty}}
+              </div>
+              <div class="text-center">{{newProductData.consumable_unit.properties.unit_type || 'Total Units'}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">List Price</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.formattedPrice" type="text" placeholder="List Price"
+              (change)="onChangeListPrice(newProductData.formattedPrice)"
+              pattern="^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$" required
+              name="price"
+              #price="ngModel" class="minlength-validation"
+            >
+            <div *ngIf="price.invalid && (price.dirty || price.touched)"
+              class="error red-text left-align">
+              <div *ngIf="price.errors.pattern">
+                Price should be a number.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">My Negotiated Price</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.formattedForumPrice" type="text" placeholder="My Negotiated Price"
+              (change)="onChangeForumPrice(newProductData.formattedForumPrice)"
+              pattern="^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$" required
+              name="forumPrice"
+              #forumPrice="ngModel" class="minlength-validation"
+            >
+            <div *ngIf="forumPrice.invalid && (forumPrice.dirty || forumPrice.touched)"
+              class="error red-text left-align">
+              <div *ngIf="forumPrice.errors.pattern">
+                Price should be a number.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Club Price</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.formattedClubPrice" type="text" placeholder="Club Price"
+              (change)="onChangeClubPrice(newProductData.formattedClubPrice)"
+              pattern="^\$(\d{1,3}(\,\d{3})*|(\d+))(\.\d{2})?$" required
+              name="clubPrice"
+              #clubPrice="ngModel" class="minlength-validation"
+            >
+            <div *ngIf="clubPrice.invalid && (clubPrice.dirty || clubPrice.touched)"
+              class="error red-text left-align">
+              <div *ngIf="clubPrice.errors.pattern">
+                Price should be a number.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Catalog #</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.catalog_number" type="text" placeholder="Catalog #"
+              name="catalog"
+              #catalog="ngModel">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Barcode/UPC</div>
+          <div class="input relative">
+            <input [(ngModel)]="newProductData.upc" type="text" placeholder="Barcode/UPC"
+              name="upc"
+              #upc="ngModel">
+            <app-scanner (searchText)="onUpcUpdated($event)"></app-scanner>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Manufacturer Name</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.manufacturer" type="text" placeholder="Manufacturer Name"
+              name="manufacturer"
+              #manufacturer="ngModel">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
+          <div class="ttl">Manufacturer #</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.mfg_number" type="text" placeholder="Manufacturer #"
+              name="mfg_number"
+              #mfg_number="ngModel">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

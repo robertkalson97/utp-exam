@@ -1,0 +1,31 @@
+.form-box{
+  border:1px solid #d6d6d6;
+  border-radius: 5px;
+
+  .inner{
+    max-width:520px;
+    padding:40px 0 35px;
+    margin:0 auto;
+
+    .total-budget{
+      margin-top:50px;
+
+      .top{
+        line-height:30px;
+        margin-top:20px;
+
+        .value{
+          margin-right:9px;
+
+          input{
+            margin: 0;
+            height: 28px;
+            width: 70px;
+            padding: 0 10px;
+            text-align: right;
+          }
+        }
+      }
+    }
+  }
+}

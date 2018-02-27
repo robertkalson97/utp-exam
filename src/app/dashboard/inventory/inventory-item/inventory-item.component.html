@@ -1,0 +1,562 @@
+<div class="product-page toprint">
+  <div class="close fa fa-chevron-left noprint" (click)="goBack()"></div>
+  <div class="row right edit-buttons buttons-topright noprint">
+    <button materialize="dropdown" data-activates="drdn" class="bt-edit-product edbtn bluebtn">
+      <fa name="bars"></fa>
+      Actions
+    </button>
+    <ul id='drdn' class='dropdown-content'>
+      <li>
+        <a (click)="addToOrder()" class="tealish-text">
+          <fa name="shopping-cart"></fa>
+          Order
+        </a>
+      </li>
+      <li>
+        <a href="#" class="tealish-text">
+          <fa name="barcode"></fa>
+          Scan Out
+        </a>
+      </li>
+      <li>
+        <a href="#" class="tealish-text">
+          <fa name="exchange"></fa>
+          Transfer
+        </a>
+      </li>
+      <li>
+        <a href="#" class="tealish-text">
+          <fa name="list-ol"></fa>
+          Take Inventory
+        </a>
+      </li>
+      <li>
+        <a (click)="setFavorite($event)" class="tealish-text">
+          <i class="fa" [class.fa-star-o]="(product$ | async)?.favorite" [class.fa-star]="!(product$ | async)?.favorite"></i>
+          <span *ngIf="!(product$ | async)?.favorite">Favorite</span>
+          <span *ngIf="(product$ | async)?.favorite">Unfavorite</span>
+        </a>
+      </li>
+      <li>
+        <a (click)="printPage()" class="tealish-text">
+          <fa name="print"></fa>
+          Print
+        </a>
+      </li>
+      <li>
+        <a class="tealish-text" (click)="openAddInventoryModal()">
+          <fa name="pencil"></fa>
+          Edit
+        </a>
+      </li>
+      <li>
+        <a (click)="deleteInventory()" class="red-text">
+          <fa name="archive"></fa>
+          Archive
+        </a>
+      </li>
+
+    </ul>
+  </div>
+  <div class="inner">
+    <div class="title center-align">
+      Inventory Group
+    </div>
+    <div class="row uptracker-form">
+      <div class="info-box col s12" >
+        <div class="img-container left">
+          <div class="img" *ngIf="(product$ | async) && (product$ | async)?.image"
+            [ngStyle]="{ 'background-image': 'url(' + (product$ | async)?.image + ')' }">
+          </div>
+
+          <div class="img img-contain" *ngIf="(product$ | async) && !(product$ | async)?.image"
+            [ngStyle]="{ 'background-image': 'url(/assets/img/onboard/icon-onboarding-products.svg)' }">
+          </div>
+
+          <div class="sub-image-btns">
+            <div class="col s12 m6">
+              <div class="small left">On-hand</div>
+              <div class="digits right">{{(accountService.dashboardLocation$ | async) ? (product$ | async)?.on_hand_combined : (product$ | async)?.on_hand}}</div>
+            </div>
+            <div class="col s12 m6">
+              <div class="small left">Pending</div>
+              <div class="digits right" *ngIf="(accountService.dashboardLocation$ | async)">{{(product$ | async)?.pending}}</div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="left product-params">
+          <div class="min-height">
+            <div class="ttl-box row input">
+              <div class="col s12">
+                {{ (product$ | async)?.name }}
+              </div>
+            </div>
+            <div class="row">
+
+              <div class="col m4 l2">
+                <div class="">
+                  <label>Hazardous</label>
+                  <span class="value">{{(product$ | async)?.hazardous ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+              <div class="col m4 l2">
+                <div class="">
+                  <label>Trackable</label>
+                  <span class="value">{{(product$ | async)?.trackable  ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+              <div class="col m4 l2">
+                <div class="">
+                  <label>Tax Exempt</label>
+                  <span class="value">{{(product$ | async)?.tax_exempt  ? 'Yes' : 'No' }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col m4 l2">
+                <label>Department</label>
+                <div class="value">{{(product$ | async)?.department}}</div>
+              </div>
+              <div class="col m4 l2">
+                <label>Category</label>
+                <div class="value">{{(product$ | async)?.category}}</div>
+              </div>
+              <div class="col m4  l2">
+                <label>Accounting</label>
+                <div class="value">{{(product$ | async)?.account_category}}</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col m4 l2">
+                <label>Package</label>
+                <div class="value">{{ (product$ | async)?.inventory_products[0].package_type }}</div>
+              </div>
+              <div class="col m4 l2">
+                <label>Sub-package</label>
+                <div class="value">
+                  {{ (product$ | async)?.inventory_products[0].sub_package.properties.qty }}
+                  {{ (product$ | async)?.inventory_products[0].sub_package.properties.unit_type }}
+                </div>
+              </div>
+              <div class="col m4  l2">
+                <label>Consumable Unit</label>
+                <div class="value">
+                  {{ (product$ | async)?.inventory_products[0].consumable_unit.properties.qty }}
+                  {{ (product$ | async)?.inventory_products[0].consumable_unit.properties.unit_type }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="sub-image-btns">
+            <div class="col s3 l2" *ngIf="locations.className !== 'active'">
+              <div class="small left">Critical</div>
+              <div class="digits right" *ngIf="(accountService.dashboardLocation$ | async)">{{ (product$ | async)?.critical_level }}</div>
+            </div>
+            <div class="col s3 l3" *ngIf="locations.className !== 'active'">
+              <div class="small left">Fully Stocked</div>
+              <div class="digits right" *ngIf="(accountService.dashboardLocation$ | async)">{{ (product$ | async)?.fully_stocked }}</div>
+            </div>
+            <div class="col s3 l3" *ngIf="locations.className !== 'active'">
+              <div class="small left">Overstocked</div>
+              <div class="digits right" *ngIf="(accountService.dashboardLocation$ | async)">{{ (product$ | async)?.overstock_level }}</div>
+            </div>
+            <div class="col s3 l4 two-lines">
+              <div class="small ">Inventory By</div>
+              <div class="small  red-text">
+                {{ (product$ | async)?.inventory_by_label }}
+                <span *ngIf="!(product$ | async)?.inventory_by_label">{{ (product$ | async)?.inventory_by }}</span>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row table-head-filter">
+      <div class="col s12">
+        <ul class="tabs" materialize="tabs">
+
+          <li class="tab col s2" >
+            <a href="#info" #info (click)="selectInventoryTab('info')">Info</a>
+          </li>
+          <li class="tab col s2"
+            [class.hidden] = '(accountService.dashboardLocation$ | async)'>
+            <a href="#locations" #locations (click)="selectInventoryTab('locations')">
+              Locations
+            </a>
+          </li>
+          <li class="tab col s2">
+            <a href="#history" #history (click)="selectInventoryTab('history')">History</a>
+          </li>
+          <li class="tab col s2" ngClass="hidden">
+            <a href="#tracking" #tracking (click)="selectInventoryTab('tracking')">Tracking</a>
+          </li>
+          <li class="tab col s2">
+            <a href="#products" #products (click)="selectInventoryTab('products')">Products</a>
+          </li>
+          <li class="tab col s2">
+            <a href="#comments" #comments (click)="selectInventoryTab('comments')">Comments</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div id="info">
+      <div class="inner uptracker-form">
+        <div class="row">
+          <div class="ttl-container col s7">
+
+            <div class="row">
+              <div class="ttl col s12">
+                Description
+              </div>
+              <div class="col s12 bold">
+                {{(product$ | async)?.description}}
+                <i class="no-info" *ngIf="!(product$ | async)?.description">No additional information</i>
+              </div>
+            </div>
+            <div class="row">
+              <div class="ttl col s12">
+                Notes
+              </div>
+              <div class="col s12 bold">
+                {{(product$ | async)?.notes}}
+                <i class="no-info" *ngIf="!(product$ | async)?.notes">No additional information</i>
+              </div>
+            </div>
+            <div class="row mbot0">
+              <div class="col s6 ">
+                <div class="row mbot0">
+                  <div class="ttl col s12">
+                    MSDS
+                  </div>
+                  <div class="col s12" *ngFor="let msds of (product$ | async)?.msds">
+                    <a href="{{msds.public_url}}" target="_blank">{{msds.file_name}}</a>
+                    <i class="no-info" *ngIf="!(product$ | async)?.msds">No additional information</i>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="ttl col s12">
+                    Hazardous Form
+                  </div>
+                  <div class="col s12">
+                    <a *ngIf="(product$ | async)?.hazardous">{{(product$ | async)?.hazardous}}</a>
+                    <i class="no-info" *ngIf="!(product$ | async)?.hazardous">No additional information</i>
+                  </div>
+                </div>
+              </div>
+              <div class="col s6 ">
+                <div *ngIf="(product$ | async)?.attachments" class="row">
+                  <div class="ttl col s12">
+                    Documents
+                  </div>
+                  <div class="col s12">
+                    <div *ngFor="let doc of (product$ | async)?.attachments">
+                      <a href="{{doc.public_url}}" target="_blank">{{doc.file_name}}</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col s5" *ngIf="(accountService.dashboardLocation$ | async)">
+            <div class="row">
+              <div class="col s6 ttl">Storage Locations</div>
+              <div class="col s6 left-align ttl">Qty</div>
+              <div *ngIf="(accountService.dashboardLocation$ | async)">
+                <div *ngFor="let storage of (product$ | async)?.storage_locations">
+                  <div *ngIf="!storage.floorstock">
+                    <div class="col s6">{{ storage.name }}</div>
+                    <div class="col s6 left-align">{{ storage.on_hand }}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col s6 ttl">Floor Locations</div>
+              <div class="col s6 left-align ttl">Qty</div>
+              <div *ngIf="(accountService.dashboardLocation$ | async)">
+                <div *ngFor="let storage of (product$ | async)?.storage_locations">
+                  <div *ngIf="storage.floorstock">
+                    <div class="col s6">{{ storage.name }}</div>
+                    <div class="col s6 left-align">{{ storage.on_hand }}</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col s12 left-align small grey-text italic">*Floor stock is not counted as inventory</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="locations">
+      <div class="inner">
+        <div class="variant-table">
+          <div class="uptracker-form variant-head">
+            <div class="head-item bold">
+              Location
+            </div>
+            <div class="head-item bold">
+              On-hand
+            </div>
+            <div class="head-item bold">
+              Pending
+            </div>
+            <div class="head-item bold">
+              Critical
+            </div>
+            <div class="head-item bold">
+              Fully Stocked
+            </div>
+            <div class="head-item bold">
+              Overstocked
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+        <div class="table-body">
+          <div class="variant-table">
+            <div class="uptracker-form  table-item tealish-text"
+              *ngFor="let location of (product$ | async)?.inventory_item_locations">
+              <div class="name-heading variant-name row-item valign-wrapper">
+                <span class="valign tealish-text">
+                  {{ location.name }}
+                </span>
+              </div>
+              <div class="small-heading row-item">{{ location.on_hand }}</div>
+              <div class="small-heading row-item">{{ location.pending }}</div>
+              <div class="small-heading row-item">{{ location.critical_level }}</div>
+              <div class="small-heading row-item">{{ location.fully_stocked }}</div>
+              <div class="small-heading row-item">{{ location.overstock_level }}</div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="history">
+      <div class="inner">
+        <div class="variant-table">
+          <div class="uptracker-form variant-head">
+            <div class="head-item">
+              User
+            </div>
+            <div class="head-item">
+              Type
+            </div>
+            <div class="head-item">
+              Date
+            </div>
+            <div class="head-item">
+              Quantity
+            </div>
+            <div class="head-item">
+              On-land
+            </div>
+            <div class="head-item">
+              Notes
+            </div>
+            <div class="head-item">
+              Flag
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <div class="table-body">
+          <div class="variant-table">
+            <div class="uptracker-form  table-item tealish-text"
+              *ngFor="let order of []">
+              <div class="name-heading variant-name row-item valign-wrapper">
+                <span class="valign tealish-text" (click)="toggleVariantDetailView(order)">
+                  Jane Doe
+                </span>
+              </div>
+              <div class="small-heading row-item">Order</div>
+              <div class="small-heading row-item">01/01/2017</div>
+              <div class="small-heading row-item">10</div>
+              <div class="small-heading row-item">20</div>
+              <div class="small-heading row-item ">Ultra long description text specially for good testing</div>
+              <div class="small-heading row-item tealish-text">
+                <fa name="flag"></fa>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div id="tracking" ngClass="hidden">
+      <div class="inner">
+        Tracking tab
+      </div>
+    </div>
+
+    <div id="products">
+      <div class="row no-pad slim">
+        <div class="col s9 ttl bold">
+          Default Product
+          <a (click)="defaultInfoModal()">
+            <fa class="grey-text" name="info-circle"></fa>
+          </a>
+        </div>
+        <div class="col s3 tealish-text right-align">
+          <a>
+            <fa name="pencil"></fa>
+            Change
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 white all-product-info">
+          <div *ngFor="let item of (product$ | async)?.inventory_products">
+            <div *ngIf="item.default_product || (product$ | async)?.inventory_products[0].id === item.id">
+              <div class="row default-product-info">
+                <div class="col s5">
+                  <div class="img left img-container" *ngIf="item.images"
+                    [ngStyle]="{ 'background-image': 'url(' + item?.images[0] + ')' }">
+                  </div>
+                  <div class="pdg-l-10">
+                    <div class="ttl bigger tealish-text prod-name" [title]="item.name">
+                      <a *ngIf="!item.custom_product" [routerLink]="['/', 'products', item.product_id]">{{item.name}}</a>
+                      <a *ngIf="item.custom_product" [routerLink]="['/', 'products', item.account_product_id]">{{item.name}}</a>
+                    </div>
+                    <div class="small bold">{{item.vendor_name}}</div>
+                    <div class="vendors">
+                      <span class="list-comma" *ngFor="let vendor of item.vendors">{{ vendor.vendor_name }}</span>
+                    </div>
+                    <div class="row mrg-btm-0">
+                      <div class="col s12 m5">
+                        <span class="grey-text small">CAT# </span>
+                        <span class="small"> {{item.catalog_number}}</span>
+                      </div>
+                      <div class="col s12 m7">
+                        <span class="small grey-text">UPC# </span>
+                        <span class="small"> {{item?.upc}}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <div>
+                    <div class="">Pkg Price</div>
+                    <div class="price">{{ item?.price?.package_price }}</div>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <div>
+                    <div class="">Sub-Pkg Price</div>
+                    <div class="price">{{ item?.price?.sub_package_price }}</div>
+                  </div>
+                </div>
+                <div class="col s2">
+                  <div>
+                    <div class="">Unit Price</div>
+                    <div class="price">{{ item?.price?.unit_price }}</div>
+                  </div>
+                </div>
+                <div class="col s1 center-align">
+                  <fa name="ellipsis-h"></fa>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row border-btm mrg-btm-0">
+        <div class="col s5 ttl bold">
+          Other Products
+        </div>
+        <div class="col s2 ttl bold">
+          Pkg Price
+        </div>
+        <div class="col s2 ttl bold">
+          Sub-Pkg Price
+        </div>
+        <div class="col s2 ttl bold">
+          Unit Price
+        </div>
+        <div class="col s1 ttl bold">
+
+        </div>
+      </div>
+      <div *ngFor="let item of (product$ | async)?.inventory_products">
+        <div class="row border-btm mrg-btm-0 flex-middle" *ngIf="!item.default_product && (product$ | async)?.inventory_products[0].id !== item.id">
+          <div class="col s5">
+            <div class="tealish-text prod-name" [title]="item.name">
+              <a *ngIf="!item.custom_product" [routerLink]="['/', 'products', item.product_id]">{{item.name}}</a>
+              <a *ngIf="item.custom_product" [routerLink]="['/', 'products', item.account_product_id]">{{item.name}}</a>
+            </div>
+            <div class="small bold">{{ item.vendor_name }}</div>
+            <div class="vendors">
+              <span class="list-comma" *ngFor="let vendor of item.vendors">{{ vendor.vendor_name }}</span>
+            </div>
+          </div>
+          <div class="col s2">
+            {{ item?.price?.package_price }}
+          </div>
+          <div class="col s2">
+            {{ item?.price?.sub_package_price }}
+          </div>
+          <div class="col s2">
+            {{ item?.price?.unit_price }}
+          </div>
+          <div class="col s1 text-right">
+            <fa name="ellipsis-h center-align"></fa>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="comments">
+      <div class="inner">
+
+        <form class="uptracker-form" (submit)="sendComment()" #commentForm="ngForm" novalidate autocomplete="off">
+          <div class="input row textarea-row">
+            <div class="label col s12">Add Comment</div>
+            <div class="col s10">
+              <div class="textarea">
+              <textarea id="comments-textarea" class="validate materialize-textarea" name="comment_body" required
+                #inputComment [(ngModel)]="comment.body"></textarea>
+              </div>
+            </div>
+            <div class="buttons col s2 right-align">
+              <button class="btn white-text waves-effect waves-light" [disabled]="!commentForm.valid">Send
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="comments">
+          <ul class="collection">
+            <li class="collection-item avatar" *ngFor="let comment of filteredComments$ | async">
+              <img [src]="comment.author_avatar || ''" class="responsive-img circle author-avatar">
+              <span class="title">{{comment.author_name}}</span>
+              <span class="date">{{comment.created_at}}</span>
+              <span class="edit-comment" *ngIf="comment.author_id==userService.selfData.id"
+                (click)="editComment(comment)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </span>
+              <p [innerHtml]="comment.body"></p>
+              <div class="secondary-content" *ngIf="comment.author_id==userService.selfData.id">
+                <div class="delete-comment " (click)="deleteComment(comment)">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

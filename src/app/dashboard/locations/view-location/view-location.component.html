@@ -1,0 +1,47 @@
+<div *ngIf="location && location.id">
+  <div class="close fa fa-chevron-left" (click)="goBack()"></div>
+  <div class="buttons-topright">
+    <button
+      type="button"
+      class="uptracker-form-btn white-text waves-effect waves-light"
+      [routerLink]="'/locations/edit/'+location.id">
+      <i class="fa fa-pencil"></i>
+      Edit
+    </button>
+    <button
+      type="button"
+      class="uptracker-form-btn white-text waves-effect waves-light uptracker-form-delete-btn"
+      (click)="deleteLocation(location)">
+      <i class="fa fa-trash"></i>
+      Delete
+    </button>
+    <div class="clearfix"></div>
+  </div>
+  <div class="title center-align">{{location.name}}</div>
+  <div class="row uptracker-form">
+    <div class="col s12 m7 location-image">
+      <div class="img-container">
+        <div class="img" *ngIf="location.image" [ngStyle]="{ 'background-image': 'url(' + location.image + ')' }"></div>
+      </div>
+    </div>
+    <div class="col s12 m5 info">
+      <div class="ttl">Location Type</div>
+      <div class="sub-ttl">{{location.location_type}}</div>
+      <div class="address">
+        <div class="ttl">Address</div>
+        <div class="steet">
+          <span *ngIf="location.street_2">{{location.street_2}} </span>
+          {{location.street_1}}
+        </div>
+        <div class="city">{{location.city}} {{location.state}} {{location.zip_code}}</div>
+      </div>
+      <div class="contacts">
+        <div class="ttl">Contacts</div>
+        <div class="phone left">+{{location.phone}} {{location.phone_ext}},</div>
+        <div class="fax left" *ngIf="location.fax">+{{location.fax}} {{location.fax_ext}},</div>
+        <div class="clearfix"></div>
+        <div class="email">{{location.email}}</div>
+      </div>
+    </div>
+  </div>
+</div>

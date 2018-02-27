@@ -1,0 +1,72 @@
+:host /deep/ {
+  //.uptracker-form {
+  //  input{
+  //    border-color:#d6d6d6 !important;
+  //  }
+  //}
+
+  #general{
+    display: block !important;
+  }
+
+  .upload{
+    margin-bottom:59px;
+
+    .range-field{
+      margin-top:12px;
+      megint-right:-0.5rem;
+      position: relative;
+
+      .value{
+        position:absolute;
+        text-align:center;
+        color:#fff;
+        font-weight:bold;
+        bottom:7px;
+        z-index:3;
+        cursor:pointer;
+      }
+    }
+
+    .img-container{
+      width:160px;
+      height:78px;
+      background-image: url(/assets/img/img-placeholder-docs.svg);
+      margin-top:5px;
+    }
+
+    .file-list{
+      margin:5px 0 0;
+
+      .item{
+        margin-top:5px;
+
+        img{
+          float:left;
+          margin-right:5px;
+        }
+      }
+    }
+
+    .text{
+      margin-top:15px;
+      margin-right:-0.75rem;
+
+      .tip{
+        color:#9a9c9e;
+      }
+    }
+
+    a{
+      cursor:pointer;
+    }
+  }
+
+  .textarea-row{
+    margin-top:55px;
+  }
+
+  .buttons{
+    margin:44px 0 0;
+  }
+}

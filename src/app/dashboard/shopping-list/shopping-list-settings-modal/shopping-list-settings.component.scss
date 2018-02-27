@@ -1,0 +1,134 @@
+$tealish: #33c6d9;
+
+:host /deep/ {
+  .inner{
+    .row {
+      margin-bottom: 0;
+      &.check {
+        margin:10px 0;
+        .s2 {
+          padding-left: 0;
+        }
+      }
+    }
+    .select {
+      width:100%;
+    }
+    input.select-dropdown {
+      border-color:#9a9c9e!important;
+      margin-bottom: 10px;
+      background-color: #f5f5f5;
+    }
+    .select-title {
+      margin-bottom: 5px;
+    }
+    .uptracker-form-btn {
+      height:36px;
+      font-size:14px;
+      border:1px solid #fff;
+      width:100px;
+      margin:0 10px;
+      font-weight: normal;
+
+      &:first-of-type {
+        border-color: red;
+        background-color: #fff;
+        color:red;
+      }
+      &:last-of-type {
+        border-color:$tealish;
+        background-color: $tealish;
+        color:#fff;
+      }
+    }
+  }
+
+  .range-field {
+    margin-top: 12px;
+    position: relative;
+    .value-container {
+      position: relative;
+      margin: 0 17px;
+      .value {
+        position: absolute;
+        width: 30px;
+        text-align: center;
+        color: #fff;
+        font-weight: bold;
+        bottom: 7px;
+        z-index: 1;
+        cursor: pointer;
+        pointer-events: none;
+      }
+    }
+  }
+
+
+  @mixin range-track{
+    border: 1px solid #d6d6d6;
+    background: #f5f6f7;
+    height: 11px;
+    border-radius: 5px;
+  }
+
+  @mixin range-thumb{
+    background: $tealish;
+    border:1px solid $tealish;
+    width:30px;
+    height:30px;
+    margin-top:-11px;
+  }
+
+  @mixin range-thumb-disabled{
+    background:#f5f6f7;
+    border:1px solid #d6d6d6;
+  }
+
+  .range-field {
+    clear: both;
+
+    input {
+      margin: 10px 0;
+
+      & + .thumb {
+        display: none;
+      }
+    }
+
+    input::-webkit-slider-runnable-track {
+      @include range-track;
+    }
+
+    input::-moz-range-track {
+      @include range-track;
+    }
+
+    input::-ms-track {
+      @include range-track;
+    }
+
+    input::-webkit-slider-thumb {
+      @include range-thumb;
+    }
+
+    input::-moz-range-thumb {
+      @include range-thumb;
+    }
+
+    input::-ms-thumb {
+      @include range-thumb;
+    }
+
+    input[disabled]::-webkit-slider-thumb {
+      @include range-thumb-disabled;
+    }
+
+    input[disabled]::-moz-range-thumb {
+      @include range-thumb-disabled;
+    }
+
+    input[disabled]::-ms-thumb {
+      @include range-thumb-disabled;
+    }
+  }
+}

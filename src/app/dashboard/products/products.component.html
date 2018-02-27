@@ -1,0 +1,34 @@
+<div class="products content">
+  <div class="top">
+    <app-search-filter-header
+      [title]="'Marketplaces'"
+      [searchKey]="searchKey"
+      (searchEvent)="searchProducts($event)"
+      (resetEvent)="resetFilters()"
+      (openModalEvent)="showFiltersModal()"
+    ></app-search-filter-header>
+
+    <div class="row">
+      <ul class="tabs" materialize="tabs">
+        <li class="tab">
+          <a href="#homeTab" [class.active]="(productService.getMarketplaceData$ | async) ==='home'" (click)="selectTab('home')">Home</a>
+        </li>
+        <li class="tab">
+          <a href="#marketplaceTabMy" [class.active]="(productService.getMarketplaceData$ | async) ==='my'" (click)="selectTab('my')">My Marketplace</a>
+        </li>
+        <li class="tab">
+          <a href="#marketplaceTabGlobal" [class.active]="(productService.getMarketplaceData$ | async) ==='global'" (click)="selectTab('global')">Global Marketplace</a>
+        </li>
+        <li class="tab">
+          <a  href="#marketplaceTabMaris" [class.active]="(productService.getMarketplaceData$ | async) ==='maris'" (click)="selectTab('maris')">Mari's List</a>
+        </li>
+      </ul>
+    </div>
+
+    <app-home-tab id="homeTab"></app-home-tab>
+    <app-marketplace-tab *ngIf="(productService.getMarketplaceData$ | async) ==='my'" id="marketplaceTabMy"></app-marketplace-tab>
+    <app-marketplace-tab *ngIf="(productService.getMarketplaceData$ | async) ==='global'" id="marketplaceTabGlobal"></app-marketplace-tab>
+    <app-marketplace-tab *ngIf="(productService.getMarketplaceData$ | async) ==='maris'" id="marketplaceTabMaris"></app-marketplace-tab>
+
+  </div>
+</div>

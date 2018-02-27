@@ -1,0 +1,109 @@
+@import "../../../../colors.scss";
+
+
+.inner {
+  padding: 5px;
+
+
+  .row {
+    margin-bottom: 0;
+    padding-top:3px;
+  }
+
+  .thinrow {
+    height: 35px;
+  }
+
+
+  .flex-center {
+    display: flex!important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .titles {
+    font-size: .8rem;
+    white-space: nowrap;
+  }
+
+
+  .grey-text {
+    color: $grey
+  }
+
+  label {
+    font-size: 1rem;
+    color: $dark;
+  }
+
+
+  .uptracker-form-btn {
+    height: 36px;
+    font-size: 14px;
+    border: 1px solid #fff;
+    width: 100px;
+    margin: 0 5px;
+    font-weight: normal;
+
+    &:first-of-type {
+      border-color: red;
+      background-color: #fff;
+      color: red;
+    }
+    &:last-of-type {
+      border-color: $tealish;
+      background-color: $tealish;
+      color: #fff;
+    }
+  }
+
+  .trash {
+    text-align: center;
+    line-height: 30px;
+  }
+
+  .right-grey {
+    display:none;
+  }
+  .discount-titles {
+    display:none;
+  }
+
+  .padnoright {
+    padding-right:0;
+  }
+
+  .pad7px{
+    padding-right:7px;
+  }
+
+  .bottom-buttons {
+    margin-top:10px;
+  }
+  .img-container-edit {
+    border: 2px dashed $light-grey;
+    border-radius: 7px;
+    background-color: #f5f6f7;
+    background-image: url(/assets/img/products.png);
+    background-size: auto 50%;
+    background-position: 50% 50%;
+    height: 150px;
+    background-repeat: no-repeat;
+
+    &.file-is-over {
+      border-style: solid;
+      border-color: $tealish;
+    }
+  }
+
+  label[for=file-upload-dialog] {
+    margin-top:10px;
+    font-size:11px;
+    cursor:pointer;
+  }
+
+  .ttl {
+    margin-bottom:10px;
+  }
+
+}

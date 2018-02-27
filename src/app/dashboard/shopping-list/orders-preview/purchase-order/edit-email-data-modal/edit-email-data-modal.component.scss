@@ -1,0 +1,163 @@
+@import "../../../../../../colors.scss";
+
+input.select-dropdown, .input input {
+  height: 30px;
+  margin-bottom: 0 !important;
+}
+
+.uptracker-form-btn {
+  font-size: 14px;
+  width: 100px;
+  margin: 0 5px;
+  font-weight: normal;
+  border-width: 1px;
+  border-style: solid;
+  border-color: $tealish;
+  background-color: $tealish;
+  color: #fff;
+  &.send-btn {
+    position: absolute;
+    right: 20px;
+    top: 35px;
+    &[disabled] {
+      background-color: $light-grey;
+      border-color: $light-grey;
+    }
+  }
+  &.redbtn {
+    border-color: red;
+    background-color: #fff;
+    color: red;
+  }
+  &:last-of-type {
+  }
+}
+
+.inner {
+  padding: 5px;
+
+  label.light-grey {
+    color: $grey;
+  }
+
+  .row {
+    margin-bottom: 7px;
+    min-height: 40px;
+    padding-top: 3px;
+  }
+
+  .flex-center {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .titles {
+    font-size: .8rem;
+    white-space: nowrap;
+  }
+
+  .checks-row {
+    padding-bottom: 20px;
+
+    & > div.col > * {
+      text-align: center;
+      display: block;
+      float: left;
+      padding: 0;
+      width: 100%;
+    }
+  }
+
+  .grey-text {
+    color: $grey
+  }
+
+  label {
+    font-size: 1rem;
+    color: $dark;
+  }
+
+  .smaller {
+    font-size: 0.9rem;
+  }
+
+  textarea {
+    min-height: 200px;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 1rem;
+    overflow-y: auto;
+    resize: none;
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  input, textarea {
+    background-color: $light-light-grey;
+    border: 1px solid $light-grey;
+    color: $dark;
+    &::placeholder {
+      color: $grey;
+      font-size: 14px;
+    }
+
+  }
+
+  .subtitle {
+    font-size: 1.2rem;
+  }
+
+  .subttl {
+    color: $grey;
+  }
+
+  .col {
+    margin-bottom: 3px;
+  }
+  .right-grey {
+    display: none;
+  }
+
+  button.uptracker-form-btn {
+    height: 30px !important;
+
+  }
+
+  .invis {
+    opacity: 0;
+    transition: opacity .3s;
+    margin-left: 15px;
+  }
+  .attachments {
+    a:first-of-type {
+      color: $dark;
+    }
+    .link-icon:hover {
+      text-decoration: none;
+    }
+    .invis {
+      cursor:pointer;
+    }
+    &:hover .invis {
+      opacity: 1;
+    }
+  }
+  .additional-space {
+    margin-top:5px;
+  }
+
+  input[type=file] {
+    display: none;
+  }
+
+  label {
+    color:$tealish;
+    cursor:pointer;
+  }
+
+
+
+}

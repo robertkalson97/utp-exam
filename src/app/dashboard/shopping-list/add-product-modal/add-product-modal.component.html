@@ -1,0 +1,78 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="title center-align">Add Products</div>
+
+<div class="inner">
+
+  <div class="uptracker-form row">
+    <div class="filter col m4 s6">
+      <div class="input">
+        <input
+                type="text"
+                class="col s12 name-input"
+                ngModel
+                (input)="changeName($event)"
+                placeholder="Name"
+                #name="ngModel"/>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-wrapper">
+    <div class="table">
+
+      <table>
+        <tr class="uptracker-form row table-head">
+          <th>
+            <div>
+              Name
+            </div>
+          </th>
+          <th>
+            <div>
+              Pkg. Type
+            </div>
+          </th>
+          <th>
+            <div>
+              Unit Type
+            </div>
+          </th>
+          <th>
+            <div>
+              Units/pkg.
+            </div>
+          </th>
+          <th>
+            <div>
+              Color
+            </div>
+          </th>
+          <th>
+            <div>
+              Material
+            </div>
+          </th>
+          <th>
+            <div>
+              Price Range
+            </div>
+          </th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let variant of filteredVariants$ | async">
+          <td>{{variant.name || "Product Here"}}</td>
+          <td>{{variant.package_type || "Value Here"}}</td>
+          <td>{{variant.unit_type || "Value Here"}}</td>
+          <td>{{variant.units_per_package || ""}}</td>
+          <td>{{variant.color || ""}}</td>
+          <td>{{variant.material || ""}}</td>
+          <td>{{variant.price_range || ""}}</td>
+          <td>
+            <button type="button" class="uptracker-form-btn not-submit">Add</button>
+          </td>
+        </tr>
+      </table>
+
+    </div>
+  </div>
+</div>

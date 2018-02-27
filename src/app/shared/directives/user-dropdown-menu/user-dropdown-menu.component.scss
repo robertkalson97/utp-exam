@@ -1,0 +1,89 @@
+$tealish: #33c6d9;
+
+.user-menu{
+  position:absolute;
+  max-width:100%;
+  top:20px;
+  right:31px;
+  bottom:auto;
+
+  .btn-floating{
+    background: $tealish;
+    width:27px;
+    height:27px;
+    line-height:25px;
+    font-size:12px;
+    font-weight:bold;
+    margin:0 6px 0 0;
+    box-shadow:none;
+
+    &:hover{
+      box-shadow:0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
+    }
+  }
+
+  .truncate{
+    max-width:215px;
+    display:inline-block;
+    margin-top:-1px;
+    vertical-align: middle;
+    cursor:pointer;
+    color:inherit;
+
+    &:hover{
+      text-decoration:none;
+    }
+  }
+
+  ul{
+    bottom: auto;
+    margin-top:35px;
+    background: #fff;
+    padding: 10px 0 5px;
+    width:100px !important;
+    min-width:inherit;
+    left:-37px !important;
+    border:1px solid #d6d6d6;
+    box-shadow: 0 0 5px #d6d6d6;
+
+    li{
+      padding:2px 0 7px;
+      text-align:center;
+      min-height:inherit;
+
+      &:hover{
+        background:transparent;
+      }
+
+      a{
+        color:#444;
+        text-decoration:none;
+        font-size:14px;
+        line-height:normal;
+        padding:0;
+
+        &:hover{
+          text-decoration:underline;
+        }
+      }
+    }
+  }
+}
+
+@media all and (max-width: 768px) {
+  .user-menu{
+    right:10px;
+
+    .truncate{
+      max-width:155px;
+    }
+  }
+}
+
+@media all and (max-width: 480px) {
+  .user-menu {
+    .truncate {
+      max-width: 68px;
+    }
+  }
+}

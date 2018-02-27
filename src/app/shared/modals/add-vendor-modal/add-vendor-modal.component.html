@@ -1,0 +1,196 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner">
+  <div class="step1" *ngIf="step == 1">
+    <div class="row">
+      <div class="col s12">
+        <div class="input search" [class.dirty]="vendorDirty" [class.valid]="vendorValid">
+          <input auto-complete
+                 placeholder="Vendor Name"
+                 [source]="observableSourceVendor.bind(this)"
+                 (input) = 'onSearchVendor($event)'
+                 [min-chars] = '1'
+                 (ngModelChange) = 'selectedAutocompledVendor($event)'
+                 [list-formatter] = '"vendor_name"'
+                 [ngModel] = "vendor.vendor_name"
+                 [tab-to-select] = 'false'
+                 name="vendor"
+                 required
+          />
+        </div>
+      </div>
+      <div class="col s12 buttons-group">
+        <button class="uptracker-form-btn redbtn waves-effect waves-light" type="button"
+                (click)="dismissModal()">
+          Cancel
+        </button>
+        <button class="uptracker-form-btn next-btn white-text tealish waves-effect waves-light"
+                (click)="nextStep()"
+                [disabled]='!vendor.vendor_name'>
+          {{vendor.vendor_id ? 'continue' : 'next'}}
+          <fa name="chevron-right"></fa>
+        </button>
+      </div>
+      <div class="col s12">
+        <p *ngIf="vendor.vendor_id" class="error-message red-text left-align">
+          The general information for a global vendor can not be changed.
+          You can change account and location specific information on the next screen.
+        </p>
+        <p *ngIf="!vendor.vendor_id && vendor.vendor_name" class="error-message red-text left-align">
+          A Custom Vendor should be a smaller provider who is local to you.
+          There will be no product price comparing for this vendor.
+          If you feel this Vendor should be in the Global Marketplace please
+          email the vendor name and website or address to upinc4u@gmail.com
+          and it will be added to the global list within 24 hours.
+        </p>
+      </div>
+    </div>
+  </div>
+  <div class="step2" *ngIf="step == 2">
+    <div class="inner">
+      <div class="title center-align">Add Vendor</div>
+    </div>
+    <div id="general">
+      <form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #vendorForm="ngForm" autocomplete="off" novalidate>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Vendor Name</div>
+            <input id="name" placeholder="vendor name" class="validate col s12" [(ngModel)]="vendorModel.name"
+                   name="name" #name="ngModel" type="text" required>
+            <div [hidden]="name.valid || name.pristine" class="error red-text left-align">
+              Name is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="text">
+              <div class="label">Logo</div>
+              <div class="row">
+                <div class="file-field col s6">
+                  <div class="upload-link">
+                    <input type="file" (change)="uploadLogo($event)" />
+                    <a>Please upload here</a>
+                  </div>
+                </div>
+                <div class="col s6">
+                  {{uploadName}}
+                </div>
+                <div class="col s12">
+                  <img class="preview" *ngIf="logo" [src]="logoPreview" alt="Logo Image">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Email</div>
+            <input id="email" class="validate col s12" placeholder="email" [(ngModel)]="vendorModel.email" name="email"
+                   #email="ngModel" minlength="6" maxlength="254" type="email" required>
+            <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+              Your email must be from 6 to 254 characters long and look like an e-mail address.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Website</div>
+            <input id="website" class="validate col s12" placeholder="website" [(ngModel)]="vendorModel.website" name="website"
+                   #website="ngModel" type="text">
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Phone</div>
+            <phone-input (onCountryChange)="onCountryChange($event)" [selectedCountry]="selectedPhoneCountry">
+              <input [textMask]="phoneMask" id="phone" placeholder="phone" [(ngModel)]="vendorModel.phone"
+                     class="validate col s12" name="phone" #phone="ngModel" minlength="11" type="text" required>
+            </phone-input>
+            <div [hidden]="phone.valid || phone.pristine" class="error red-text left-align">
+              Mobile Phone number required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Fax</div>
+            <phone-input (onCountryChange)="onFaxCountryChange($event)" [selectedCountry]="selectedFaxCountry">
+              <input [textMask]="phoneMask" id="fax" placeholder="fax" class="validate col s12" [(ngModel)]="vendorModel.fax"
+                     #fax="ngModel" name="fax" type="text">
+            </phone-input>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Address 1</div>
+            <input id="address1" placeholder="address 1" class="validate col s12" [(ngModel)]="vendorModel.street_1"
+                   name="address1" #address1="ngModel" type="text" required>
+            <div [hidden]="address1.valid || address1.pristine" class="error red-text left-align">
+              Address 1 is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Address 2</div>
+            <input id="address2" placeholder="address 2" class="validate col s12" [(ngModel)]="vendorModel.street_2"
+                   name="address2" #address2="ngModel" type="text">
+            <div [hidden]="address2.valid || address2.pristine" class="error red-text left-align">
+              Address 2 is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">City</div>
+            <input id="city" placeholder="city" class="validate col s12" [(ngModel)]="vendorModel.city"
+                   name="city" #city="ngModel" type="text" required>
+            <div [hidden]="city.valid || city.pristine" class="error red-text left-align">
+              City  is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">State</div>
+            <input id="state" placeholder="state" class="validate col s12" [(ngModel)]="vendorModel.state"
+                   name="state" #state="ngModel" type="text" required>
+            <div [hidden]="state.valid || state.pristine" class="error red-text left-align">
+              State is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Country</div>
+            <input id="country" placeholder="country" class="validate col s12" [(ngModel)]="vendorModel.country"
+                   name="country" #country="ngModel" type="text" required>
+            <div [hidden]="country.valid || country.pristine" class="error red-text left-align">
+              Country  is required.
+            </div>
+          </div>
+        </div>
+        <div class="input row">
+          <div class="col s12 m12">
+            <div class="label left-align">Post Code</div>
+            <input id="postCode" placeholder="post code" class="validate col s12" [(ngModel)]="vendorModel.postCode"
+                   name="postCode" #postCode="ngModel" type="text" required>
+            <div [hidden]="postCode.valid || postCode.pristine" class="error red-text left-align">
+              Post Code is required.
+            </div>
+          </div>
+        </div>
+        <div class="buttons-topright buttons-group">
+          <button class="uptracker-form-btn redbtn waves-effect waves-light" (click)="prevStep()">
+            <fa [name]="'chevron-left'"></fa>
+            Back
+          </button>
+          <button type="submit" class="uptracker-form-btn white-text waves-effect waves-light" [disabled]="!vendorForm.form.valid">
+            <fa [name]="'check'"></fa>
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

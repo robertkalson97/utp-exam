@@ -1,0 +1,216 @@
+<ul class="debug-monitor" [class.isrequest]="isRequest">
+  <li>page: {{ inventoryService.current_page }}</li>
+  <li>count: {{ (products$ | async)?.length }}</li>
+  <li>total: {{ total }}</li>
+</ul>
+<div class="products content">
+  <div class="top">
+    <div class="row filter uptracker-form">
+      <div class="title no-margin-top col s10">
+        <span class="main-title left">Inventory</span>
+        <span class="sub-title">{{total}} groups</span>
+      </div>
+      <div class="col s2">
+        <button (click)="openAddInventoryModal()" class="right uptracker-form-btn waves-effect waves-light">
+          <fa name="plus"></fa>
+          Add Group
+        </button>
+      </div>
+    </div>
+    <div class="row nomargin filter uptracker-form">
+      <div class="col l9 s8 input">
+        <input type="text"
+          class="wide"
+          placeholder="Keyword search"
+          [(ngModel)]="searchKey"
+          (input)="searchFilter($event)"/>
+      </div>
+      <div class="col l3 s4">
+        <div class="select low-height sortby left">
+          <select title="sort by" [(ngModel)]="sortBy" materialize="material_select" (change)="itemsSort($event)">
+            <option disabled value="">Sort by</option>
+            <option value="relevance">Relevance</option>
+            <option value="A-Z">A-Z</option>
+            <option value="Z-A">Z-A</option>
+          </select>
+        </div>
+        <div class="uptracker-toggle-view right" (click)="toggleView()">
+          <i class="fa" [class.fa-table]="!inventoryService.isGrid" [class.fa-th-large]="inventoryService.isGrid"></i>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+  </div>
+    <div class="list" [class.is-grid-view]="inventoryService.isGrid" [class.is-tiles-view]="!inventoryService.isGrid">
+      <div *ngIf="!inventoryService.isGrid">
+        <div class="item center-align" *ngFor="let product of products$ | async; let i=index">
+          <div class="inner">
+            <div class="hazardous" *ngIf="product.hazardous">
+              <i class="material-icons">warning</i>
+            </div>
+            <div class="star-right" [class.favorite]="product.favorite" *ngIf="true">
+              <i (click)="setFavorite($event,product)" class="fa" [class.fa-star-o]="!product.favorite" [class.fa-star]="product.favorite"></i>
+            </div>
+            <div [routerLink]="['/', 'inventory','item', product.id]"
+              *ngIf="product.image"
+              class="img"
+              [ngStyle]="{ 'background-image': 'url(' + product.image + ')' }">
+              <div class="trackable" *ngIf="product.trackable">
+                <fa [name]="'barcode'"></fa>
+              </div>
+            </div>
+            <div [routerLink]="['/', 'inventory','item', product.id]" *ngIf="!product.image" class="img">
+              <div class="trackable" *ngIf="product.trackable">
+                <fa [name]="'barcode'"></fa>
+              </div>
+            </div>
+            <div [routerLink]="['/', 'inventory','item', product.id]" class="info">
+              <div class="ttl" title="{{ product.name }}">
+                {{product.name}}
+              </div>
+              <div class="bottom" *ngIf="product.on_hand">
+                <div class="range-field" *ngIf="locationId !== ''">
+                  <input
+                    #inputRange
+                    type="range"
+                    [min]="product.min" [max]="product.max || 1" step="1"
+                    name="priority"
+                  >
+                  <div class="value-container">
+                    <div class="value" [ngStyle]="calcQuantityMargin(product)">{{product.on_hand}}</div>
+                  </div>
+                  <div class="range-value left-align red-text bold" [ngStyle]="product.criticalLevel"
+                  *ngIf="product.critical_level || product.critical_level === 0">
+                    {{ product.critical_level }}
+                  </div>
+                  <div class="range-value right-align light-green-text bold" [ngStyle]="product.overstockLevel"
+                    *ngIf="product.overstock_level || product.overstock_level === 0">
+                    {{product.overstock_level}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="inventoryService.isGrid">
+        <div class="heading row">
+          <div class="col s1 right-align">
+            <div class="input-checkbox checkbox">
+              <input
+                type="checkbox"
+                class="checkbox-input"
+                [(ngModel)]="selectAll"
+                id="selectAll"
+                (click)="toggleSelectAll(!selectAll)"
+              />
+              <label for="selectAll"></label>
+            </div>
+          </div>
+          <div class="col  s4">Product name</div>
+          <div class="col s1">Favorite</div>
+          <div class="col s1">Hazardous</div>
+          <div class="col s1">Trackable</div>
+          <div class="col s3">Stock</div>
+          <div class="col s1">
+            <button disabled (click)="bulkEditModal()"
+              [disabled]="selectedInventory?.length==0"
+              class="right bulk-edit uptracker-form-btn">
+              <i class="fa fa-pencil"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="item row" *ngFor="let product of products$ | async; let i=index">
+          <div class="col s1 right-align">
+            <div class="input-checkbox checkbox">
+              <input
+                type="checkbox"
+                class="selected-input{{i}}"
+                [(ngModel)]="product.selected"
+                id="selected{{i}}"
+                (change)="onCheck()"
+              />
+              <label for="selected{{i}}"></label>
+            </div>
+          </div>
+          <div class="col product-name s3 flex-middle" [routerLink]="['/', 'inventory','item', product.id]">{{product.name}}</div>
+          <div class="col s1">{{product.variant_count}}</div>
+          <div class="col s1 star-container">
+            <div class="star-right" [class.favorite]="product.favorite">
+              <i (click)="setFavorite($event,product)" class="fa" [class.fa-star-o]="!product.favorite" [class.fa-star]="product.favorite"></i>
+            </div>
+          </div>
+          <div class="col s1">
+            <div class="input-checkbox checkbox readonly">
+              <input
+                type="checkbox"
+                class="hazardous-input{{i}}"
+                [(ngModel)]="product.hazardous"
+                id="hazardous{{i}}"
+                disabled
+              />
+              <label for="hazardous{{i}}"></label>
+            </div>
+          </div>
+          <div class="col s1 center-align">
+            <div class="input-checkbox checkbox readonly">
+              <input
+                type="checkbox"
+                class="trackable-input{{i}}"
+                [(ngModel)]="product.trackable"
+                id="trackable{{i}}"
+                disabled
+              />
+              <label for="trackable{{i}}"></label>
+            </div>
+          </div>
+          <div class="bottom col s3">
+            <div class="range-field" *ngIf="locationId !== ''">
+              <input
+                #inputRange
+                type="range"
+                [min]="product.min" [max]="product.max || 1" step="1"
+                name="priority"
+                [ngModel]="product.on_hand"
+              >
+              <div class="value-container less-margin">
+                <div class="value" [ngStyle]="calcQuantityMargin(product)">{{product.on_hand}}</div>
+              </div>
+              <div class="range-value grey-bg left-align red-text bold" [ngStyle]="product.criticalLevel">
+                {{ product.critical_level }}
+              </div>
+              <div class="range-value grey-bg right-align light-green-text bold" [ngStyle]="product.overstockLevel">
+                {{product.overstock_level}}
+              </div>
+            </div>
+          </div>
+          <div class="col s1">
+            <i class="fa right variant-func"
+              [class.fa-eye]="product.status"
+              [class.fa-eye-slash]="!product.status"
+              (click)="toggleInventoryItemVisibility(product)"
+              aria-hidden="true"></i>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isRequest" class="any-bottom-spinner" [class.table-view]="inventoryService.isGrid">
+        <div class="cssload-loader">
+          <div class="cssload-inner cssload-one"></div>
+          <div class="cssload-inner cssload-two"></div>
+          <div class="cssload-inner cssload-three"></div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <div class="no_results_container" [class.not_hidden]="!total">
+      <div class="img">
+        <i class="fa fa-question" aria-hidden="true"></i>
+      </div>
+      <div class="text">We could not find any products, matching the search criteria.</div>
+      <div class="sub-buttons">
+        <button class="uptracker-form-btn">Broaden Search</button>
+        <button class="uptracker-form-btn">Request Product</button>
+      </div>
+    </div>
+</div>

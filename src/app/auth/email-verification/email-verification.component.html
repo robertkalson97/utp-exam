@@ -1,0 +1,11 @@
+  <div class="auth-box center-align">
+    <div class="title">Email verification required</div>
+    <div class="subtitle">Please check your email and click the link.</div>
+    <button
+          [disabled]="buttonDisabled"
+          type="button"
+          class="btn white-text waves-effect waves-light uptracker-form-btn"
+          (click)="onResend()">
+      Resend Email
+    </button>
+  </div>

@@ -1,0 +1,119 @@
+$tealish: #33c6d9;
+
+:host /deep/ {
+  .title.notabs {
+    margin-bottom:40px!important;
+  }
+
+  .inner {
+    width: 280px;
+    margin: 0 auto;
+
+    .img-container {
+      width: 80px;
+      height: 80px;
+      border: 1px solid #d6d6d6;
+
+      .img {
+        height: 100%;
+        background-position: center center;
+        background-size: contain;
+        background-repeat: no-repeat;
+      }
+    }
+
+    .ttl-box {
+      height: 80px;
+
+      .ttl {
+        position: relative;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+      }
+    }
+  }
+
+  .separator {
+    height: 1px;
+    background: #d6d6d6;
+    margin: 24px 0 20px;
+  }
+
+  .tab-content {
+    display: none !important;
+
+    .info {
+      margin:0 -15px;
+
+      .row {
+        margin-bottom: 12px;
+
+        .label {
+          padding-right: 5px;
+          color: #9a9c9e;
+        }
+
+        .capitalize{
+          text-transform: capitalize;
+        }
+
+        .document{
+          margin-top:5px;
+
+          img{
+            float:left;
+            margin-right:5px;
+          }
+        }
+      }
+
+      .buttons {
+        margin-top: 30px;
+      }
+    }
+
+    &.active{
+      display:block !important;
+    }
+  }
+  .title {
+    font: 28px/32px Ubuntu;
+    margin-bottom: 5px;
+  }
+
+  .close {
+    transition:opacity .3s;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    background-color: $tealish;
+    cursor: pointer;
+    font-size:20px;
+    text-align:center;
+    border-radius:20px;
+    color:#fff;
+    line-height:40px;
+    padding-right: 3px;
+    &:hover {
+      opacity:.8;
+    }
+  }
+
+  .tabs {
+    background-color: transparent;
+  }
+
+  button {
+    background: $tealish;
+    &:hover {
+      opacity:.8;
+      background: $tealish;
+    }
+  }
+  .dropdown-content {
+    margin-top:37px;
+  }
+}

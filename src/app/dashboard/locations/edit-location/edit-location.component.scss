@@ -1,0 +1,255 @@
+$tealish: #33c6d9;
+
+:host /deep/ {
+
+  .tiny-margin {
+    margin-top:10px;
+  }
+  .no-pad-left {
+    padding-left:0;
+  }
+
+  .location-type {
+    position: relative;
+  }
+
+  .location-image {
+    .img-container {
+      width: 240px;
+      height: 136px;
+      background-image: url(/assets/img/onboard/icon-img-placeholder-locations.svg);
+    }
+
+    .text {
+      margin-top: 30px;
+
+      .tip {
+        color: #9a9c9e;
+        margin-bottom: 13px;
+      }
+    }
+
+    a {
+      cursor: pointer;
+    }
+  }
+
+  .buttons {
+    margin: 38px 0 0;
+
+    button {
+      margin: 0 5px;
+    }
+  }
+
+  .uptracker-form {
+    .add-storage-form {
+      .toggle-stock {
+        font-size: 13px;
+        margin-bottom: 18px;
+      }
+
+      .add-storage-location-buttons {
+
+        .add-btn {
+          width: 40%;
+          margin-right: 5%;
+        }
+
+        .cancel-btn {
+          width: 50%;
+        }
+      }
+
+      .top {
+        margin-bottom: 0;
+
+        .input, button {
+          margin-bottom: 15px;
+
+          input {
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+
+  .uptracker-form .input input {
+    margin: 8px 0 4px;
+  }
+
+  .location-storage-list {
+    border: none;
+
+    > div{
+      padding-bottom: 20px;
+      &:first-child {
+        border-right: 1px solid #d6d6d6;
+        padding-right: 5%;
+      }
+      &:last-child {
+        padding-left: 5%;
+        border-left: 1px solid #d6d6d6;
+        margin-left: -1px;
+      }
+    }
+    @media (max-width: 600px) {
+      > div {
+
+        &:first-child {
+          border-right: none;
+          padding: 0 0.75rem;
+        }
+
+        &:last-child {
+          padding: 0 0.75rem;
+          border-left: none;
+        }
+      }
+    }
+
+
+    .title {
+      font-weight: 500;
+      font: 28px/32px Ubuntu;
+      margin-bottom: 30px;
+    }
+
+    .item {
+      border: none;
+      min-height: 40px;
+      padding-right: 55px;
+      position: relative;
+
+      &:hover .edit-btns {
+        visibility: visible;
+        opacity: 1;
+      }
+
+      .edit-btns {
+        transition: all 0.1s 0.2s;
+        visibility: hidden;
+        opacity: 0;
+        position: absolute;
+        right: 5px;
+        top: 0;
+        font-size: 18px;
+
+        span {
+
+          i {
+            cursor: pointer;
+          }
+
+          &.disabled {
+            color: #d6d6d6;
+
+            i {
+              cursor: default;
+            }
+          }
+
+          &:hover:not(.disabled) i {
+            position: relative;
+
+            left: -1px;
+            top: -1px;
+          }
+
+          &:first-child {
+            margin-right: 5px;
+          }
+        }
+      }
+
+      .icon {
+        font-size: 24px;
+        color: #767676;
+        text-align: center;
+        min-height: 36px;
+      }
+
+      .text {
+        min-height: 36px;
+        font-weight: 400;
+        color: $tealish;
+        font: 20px/26px Ubuntu;
+        cursor: default;
+      }
+
+      .label-text {
+        font-size: 16px;
+        font-weight: 400;
+        margin: 0 10px;
+        color: #767676;
+      }
+
+      .delete-btn-wrapper {
+        padding: 0 2px;
+        color: red;
+      }
+
+      .edit-btn-wrapper {
+        color: $tealish;
+      }
+
+    }
+  }
+}
+
+
+
+.close {
+  transition: opacity .3s;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  background-color: $tealish;
+  cursor: pointer;
+  font-size: 20px;
+  text-align: center;
+  border-radius: 20px;
+  color: #fff;
+  line-height: 40px;
+  padding-right: 3px;
+  &:hover {
+    opacity: .8;
+  }
+}
+
+button {
+  background: $tealish;
+  &:hover {
+    opacity:.8;
+    background: $tealish;
+  }
+}
+.title {
+  font: 28px/32px Ubuntu;
+  margin-bottom: 10px;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.buttons {margin-top:20px}
+
+.tabs {background-color:transparent;}
+
+.buttons-topright>button:last-of-type{
+  margin-right:20px;
+}
+
+.nopad {
+ padding-left: 0;
+ padding-right: 0;
+}
+
+.thinner-line {
+  line-height: 14px;
+
+}

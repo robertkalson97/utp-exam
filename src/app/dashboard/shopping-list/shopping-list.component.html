@@ -1,0 +1,193 @@
+<div class="products content">
+  <div class="row">
+    <div class="list col m8 s12">
+      <div class="top row">
+        <div class=" col m7 s12">
+          <div class="title no-margin-top">
+            <div class="main-title left">Shopping List</div>
+            <div class="sub-title">{{total}} items</div>
+          </div>
+        </div>
+
+        <div class="right-align">
+          <div class="filter-field"
+            [class.red-text]="(cartService.filters$ | async).location || (cartService.filters$ | async).vendor || (cartService.filters$ | async).onlymy"
+            (click)="showFiltersModal()">
+            <i class="fa fa-filter"></i>
+            <span>Filters</span>
+          </div>
+          <button type="button"
+            routerLink="/products"
+            class=" hide-on-small uptracker-form-btn waves-light waves-effect">
+            Add Product
+          </button>
+          <button type="button"
+            [routerLink]="['/products']"
+            class="small show-on-small uptracker-form-btn waves-light waves-effect">
+            <div class="fa fa-plus"></div>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="total" class="heading row">
+        <div class="col s4">
+          <div class="row">
+            <div class="col s2">
+              <div class="input-checkbox checkbox">
+                <input
+                  type="checkbox"
+                  class="checkbox-input"
+                  [(ngModel)]="selectAll"
+                  id="selectAll"
+                  (click)="selectAllFunc(selectAll)"
+                />
+                <label for="selectAll"></label>
+              </div>
+            </div>
+            <div class="col s10">
+              Product name
+            </div>
+          </div>
+        </div>
+        <div class="col s2">Location</div>
+        <div class="col s2">Vendor</div>
+        <div class="col s1">Qty.</div>
+        <div class="col s2">Price</div>
+        <div class="col s1 red-text text-right">
+          <i (click)="deleteCheckedProducts()" class="fa fa-trash"></i>
+        </div>
+      </div>
+      <div class="item row" *ngFor="let product of (cart$ | async); let i=index">
+        <div class="col s4">
+          <div class="row">
+            <div class="col s2">
+              <div class="input-checkbox checkbox">
+                <input
+                  type="checkbox"
+                  class="selected-input{{i}}"
+                  [(ngModel)]="product.status"
+                  id="selected{{i}}"
+                  (change)="changeRow(product)"
+                />
+                <label for="selected{{i}}"></label>
+              </div>
+            </div>
+            <div class="col s10 prod-name">
+              <span [routerLink]="['/products/',product.product_id]">{{product.name}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col s2">
+          <div class="select inbl low-height">
+            <select [(ngModel)]="product.location_id" (change)="changeRow(product)" materialize="material_select">
+              <option *ngFor="let location of (userService.selfData$ | async)?.account?.locations"
+                (click)="last_loc = product.location_id"
+                [value]="location.id">{{ location.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col s2">
+          <div class="select inbl relative">
+            <span class="caret-select"></span>
+            <input materialize="dropdown"
+              [attr.data-activates]="'dropd'+i"
+              [(ngModel)]="product.selected_vendor.vendor_name"
+              [disabled] = "product.custom"
+              [class.disable] = "product.custom"
+            >
+            <!--<a materialize="dropdown" class='dropdown-button btn' href='#' data-activates='_dd'>Choose</a>-->
+            <!-- Dropdown Structure -->
+            <ul id="dropd{{ i }}" materialize="dropdown" class='dropdown-content vendors-dd'>
+              <li (click)="updateVendor(product, {vendor_name:'Auto'})" *ngIf="!product.custom">
+                <div class="col s2 image-container"></div>
+                <div class="col s7 inblock">Auto select</div>
+                <div class="col s3 inblock"></div>
+              </li>
+              <li *ngFor="let vendor of product.vendors " (click)="updateVendor(product, vendor)">
+                <div class="col s2 image-container"
+                  [ngStyle]="vendor.image_url ? { 'background-image': 'url(' + vendor.image_url + ')' } : {}"></div>
+                <div class="col s7 inblock">{{ vendor.vendor_name }}</div>
+                <div class="col s3 inblock">${{ (vendor.lowest_price ? vendor.lowest_price : vendor.book_price) | number:'1.2-2'}}</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="col s1">
+          <div class="input">
+            <input
+              (change)="changeRow(product)"
+              type="text"
+              class="qua-input{{i}}"
+              [(ngModel)]="product.qty"
+              id="qty{{i}}"
+            />
+            <label for="qty{{i}}"></label>
+          </div>
+        </div>
+        <div class="col s3">
+          <div class="row">
+            <div class="col s10">
+              <a *ngIf="product.selected_vendor.vendor_name != 'Auto'" (click)="changePriceModal(product)">
+                ${{ product.price | number:'1.2-2'}}
+              </a>
+              <span *ngIf="product.selected_vendor.vendor_name == 'Auto'">
+                {{ product.price_lower }}-{{ product.price_upper }}
+              </span>
+            </div>
+            <div class="col s2 text-right trash-row-icon">
+              <i class="fa fa-trash red-text" (click)="deleteCurrentProduct(product)"></i>
+            </div>
+          </div>
+
+        </div>
+        <div (click)="saveItem(product)" *ngIf="changed[product.id]" class="save-sign">
+          <i class="fa fa-save red-text"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="orders-preview col m4 s12">
+      <div class="row">
+        <div class="col s10">
+          <div class="main-title less-title">Orders Preview</div>
+          <div class="grey-text">{{ totalOrders }} products selected</div>
+        </div>
+        <div class="col s2 right" (click)="viewSettingsModal()">
+          <i class="fa fa-gear right"></i>
+        </div>
+      </div>
+      <div *ngIf="totalOrders" class="order-list">
+        <div *ngFor="let order of (cartService.ordersPreview$ | async)" class="row order-list-item">
+          <div class="col s9">
+            <div class="order-heading">{{ order.type }}</div>
+            <div class="order-price">{{ order.total }}</div>
+            <div class="order-count">{{ order.order_count }} Orders</div>
+          </div>
+          <div class="col s3" [routerLink]="['orders-preview',order.order_id ]">
+            <div class="inbl">
+              <i class="fa fa-shopping-cart"></i>
+              <div>Preview</div>
+            </div>
+          </div>
+        </div>
+        <div [hidden]="true">
+          <a>Compare All</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="no_results_container" [class.not_hidden]="!total">
+      <div class="img">
+        <i class="fa fa-question" aria-hidden="true"></i>
+      </div>
+      <div class="text">You have no items in the shopping list right now, but You can proceed to marketplace to add them or check your past orders</div>
+      <div class="sub-buttons">
+        <button routerLink="/products" class="uptracker-form-btn waves-effect waves-light tealish white-text">Marketplace</button>
+        <button routerLink="/orders" class="uptracker-form-btn waves-effect waves-light tealish white-text">Orders</button>
+      </div>
+    </div>
+  </div>
+</div>

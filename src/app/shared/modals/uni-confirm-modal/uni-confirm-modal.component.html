@@ -1,0 +1,11 @@
+<div class="inner">
+  <div class="row title center-align">{{ context.title }}</div>
+  <div class="row center-align high">{{ context.content.text }}</div>
+
+  <div class="row mtop mbot">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+      <button  class="uptracker-form-btn " (click)="confirm()">{{context.content.btn}}</button>
+    </div>
+  </div>
+</div>

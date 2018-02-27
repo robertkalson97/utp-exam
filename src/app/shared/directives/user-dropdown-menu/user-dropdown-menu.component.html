@@ -1,0 +1,12 @@
+<div class="user-menu">
+  <div materialize="dropdown" class="dropdown-button" data-activates="dropdown1">
+    <a class="btn-floating center-align waves-effect waves-light" >{{userShortName}}</a>
+    <a class="name truncate">{{user?.name}}</a>
+  </div>
+  <ul id="dropdown1" class="dropdown-content">
+    <li *ngIf="showMenu"><a class="" (click)="editUserModal()">My Profile</a></li>
+    <li><a [routerLink]="['/locations']" [href]="'/locations'">Locations</a></li>
+    <li><a [routerLink]="['/users']" [href]="'/users'">Users</a></li>
+    <li><a (click)="logOut()" class="">Logout</a></li>
+  </ul>
+</div>

@@ -1,0 +1,116 @@
+<div class="auth-box center-align">
+  <div class="title">About your company</div>
+  <div class="subtitle">Tell us a bit about your place of work.</div>
+  <form class="uptracker-form" materialize (ngSubmit)="onSubmit()" #signupForm="ngForm" autocomplete="off" novalidate>
+    <div class="input row">
+      <div class="label left-align">Company Name</div>
+      <input
+              id="companyName"
+              placeholder="Enter name"
+              class="validate col s12"
+              [(ngModel)]="signupAccount.company_name"
+              name="companyName"
+              #companyName="ngModel"
+              required
+              type="text">
+      <div [hidden]="companyName.valid || companyName.pristine" class="error red-text left-align">
+        Company name is required.
+      </div>
+    </div>
+
+    <div class="input row">
+      <div class="label left-align">Company Email</div>
+      <input
+              id="email"
+              class="validate col s12"
+              placeholder="Enter email"
+              [(ngModel)]="signupAccount.company_email"
+              name="email"
+              #email="ngModel"
+              required minlength="6" maxlength="254" pattern=".+@.+\..+"
+              type="text">
+      <div [hidden]="email.valid || email.pristine" class="error red-text left-align">
+        Your email must be from 6 to 254 characters long and look like an e-mail address.
+      </div>
+    </div>
+
+    <div class="input row">
+      <div class="label left-align">Address</div>
+      <input
+              id="streetAddress"
+              placeholder="Address Line 1"
+              class="validate col s12"
+              [(ngModel)]="signupAccount.formattedAddress"
+              name="streetAddress"
+              #streetAddress="ngModel"
+              required
+              type="text"
+              (googleAdress)="addGoogleAddress($event)"
+              googlePlacesInput
+      >
+      <div [hidden]="streetAddress.valid || streetAddress.untouched" class="error red-text left-align">
+        Google Address is required.
+      </div>
+      <input
+              id="streetAddress2"
+              placeholder="Address Line 2"
+              class="validate col s12"
+              [(ngModel)]="signupAccount.street_2"
+              name="streetAddress2"
+              #streetAddress2="ngModel"
+              type="hidden">
+      <input
+              id="city"
+              placeholder="Enter city name"
+              class="validate col s12"
+              [(ngModel)]="signupAccount.city"
+              name="city"
+              #city="ngModel"
+              type="hidden">
+    </div>
+
+    <div class="row split-input-row">
+      <div class="input col s12">
+        <div class="label left-align">Postal Code</div>
+        <input
+                id="zip"
+                placeholder="Enter Postal Code"
+                class="validate col s12 minlength-validation"
+                [(ngModel)]="signupAccount.zip"
+                name="zip"
+                #zip="ngModel"
+                required minlength="4"
+                type="text">
+        <div [hidden]="zip.valid || zip.untouched" class="error red-text left-align">
+          Postal Code is required.
+        </div>
+      </div>
+    </div>
+
+    <div class="input-checkbox row">
+      <input type="checkbox"
+             id="inList"
+             [(ngModel)]="signupAccount.marys_list_member"
+        name="inList"><label for="inList"></label>
+      <label for="inList">I am a Mari’s List Member <a href="http://www.marislist.com/" target="_blank">What is Mari’s
+        List?</a></label>
+    </div>
+
+    <div class="buttons">
+      <button
+              type="button"
+              [routerLink]="['/signup']"
+              class="btn-flat left back-btn">
+        Back
+      </button>
+      <button
+              type="submit"
+              class="btn white-text waves-effect waves-light right"
+              [class.disabled]="!signupForm.form.valid"
+              [disabled]="!signupForm.form.valid">
+        Next
+      </button>
+      <div class="clearfix"></div>
+    </div>
+  </form>
+</div>

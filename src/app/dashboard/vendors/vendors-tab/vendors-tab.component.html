@@ -1,0 +1,47 @@
+<ul class="debug-monitor" [class.isrequest]="isRequestVendors">
+  <li>page: {{ vendorService.current_page }}</li>
+  <li>count: {{ (vendors$ | async)?.length }}</li>
+  <li>total: {{ vendorService.totalCount$ | async }}</li>
+</ul>
+
+<div class="row filter uptracker-form no-margin-bottom">
+  <div class="col m5 s4">
+    <button
+            class="uptracker-form-btn white-text waves-effect waves-light test"
+            (click)="openAddVendorsModal()">
+      <fa name="plus"></fa> Add Vendor
+    </button>
+  </div>
+  <div class="title no-margin-top col m5 s5">
+    <span class="sub-title mrg-l-0">{{vendorService.totalCount$ | async}} total</span>
+  </div>
+  <div class="col m2 s3 select low-height sortby">
+    <select [(ngModel)]="sortBy" materialize="material_select" (change)="vendorsSort($event)">
+      <option disabled value="">Sort by</option>
+      <option value="relevance">Relevance</option>
+      <option value="A-Z">A-Z</option>
+      <option value="Z-A">Z-A</option>
+      <option value="priority">Priority</option>
+    </select>
+  </div>
+</div>
+<div class="list">
+  <div class="item center-align" *ngFor="let vendor of vendors$ | async; let i=index">
+    <div class="inner" [routerLink]="'view/'+[vendor.id]" >
+      <div *ngIf="vendor.logo" class="img" [ngStyle]="{ 'background-image': 'url(' + vendor.logo + ')' }"></div>
+      <div *ngIf="!vendor.logo"  class="img" ></div>
+      <div class="info">
+        <div class="ttl">{{vendor.name}}</div>
+        <div class="edit" [routerLink]="'edit/'+[vendor.id]"  (click)="$event.stopPropagation()"></div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="isRequestVendors" class="any-bottom-spinner">
+    <div class="cssload-loader">
+      <div class="cssload-inner cssload-one"></div>
+      <div class="cssload-inner cssload-two"></div>
+      <div class="cssload-inner cssload-three"></div>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

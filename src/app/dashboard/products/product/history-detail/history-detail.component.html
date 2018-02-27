@@ -1,0 +1,67 @@
+<div class="inventory-detail-wrapper">
+  <div class="row main-block">
+    <div class="col s2">
+      <div class="row">
+        <div class="col s12  ttl">Order #</div>
+        <div class="col s12"><a>{{order.order_number}}</a></div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Vendor</div>
+        <div class="col s12 tealish-text">{{order.vendor_name}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Split From</div>
+        <div class="col s12 tealish-text">{{order.split_from}}</div>
+      </div>
+    </div>
+
+    <div class="col s2">
+      <div class="row">
+        <div class="col s12  ttl">Ordered Date</div>
+        <div class="col s12">{{order.order_date}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Ordered By</div>
+        <div class="col s12 tealish-text">{{order.ordered_by}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Approved By</div>
+        <div class="col s12 tealish-text">{{order.approved_by}}</div>
+      </div>
+    </div>
+
+    <div class="col s2">
+      <div class="row">
+        <div class="col s12  ttl">Received Date</div>
+        <div class="col s12">{{order.received_date}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Received By</div>
+        <div class="col s12 tealish-text">{{order.received_by}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Approved By</div>
+        <div class="col s12 tealish-text ">{{received_approved_by}}</div>
+      </div>
+    </div>
+    <div class="col s2">
+      <div class="row">
+        <div class="col s12  ttl">Reconciled Date</div>
+        <div class="col s12">{{order.reconciled_date}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Reconciled By</div>
+        <div class="col s12 tealish-text ">{{order.reconciled_by}}</div>
+      </div>
+      <div class="row">
+        <div class="col s12  ttl">Approved By</div>
+        <div class="col s12 tealish-text">{{order.reconcile_approved_by}}</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+<div class="right variant-detail-collapse">
+  <span (click)="variantDetailCollapse()"><i class="fa fa-chevron-up" aria-hidden="true"></i> Collapse</span>
+</div>
+<div class="clearfix"></div>

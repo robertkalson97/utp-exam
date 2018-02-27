@@ -1,0 +1,408 @@
+@import "../../../../colors";
+
+:host /deep/ {
+  .inner {
+
+    .row {
+      margin-bottom: 10px;
+      &.title {
+        margin-bottom: 20px;
+      }
+      &.border-bottom {
+        border-bottom: 1px solid $light-grey;
+        padding-bottom: 5px;
+      }
+    }
+
+    .border-btm.ttl-stock {
+      border-bottom: 1px solid $grey;
+    }
+    .input input, .select input {
+      background-color: $light-light-grey;
+      border-color: $light-grey;
+      margin: 0;
+      box-sizing: border-box;
+      color: $grey;
+    }
+    .caret {
+      background: #fff url(/assets/img/icon-dropdown-arrow.svg) no-repeat 98% center;
+    }
+    textarea {
+      margin: 0;
+      min-height: 100px;
+      &:focus {
+        border-color:$light-grey;
+      }
+    }
+    .ttl {
+      color: $dark;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    .ttl-stock {
+      padding-bottom: 10px;
+      margin-bottom: 0;
+    }
+    .descr-text {
+      padding: 10px 0.75rem;
+    }
+    .low-padding {
+      padding: 0 .45rem;
+    }
+    .custom-width {
+
+      & > .col {
+        padding: 0 .25rem;
+
+        &:nth-of-type(2n) {
+          width: 12.5%;
+          white-space: nowrap;
+        }
+
+        &:nth-of-type(2n-1) {
+          width: 25%;
+        }
+      }
+    }
+    .custom-pdg-l {
+      padding-left: 0;
+    }
+    .custom-height {
+      line-height: 1;
+    }
+    .checkbox.inline-block {
+      padding-right: 5px;
+
+      label {
+        vertical-align: sub;
+      }
+    }
+
+    .no_results_container {
+      opacity: 0;
+      z-index: -999;
+      text-align: center;
+      transition: opacity .5s, height .3s;
+      width: 100%;
+      margin-top: 20px;
+      height: 0;
+
+      &.not_hidden {
+        opacity: 1;
+        z-index: 999;
+        height: auto;
+      }
+      .img, .sub-buttons {
+        display: inline-block;
+        clear: both;
+        margin: 10px auto 0;
+      }
+      .img {
+        width: 40px;
+        background-color: #ccc;
+        border-radius: 50%;
+        height: 40px;
+        text-align: center;
+      }
+      .img i {
+        font-size: 36px;
+        color: #fff;
+        line-height: 40px;
+        margin-left: -2px;
+      }
+      button {
+        margin: 0 15px;
+        padding: 0 15px;
+      }
+      .text {
+        clear: both;
+        margin: 20px 10%;
+        font-size: 18px;
+        color: #bbb;
+        font-family: Ubuntu, sans-serif;
+        line-height: 1;
+        width: 80%;
+        display: inline-block;
+      }
+
+    }
+    .sub-buttons {
+      text-align: center;
+      button {
+        padding: 0 10px;
+      }
+    }
+    .input {
+      position: relative;
+      .fa-barcode {
+        color: $tealish;
+        font-size: 24px;
+        position: absolute;
+        right: 23px;
+        top: 5px;
+      }
+      &.search {
+        input {
+          padding-left: 10px;
+        }
+      }
+      .input-placeholder.file-added {
+        left: 5px;
+        right: auto;
+      }
+    }
+    .uptracker-form-btn.tealish {
+      height: 32px;
+    }
+    .bulk-actions {
+      cursor:pointer;
+    }
+    .search-results, .added-items {
+      position: relative;
+
+      .image {
+        width: 40px;
+        height: 40px;
+        display: inline-block;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        &.no-image {
+          background-size: contain;
+        }
+      }
+      .item-price, .action-button {
+        transition: opacity .3s;
+      }
+      .action-button {
+        width:20px;
+        height:20px;
+        text-align:center;
+        top:10px;
+        right:20px;
+        cursor:pointer;
+        z-index:-1;
+        position: absolute;
+        border-radius:4px;
+        line-height:20px;
+        background-color: $tealish;
+        color:$white;
+      }
+      .item-price {
+        line-height: 40px;
+        font-size: 1.1rem;
+        color: $dark;
+      }
+
+      &:hover {
+        .action-button {
+          z-index: 100;
+        }
+      }
+    }
+    .product-name, .vendor-name {
+      line-height: 1;
+    }
+
+    .product-name {
+      min-height: 28px;
+    }
+    .product-row-fields {
+
+      & > div {
+        min-height: 30px;
+        float: left;
+        max-width: calc(100% - 80px);
+
+        &.image {
+          margin: 0 10px;
+        }
+        &.checkbox {
+          padding: 8px 0;
+        }
+
+        .vendor-name {
+          color: $grey;
+          font-size: .9rem;
+        }
+      }
+    }
+    .back-btn, .next-btn, .save-btn {
+      position: absolute;
+    }
+    .back-btn {
+      left: 0.75rem;
+    }
+    .next-btn, .save-btn {
+      right: 0.75rem;
+    }
+    .img-container {
+      width: 180px;
+      height: 100px;
+      border-radius: 5px;
+      background: #f5f6f7 no-repeat center center;
+      border: 1px dashed #d6d6d6;
+      max-width: 100%;
+      .img {
+        height: calc(100%);
+        overflow: hidden;
+        text-align: center;
+        background-color: #f5f6f7;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        position: relative;
+        z-index: 5;
+        border-radius: 5px;
+        .del-img-btn {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          background: #f1f1f1;
+          border: 1px solid #d6d6d6;
+          border-radius: 5px;
+          z-index: 4;
+          cursor: pointer;
+          opacity: .7;
+        }
+      }
+    }
+    .stock {
+      display: flex;
+      align-items: baseline;
+      padding-bottom: 10px;
+      input {
+        height: 27px;
+      }
+    }
+    .custom-col-pdg {
+      padding: 0 1.5rem 0 0;
+    }
+    .attachments {
+      a:first-of-type {
+        color: $dark;
+      }
+      &:hover {
+        .invis {
+          opacity: 1;
+        }
+      }
+    }
+    .invis {
+      opacity: 0;
+      transition: opacity .3s;
+      margin-left: 15px;
+    }
+    .packaging_summary {
+      color: $grey;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      .text-center {
+        text-align: center;
+      }
+      .col.s3, .col.s1 {
+        margin-left: 0;
+      }
+      .helper {
+        top: auto;
+      }
+    }
+  }
+  .uptracker-form-btn {
+    font-size: 14px;
+  }
+  .custom-product-add {
+    background-color: $light-light-grey;
+    height:100%;
+    width:100%;
+    border-radius: 5px;
+    padding:20px;
+    .title {
+      font-size: 18px;
+      color: $dark;
+    }
+    .input input, .select input {
+      background-color: $white;
+    }
+    .uptracker-form-btn, .uptracker-form-btn.tealish {
+      height:25px;
+      line-height:20px;
+      min-width: 80px;
+      padding-left:3px;
+      &.redbtn {
+        color:$red!important;
+        border: 1px solid $red;
+        background-color: $white;
+      }
+    }
+    .row.buttons {
+      padding-top:5px;
+    }
+  }
+  .sign {
+    position: absolute;
+    left: -5px;
+  }
+
+  .tabs-scroll {
+    .tabs li.tab a.active {
+      font-weight: bold;
+    }
+    .ps__thumb-x {
+      background-color: $tealish;
+    }
+    &>.ps.ps--active-x>.ps__rail-x {
+      bottom: 15px !important;
+      background: $light-light-grey;
+      border-radius: 4px;
+    }
+    &>.ps.ps--active-x>.ps__rail-x:hover {
+      height: 10px;
+      opacity: 1;
+    }
+    .ps__rail-x:hover>.ps__thumb-x {
+      background-color: $tealish;
+      height: 6px;
+    }
+    &>.ps.ps--scrolling-x>.ps__rail-x, perfect-scrollbar>.ps.ps--scrolling-y>.ps__rail-y,
+    .ps--active-x>.ps__rail-x, .ps__rail-x {
+      opacity: 1;
+    }
+  }
+
+}
+.warning {
+  background: #fcc2c2;
+}
+.warning.search-results:hover {
+  .item-price {
+    opacity: 1;
+  }
+}
+.vendor:last-child>span {
+  display: none;
+}
+
+input:focus+.error {
+    display: none;
+  }
+.search.dirty input {
+  border-color: red;
+}
+.uptracker-form.ng-valid .search.dirty.valid input, .uptracker-form.ng-valid .select .select-wrapper.ng-valid input.select-dropdown {
+  border-color: #4caf50;
+}
+.uptracker-form.ng-invalid .search.dirty.valid input {
+  border-color: $light-grey;
+}
+
+//.location-tabs {
+//  overflow-y: hidden;
+//  width: fit-content;
+//  overflow-x: visible;
+//}

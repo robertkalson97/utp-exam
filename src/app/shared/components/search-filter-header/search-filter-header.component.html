@@ -1,0 +1,29 @@
+<div class="row filter uptracker-form clearfix">
+  <div class="col s12 m6 l7">
+        <span class="title">
+          <span class="main-title ">{{title}}</span>
+        </span>
+  </div>
+  <div class="ptop5 filter-right">
+    <div class="col s4 l3 m2 input wide-input">
+      <input type="text"
+        placeholder="Keyword search"
+        [(ngModel)]="searchKey"
+        class="col s12"
+        (input)="searchFilter($event)"/>
+    </div>
+    <div class="col s4 l1 m2 filter-btn text-right">
+      <a (click)="showFiltersModal()">
+        <fa [name]="'filter'"></fa>
+        <span>Filters</span>
+      </a>
+    </div>
+    <div class="col s4 m2 l1 filter-btn text-right">
+      <a (click)="resetFilters()">
+        <fa [name]="'undo'"></fa>
+        <span>Reset</span>
+      </a>
+    </div>
+  </div>
+  <div class="clearfix"></div>
+</div>

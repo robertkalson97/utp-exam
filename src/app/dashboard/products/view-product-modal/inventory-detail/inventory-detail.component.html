@@ -1,0 +1,79 @@
+<div class="inventory-detail-wrapper">
+  <div class="row main-block">
+    <div class="col w20p">
+      <div class="row ttl">
+        <div class="col s9">Level</div>
+        <div class="col s3">Qty</div>
+      </div>
+      <div class="row">
+        <div class="col s9">Critical</div>
+        <div class="col s3">{{variant.critical}}</div>
+      </div>
+      <div class="row ">
+        <div class="col s9">Fully Stocked</div>
+        <div class="col s3">{{variant.fully_stocked}}</div>
+      </div>
+      <div class="row ">
+        <div class="col s9">Pending Qty.</div>
+        <div class="col s3">{{variant.pending_qty}}</div>
+      </div>
+      <div class="row reddish">
+        <div class="col s9">Overstocked</div>
+        <div class="col s3">{{variant.overstocked}}</div>
+      </div>
+    </div>
+
+    <div class="col w20p">
+      <div class="row ttl">
+        <div class="col s9">Storage location</div>
+        <div class="col s3">Qty</div>
+      </div>
+      <div *ngFor="let storage_location of variant.storage_locations" class="row">
+        <div *ngIf="!storage_location.floorstock && storage_location.qty">
+          <div class="col s9">{{storage_location.storage_location_name}}</div>
+          <div class="col s3">{{storage_location.qty}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col w20p">
+      <div class="row ttl">
+        <div class="col s9">Floor location</div>
+        <div class="col s3">Qty</div>
+      </div>
+      <div *ngFor="let storage_location of variant.floor_locations" class="row">
+        <div *ngIf="storage_location.floorstock && storage_location.qty">
+          <div class="col s9">{{storage_location.storage_location_name}}</div>
+          <div class="col s3">{{storage_location.qty}}</div>
+        </div>
+      </div>
+      <div class="row small grey-text">
+        <div class="col s12">
+          *Floor Stock is not counted as inventory
+        </div>
+      </div>
+    </div>
+
+    <div class="col w20p">
+      <div class="row ttl">
+        <div class="col s9">Usage Date</div>
+        <div class="col s3">Qty</div>
+      </div>
+      <div *ngFor="let item of variant.usage" class="row">
+        <div class="col s9">{{item.usage_date}}</div>
+        <div class="col s3">{{item.quantity}}</div>
+      </div>
+    </div>
+
+    <div class="col w20p">
+      <div class="row ttl">
+        <div class="col s9">Order Date</div>
+        <div class="col s3">Qty</div>
+      </div>
+      <div *ngFor="let item of variant.orders" class="row">
+        <div class="col s9">{{item.order_date}}</div>
+        <div class="col s3">{{item.quantity}}</div>
+      </div>
+    </div>
+  </div>
+</div>

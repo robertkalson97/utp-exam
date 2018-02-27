@@ -1,0 +1,41 @@
+<div class="inner">
+  <div class="row title center-align">Order Preferences</div>
+  <div class="row">
+    <div class="col s12 select-title">Max Number Of Orders</div>
+    <div class="col s12 select-title grey-text">Select your ideal max number of orders</div>
+    <div class="col s12 range-field">
+      <input
+        type="range"
+        min="1" max="10" step="1"
+        [(ngModel)]="settings.priority"
+        name="priority"
+        (input)="changePriority($event)"
+        #priority="ngModel">
+      <div class="value-container">
+        <div class="value" [ngStyle]="{ 'left': priorityMargin }">{{settings.priority}}</div>
+      </div>
+    </div>
+  </div>
+  <div class="row check">
+    <div class="col s1 select-title">
+      <div class="input-checkbox checkbox">
+        <input
+          type="checkbox"
+          class="checkbox-input"
+          [(ngModel)]="settings.only"
+          id="xcheck"
+        />
+        <label for="xcheck"></label>
+      </div>
+    </div>
+    <div class="col s11 select-title">
+      Only Negotiated Vendors
+    </div>
+  </div>
+  <div class="row">
+  <div class="center-align col s12">
+    <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+    <button class="uptracker-form-btn ">Search</button>
+  </div>
+  </div>
+</div>

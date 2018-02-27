@@ -1,0 +1,80 @@
+<div class="dashboard">
+  <aside class="left-panel" >
+    <div class="logo">
+      <a [routerLink]="['']">uptracker</a>
+    </div>
+    <div class="nav">
+      <a [routerLink]="['/dashboard']"
+        class="relative"
+        [routerLinkActiveOptions]="{ exact: true }"
+        routerLinkActive="active"
+      >
+        <div class="icon dash"></div>
+        Dashboard
+        <fa *ngIf="dashboardService?.hasInfo" class="ds-info-flag red-text" name="info-circle"></fa>
+      </a>
+      <a [routerLink]="['/products']" routerLinkActive="active">
+        <div class="icon products"></div>
+        Marketplace
+      </a>
+      <a [routerLink]="['/shoppinglist']" routerLinkActive="active">
+        <div class="icon shopping"></div>
+        Shopping List
+      </a>
+      <a [routerLink]="['/orders']" routerLinkActive="active">
+        <div class="icon orders"></div>
+        Orders
+      </a>
+      <a [routerLink]="['/transfers']" routerLinkActive="active" *ngIf="locationArr.length > 1">
+        <div class="icon transfers"></div>
+        Transfers
+      </a>
+      <a [routerLink]="['/inventory']" routerLinkActive="active">
+        <div class="icon inventory"></div>
+        Inventory
+      </a>
+      <a [routerLink]="['/reports']" routerLinkActive="active">
+        <div class="icon reports"></div>
+        Reports
+      </a>
+      <a [routerLink]="['/assets']" routerLinkActive="active">
+        <div class="icon assets"></div>
+        Assets
+      </a>
+      <a [routerLink]="['/appliances']" routerLinkActive="active">
+        <div class="icon appliances"></div>
+        Appliances
+      </a>
+      <a [routerLink]="['/vendors']" routerLinkActive="active">
+        <div class="icon vendors"></div>
+        Vendors
+      </a>
+    </div>
+  </aside>
+  <section class="main-column">
+    <header class="header">
+      <div class="row">
+        <div class="col s6 m6">
+          <div class="select custom-select low-height input-field" *ngIf="!stateService.isUrl('/dashboard/locations') && !stateService.isUrl('/dashboard') && (accountService.locations$ | async)?.length >1">
+            <select *ngIf="showLocSelect"
+                [(ngModel)]="selectedLocation"
+                name="location"
+                materialize="material_select"
+                [materializeActions]=""
+                (change)="changeLocation($event)">
+              <option selected value="" >All Locations</option>
+              <option *ngFor="let location of locationArr" [value]="location.id">{{location.name}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="col s6 m6 user-menu-col">
+          <user-dropdown-menu></user-dropdown-menu>
+        </div>
+      </div>
+    </header>
+    <div class="content-wrapper">
+      <router-outlet></router-outlet>
+    </div>
+  </section>
+  <div class="clearfix"></div>
+</div>

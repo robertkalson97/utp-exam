@@ -1,0 +1,64 @@
+
+<div class="users content">
+  <div class="top row" >
+    <div class="title col l4 m12">
+      <div class="main-title left">Users</div>
+      <div class="sub-title">{{total}} total</div>
+    </div>
+    <div class="filter uptracker-form ">
+      <div class="col l2 m3 s6 input wide-input">
+        <input type="text"
+          placeholder="Keyword search"
+          [(ngModel)]="searchKey"
+          class="col s12"
+          (input)="usersFilter($event)"/>
+      </div>
+      <div class="col l2 m3 s6 select wide-input">
+        <select [(ngModel)]="sortBy" materialize="material_select" (change)="sortChange($event)">
+          <option disabled value="">Sort by</option>
+          <option value="relevance">Relevance</option>
+          <option value="name">Name</option>
+        </select>
+      </div>
+
+      <div class="col l2 m3 s6">
+        <button type="button" [routerLink]="'add'" class="uptracker-form-btn waves-light waves-effect wide">Add New
+          User
+        </button>
+      </div>
+      <div class="col l2 m3 s6">
+        <button type="button" (click)="inviteUser()" class="uptracker-form-btn waves-light waves-effect wide">Invite
+          User
+        </button>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+
+  <div [class.opacity]="(searchKey)" class="row transparent reset-filters">
+    <div class="col s12 center-align">
+      <a (click)="resetFilters()" class="">Reset Filters</a>
+    </div>
+  </div>
+
+  <div class="users-row">
+    <div class="list">
+      <div class="item center-align" *ngFor="let user of users$ | async">
+        <div class="inner" [routerLink]="'view/'+[user.id]">
+          <div *ngIf="user.avatar" class="img" [ngStyle]="{ 'background-image': 'url(' + user.avatar + ')' }"></div>
+          <div *ngIf="!user.avatar" class="img no-avatar" [ngStyle]="{ 'background-image': 'url(/assets/img/onboard/icon-onboarding-users.svg)' }"></div>
+          <div class="info">
+            <div class="ttl">{{user.name}}</div>
+            <div class="send-msg"
+              [class.hidden]="user.id==userService.selfData.id"
+              (click)="sendMessageToUser(user); $event.stopPropagation()"></div>
+            <div class="edit"  [routerLink]="'edit/'+[user.id]" (click)="$event.stopPropagation()"></div>
+          </div>
+        </div>
+      </div>
+      <div class="empty item" title="Add user"  [routerLink]="'add'" ></div>
+      <div class="empty item invite-user" title="Invite user"  (click)="inviteUser()"></div>
+    </div>
+    <div class="clearfix"></div>
+  </div>
+</div>

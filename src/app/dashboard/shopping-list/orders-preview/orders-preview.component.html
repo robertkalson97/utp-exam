@@ -1,0 +1,205 @@
+<div class="inner">
+  <div class="row">
+    <div class="col s3 close tealish-text" (click)="goBack()">
+      <i class="fa fa-chevron-left"></i>
+      Shopping List
+    </div>
+    <div class=" col s6">
+      <div class="title">
+        <div class="main-title center-align">Orders Preview</div>
+      </div>
+    </div>
+    <div class="col s3">
+      <div class="right dd-bt">
+        <button
+          class="uptracker-form-btn tealish white-text waves-effect waves-light"
+        (click)="prefillAll()"
+        >Convert All
+        </button>
+        <button materialize="dropdown"
+          class='dropdown-button  uptracker-form-btn square tealish white-text waves-effect waves-light'
+          data-activates='convertall'>
+          <i class="fa fa-chevron-down"></i>
+        </button>
+        <ul id='convertall' class='dropdown-content'>
+          <li>
+            <a href="#">one</a>
+          </li>
+          <li>
+            <a href="#">two</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="main row">
+    <div class="col s12 m8">
+      <div class="row">
+        <div *ngFor="let order of (orders$ | async)" class="col s12 item-card">
+          <div class="row">
+            <div class="col s6">
+              <div class="left name-container">
+                <div class="o-img"
+                  [ngStyle]="{'background-image' : 'url('+ (order.image_url ? order.image_url : '/assets/img/no_results.gif')  +')'}"></div>
+                <span class="o-name  thinlato">{{ order.vendor_name }}</span>
+              </div>
+            </div>
+            <div class="col s6">
+              <div class="right dd-bt">
+                <button
+                  class="uptracker-form-btn tealish white-text waves-effect waves-light" (click)="prefillDataForConvertion([ order ])">Convert
+                </button>
+                <button materialize="dropdown"
+                  class='dropdown-button  uptracker-form-btn square tealish white-text waves-effect waves-light'
+                  data-activates='convertall23'>
+                  <i class="fa fa-chevron-down"></i>
+                </button>
+                <ul id='convertall23' class='dropdown-content'>
+                  <li>
+                    <a href="#">one</a>
+                  </li>
+                  <li>
+                    <a href="#">two</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-content">
+            <div class="row heading-row">
+              <div class="col s4">Product Name</div>
+              <div class="col s3">Location</div>
+              <div class="col s1 center-align">Qty.</div>
+              <div class="col s2 center-align">Pkg Price</div>
+              <div class="col s2 center-align">Price</div>
+            </div>
+            <div class="row" *ngFor="let item of order.items">
+              <div class="col tealish-text s4">{{ item.name }}</div>
+              <div class="col s3">{{ item.location_name }}</div>
+              <div class="col s1 center-align">{{ item.qty }}</div>
+              <div class="col s2 center-align">{{ item.unit_price }}</div>
+              <div class="col s2 center-align">{{ item.price }}</div>
+              <div class="clearfix"></div>
+              <div class="row" *ngFor="let discount of item.discounts">
+                <div class="col  s6">Discount - {{ discount.type }}</div>
+                <div class="col s3">{{ item.location_name }}</div>
+                <div class="col s1 center-align">{{ discount.type!='bogo' ? (discount.discounted) : '' }}</div>
+                <div class="col s2 right-align">{{ discount.type!='bogo' ? ('-$'+(discount.amount | number:'1.2-2')) : '' }}</div>
+              </div>
+            </div>
+          </div>
+          <div class="row fieldset">
+            <div class="col lcol s4">
+              <div class="row">
+                <div class="col s12 grey-text">Account #</div>
+                <div class="col s12 bold">{{ order.account_number }}</div>
+              </div>
+              <div class="row">
+                <div class="col s12 grey-text">Ship to</div>
+                <div class="col s12 grey-text">
+                  <div class="select low-height mysel">
+                    <select
+                      name="sel1"
+                      id="sel1"
+                      materialize="material_select"
+                      (change)="saveOrder(orderId,'ship_to',order.ship_to.location_id,order.vendor_id)"
+                      [(ngModel)]="order.ship_to.location_id">
+                      <option *ngFor="let st of order.ship_to_options" [value]="st.location_id">{{ st.location_name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s12 grey-text">Order Method</div>
+                <div class="col s12 grey-text">
+                  <div class="select low-height mysel">
+                    <select
+                      name="sel2"
+                      id="sel2"
+                      materialize="material_select"
+                      (change)="saveOrder(orderId,'order_method',order.order_method,order.vendor_id)"
+                      [(ngModel)]="order.order_method">
+                      <ng-container *ngFor="let method of order.order_methods">
+                        <option  [value]="method" *ngIf="method !== 'Direct'">{{method}}</option>
+                      </ng-container>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+            <div class="col rcol s6 offset-s2">
+              <div class="row">
+                <div class="col s6 grey-text">Subtotal</div>
+                <div class="col s6 bold grey-text nopad">{{ order.sub_total }}</div>
+              </div>
+              <div class="row">
+                <div class="col s6 grey-text">Primary Tax</div>
+                <div class="col s6 bold nopad">
+                  <div class="input">
+                    <input (change)="saveOrder(orderId,'primary_tax',order.primary_tax,order.vendor_id)"
+                      [(ngModel)]="order.primary_tax">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6 grey-text">Secondary Tax</div>
+                <div class="col s6 bold nopad">
+                  <div class="input">
+                    <input (change)="saveOrder(orderId,'secondary_tax',order.secondary_tax,order.vendor_id)"
+                      [(ngModel)]="order.secondary_tax">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6 grey-text">Shipping + Handling</div>
+                <div class="col s6 bold nopad">
+                  <div class="input">
+                    <input (change)="saveOrder(orderId,'shipping_handling',order.shipping_handling,order.vendor_id)"
+                      [(ngModel)]="order.shipping_handling">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s6 grey-text">Total</div>
+                <div class="col s6 bold o-price reddish-text nopad">
+                  {{ order.total }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class=" col s12 m4">
+      <div class="row allorders">
+        <div class="col s12">
+          <h2 class="thinlato">All Orders</h2>
+        </div>
+
+        <div class="row" *ngFor="let order of (orders$ | async)">
+          <div class="col s6 name-container">
+            <div class="o-img whitebg"
+              [ngStyle]="{'background-image' : 'url('+ (order.image_url ? order.image_url : '/assets/img/no_results.gif')  +')'}"></div>
+            <span class="o-name  thinlato">{{ order.vendor_name }}</span>
+          </div>
+          <div class="col s6 right-align">
+            <div class="o-price">{{order.total}}</div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="right-align col s6 thinlato">
+            Total
+          </div>
+          <div class="col s6 o-price reddish-text right-align">
+            ${{ (orders$ | async).total_total | number:'1.2-2' }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,149 @@
+@import "../../../../colors.scss";
+$tealish: #33c6d9;
+
+.tabs{
+  margin:-10px 0 29px;
+}
+
+#profile{
+  .row{
+    margin-bottom: 39px;
+    .phone-row {
+      margin-bottom: 0;
+      i {
+        font-size: 18px;
+        color:$tealish;
+        border: 1px solid $tealish;
+        border-radius: 22px;
+        height: 22px;
+        width: 22px;
+        padding-left: 1px;
+        cursor:pointer;
+      }
+    }
+  }
+
+  .user-image{
+    .img-container{
+      position:relative;
+      width:285px;
+      height:285px;
+      //background-image: url(/assets/img/onboard/icon-img-placeholder-users.svg);
+
+      .file-field{
+        position:absolute;
+        text-align:center;
+        left:0;
+        top:120px;
+        width:100%;
+      }
+    }
+
+    .second-column{
+      margin-bottom:5px;
+    }
+  }
+
+  .tutorial-mode{
+    position:relative;
+  }
+
+  .switch-box{
+    margin:9px 0 0;
+  }
+
+  .location-box{
+    margin:8px 0 0;
+    padding:10px 15px;
+    background:#f5f6f7;
+    box-shadow: 0 0 0 1px #d6d6d6;
+    border-radius:5px;
+    min-height:255px;
+
+    ul{
+      margin:0;
+
+      .input-checkbox{
+        margin:0 0 15px;
+
+        label{
+          color:inherit;
+          padding-left:20px;
+
+          &:before{
+            width:12px;
+            height:12px;
+            margin-top:7px;
+          }
+        }
+
+        input:checked{
+          & + label:before{
+            width:7px;
+            height:10px;
+          }
+        }
+      }
+    }
+  }
+}
+.tiny-margin {
+  margin-top:10px;
+}
+#permissions{
+  button.not-submit{
+    margin-top:8px;
+    width:100%;
+  }
+
+  .row{
+
+
+    &:first-child{
+      margin-top:0;
+    }
+
+    &.add-preset-form{
+      margin-top:-10px;
+    }
+
+    .preset-ttl{
+      line-height:40px;
+    }
+  }
+
+  .permission-row{
+    .item{
+      margin-bottom:10px;
+
+      .inner{
+        width:85%;
+      }
+    }
+  }
+}
+
+#template{
+  padding:15px 0 0;
+}
+
+.change-pass-btn {
+  button {
+    background-color: $tealish;
+    width: 100%;
+  }
+}
+
+
+.buttons{
+  margin-top:44px;
+
+  .nav-btn{
+    display:inline-block;
+    min-height:20px;
+  }
+
+  button{
+    margin:0 5px;
+  }
+}

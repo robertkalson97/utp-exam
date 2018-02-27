@@ -1,0 +1,30 @@
+
+<div class="inner">
+  <div class="clearfix row title center-align">Import Products</div>
+
+  <div class="row">
+    <div class="col s12 ttl">
+      Products CSV File
+    </div>
+    <div class="col s12 no-docs">
+      <div class="img-container-edit col s12" title="Drop files here" fileDrop
+        [ngClass]="{'file-is-over': fileIsOver}"
+        [options]="options"
+        (fileOver)="fileOver($event)"
+        (onFileDrop)="onFileDrop($event)">
+      </div>
+      <input type="file" (change)="onFileUpload($event)" id="file-upload-dialog" class="hidden">
+      <label for="file-upload-dialog" class="tealish-text smaller cursor-pointer">
+          Upload CSV
+      </label>
+    </div>
+
+    <div class="row">
+      <div class="center-align col s12 clearfix bottom-buttons">
+        <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+        <button class="uptracker-form-btn ">Upload</button>
+      </div>
+    </div>
+  </div>
+</div>
+

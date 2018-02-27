@@ -1,0 +1,689 @@
+<div class="product-page">
+  <div class="close fa fa-chevron-left" (click)="goBack()"></div>
+  <div class="row right edit-buttons">
+    <button class="bt-edit-product edbtn bluebtn" *ngIf="!showEdit" (click)="showEditFields()">
+      <fa [name]="'pencil'"></fa>
+      Edit
+    </button>
+    <button class="bt-edit-product-save edbtn bluebtn" (click)="saveAfterEdit()" *ngIf="showEdit">
+      <fa [name]="'check'"></fa>
+      Save
+    </button>
+
+  </div>
+  <div class="inner" [ngClass]="{'edit-mode':showEdit}">
+
+    <div class="title center-align">{{showVariant ? 'Product Variation' : 'Product Details' }}
+    </div>
+    <div class="row uptracker-form">
+      <div class="info-box col s12" [class.condensed]="showVariant">
+        <div class="img-container left">
+          <div class="img" *ngIf="!showVariant && product?.image || showVariant && !currentVariant?.image"
+            [ngStyle]="{ 'background-image': 'url(' + product?.image + ')' }">
+          </div>
+          <div class="img" *ngIf="showVariant && currentVariant?.image"
+            [ngStyle]="{ 'background-image': 'url(' + currentVariant?.image + ')' }">
+          </div>
+        </div>
+        <div class="left product-params">
+          <div class="ttl-box row input">
+            <div *ngIf="!showEdit" class="ttl col s12 variant-show-name">
+              {{ showVariant ? currentVariant.name : product?.name}}
+            </div>
+            <div class="col s12">
+              <input (click)="$event.stopPropagation();"
+                class="ttl col s12 name-field"
+                *ngIf="showEdit"
+                [(ngModel)]="productCopy.name"
+                type="text">
+            </div>
+          </div>
+          <div class="row" [ngClass]="{'checks':showEdit}">
+
+            <div class="col m4" [class.l2]="!showEdit" >
+              <div *ngIf="!showEdit" class="">
+                <label>Hazardous</label>
+                <span class="value">
+                  <a *ngIf="product?.hazardous && product?.msds" target="_blank" [href]="product?.msds">{{product?.hazardous_string}}</a>
+                  <span  *ngIf="!product?.hazardous  && !product?.msds">{{product?.hazardous_string}}</span>
+                </span>
+              </div>
+              <div *ngIf="showEdit" class="input-checkbox checkbox">
+                <label>Hazardous</label>
+                <input
+                  type="checkbox"
+                  class="checkbox-input"
+                  [(ngModel)]="productCopy.hazardous"
+                  id="checkbox1"
+                />
+                <label for="checkbox1"></label>
+              </div>
+            </div>
+
+            <div class="col m4" [class.l2]="!showEdit" >
+              <div *ngIf="!showEdit" class="">
+                <label>Trackable</label>
+                <span class="value">{{product?.trackable_string}}</span>
+              </div>
+              <div *ngIf="showEdit" class="input-checkbox checkbox">
+                <label>Trackable</label>
+                <input
+                  type="checkbox"
+                  class="checkbox-input"
+                  [(ngModel)]="productCopy.trackable"
+                  id="checkbox2"
+                />
+                <label for="checkbox2"></label>
+              </div>
+            </div>
+
+            <div class="col m4" [class.l2]="!showEdit" >
+              <div *ngIf="!showEdit" class="">
+                <label>Tax Exempt</label>
+                <span class="value">{{product?.tax_exempt_string}}</span>
+              </div>
+              <div *ngIf="showEdit" class="input-checkbox checkbox">
+                <label>Tax Exempt</label>
+                <input
+                  type="checkbox"
+                  class="checkbox-input"
+                  [(ngModel)]="productCopy.tax_exempt"
+                  id="checkbox3"
+                />
+                <label for="checkbox3"></label>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+            <div class="col m4 input" [class.l2]="!showEdit" >
+              <label>Department</label>
+              <div *ngIf="!showEdit" class="value">{{product?.department}}</div>
+              <div *ngIf="showEdit" class="select">
+                <select
+                  [(ngModel)]="productCopy.department"
+                  materialize="material_select"
+                  [materializeSelectOptions]="departmentCollection">
+                  <option *ngFor="let item of departmentCollection" [value]="item">{{item}}</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col m4 input" [class.l2]="!showEdit" >
+              <label>Category</label>
+              <div *ngIf="!showEdit" class="value">{{product?.category}}</div>
+              <div *ngIf="showEdit" class="select">
+                <select
+                  [(ngModel)]="productCopy.category"
+                  materialize="material_select"
+                  [materializeSelectOptions]="productCategoriesCollection">
+                  <option *ngFor="let cat of productCategoriesCollection" [value]="cat">{{cat}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col m4 input" [class.l2]="!showEdit" >
+              <label>Accounting</label>
+              <div *ngIf="!showEdit" class="value">{{product?.account_category}}</div>
+              <div *ngIf="showEdit" class="select">
+                <select
+                  [(ngModel)]="productCopy.account_category"
+                  materialize="material_select"
+                  [materializeSelectOptions]="productAccountingCollection">
+                  <option *ngFor="let acc of productAccountingCollection" [value]="acc">{{acc}}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngFor="let attr of currentVariant.custom_attr" class="col s2">
+              <label class="top">{{attr.name}}</label>
+              <div class="value">{{attr.value}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="clearfix"></div>
+
+
+    <div class="row table-head-filter">
+      <div class="col s12">
+        <ul class="tabs" materialize="tabs">
+          <li class="tab col s2">
+            <a href="#variations">{{showVariant ? 'Vendors' : 'Variations'}}</a>
+          </li>
+          <li class="tab col s2">
+            <a href="#info">Info</a>
+          </li>
+          <li class="tab col s2">
+            <a href="#inventory">Inventory</a>
+          </li>
+          <li class="tab col s2" *ngIf="product?.trackable && !showVariant">
+            <a href="#tracking">Tracking</a>
+          </li>
+          <li class="tab col s2">
+            <a href="#history">Order History</a>
+          </li>
+          <li class="tab col s2">
+            <a href="#comments">Comments</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div id="variations">
+      <div *ngIf="!showVariant" class="inner product">
+        <div class="variant-table">
+          <div class="uptracker-form variant-head">
+            <div class="variant-checkbox head-item">
+              <div class="checkbox input-checkbox ">
+                <input
+                  type="checkbox"
+                  class="checkbox-input"
+                  (change)="headCheckboxChange()"
+                  id="variation-checkbox"
+                />
+                <label for="variation-checkbox"></label>
+              </div>
+            </div>
+            <div class="name-heading head-item">
+              <div class="input">
+                <input
+                  type="text"
+                  class="name-input"
+                  ngModel
+                  (input)="changeName($event)"
+                  placeholder="Name"
+                  #name="ngModel"/>
+              </div>
+            </div>
+            <div class="small-heading  head-item">
+              <div class="select ultra-low-height">
+                <select
+                  [(ngModel)]="variation.package_type"
+                  #pkg="ngModel"
+                  materialize="material_select"
+                  (change)="changePkg($event)"
+                  [materializeSelectOptions]="variationArrs.package_type">
+                  <option value="">Pkg</option>
+                  <option *ngFor="let item of variationArrs.package_type" [value]="item">{{item}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="small-heading head-item">
+              <div class="select ultra-low-height">
+                <select
+                  [(ngModel)]="variation.unit_type"
+                  #unit="ngModel"
+                  materialize="material_select"
+                  (change)="changeUnit($event)"
+                  [materializeSelectOptions]="variationArrs.unit_type">
+                  <option value="">Unit</option>
+                  <option *ngFor="let item of variationArrs.unit_type" [value]="item">{{item}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="small-heading head-item">
+              <div class="select ultra-low-height">
+                <select
+                  [(ngModel)]="variation.units_per_package"
+                  #units_pkg="ngModel"
+                  materialize="material_select"
+                  (change)="changeUnitsPkg($event)"
+                  [materializeSelectOptions]="variationArrs.units_per_package">
+                  <option value="">Qty</option>
+                  <option *ngFor="let item of variationArrs.units_per_package" [value]="item">{{item}}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="text-heading valign-wrapper head-item">
+              <div class="text-head valign">
+                Price Range
+              </div>
+            </div>
+            <div class="flor">
+              <div *ngIf="!showEdit" class="add-order-heading head-item">
+                <button
+                  (click)="bulkAddToOrder()"
+                  class="uptracker-form-btn waves-light waves-effect add-order-btn"
+                  [disabled]="!addOrderVariantsButtonShow">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  Add to Order
+                </button>
+              </div>
+              <div *ngIf="showEdit" class="visibility-heading head-item">
+                <i class="material-icons noselect" (click)="toggleVariationVisibility()">
+                  {{variation.status != 2 ? "visibility" : "visibility_off"}}
+                </i>
+              </div>
+              <div class="filter-heading noselect head-item">
+                <fa [name]="'filter'"></fa>
+              </div>
+            </div>
+
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <div class="table-body">
+          <div class="variant-table">
+            <div class="uptracker-form  table-item"
+              *ngFor="let variant of filteredVariants$ | async"
+              (click)="toggleVariantDetailView(variant)">
+              <div class="variant-checkbox row-item">
+                <div class="checkbox input-checkbox">
+                  <input
+                    type="checkbox"
+                    class="checkbox-input"
+                    [(ngModel)]="variant.checked"
+                    (change)="variantCheckedChange()"
+                    id="{{variant.id}}"
+                  />
+                  <label for="{{variant.id}}"></label>
+                </div>
+              </div>
+              <div class="name-heading variant-name row-item valign-wrapper">
+              <span (click)="showVariantDetails($event,variant)"
+                *ngIf="!showEdit"
+                [class.reddish]="variant.status == 2"
+                class="valign"
+              >{{variant.name || "Product Here"}}</span>
+                <div *ngIf="showEdit" class="input">
+                  <input class="col s12 name-field greenborder" [(ngModel)]="variant.name" type="text">
+                </div>
+              </div>
+              <div class="small-heading row-item">{{variant.package_type || ""}}</div>
+              <div class="small-heading row-item">{{variant.unit_type || ""}}</div>
+              <div class="small-heading row-item">{{variant.units_per_package || ""}}</div>
+              <div class="text-heading row-item nowrap">{{variant.price_range || ""}}</div>
+              <div class="flor">
+                <div *ngIf="showEdit" class="edit-variant visibility-heading row-item">
+                  <i class="fa fa-eye  variant-func"
+                    [class.fa-eye]="variant.status == 1"
+                    [class.fa-eye-slash]="variant.status == 2"
+                    (click)="toggleVariantVisibility(variant)"
+                    aria-hidden="true"></i>
+                </div>
+                <div *ngIf="!showEdit"
+                  (click)="addToOrder(variant)"
+                  class="add-order-col add-order-heading row-item">
+                  <button class=" variant-func uptracker-form-btn waves-light waves-effect add-order-btn">
+                    <i
+                      class="fa fa-shopping-cart" aria-hidden="true"></i>
+                    Add to Order
+                  </button>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <app-variant-detail [showEdit]="showEdit"
+                [product_id]="product_id"
+                [variant]="variant"
+                *ngIf="variant.detailView">
+              </app-variant-detail>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div *ngIf="showVariant" class="inner show-variant">
+        <div class="variant-table">
+          <div class="uptracker-form variant-head">
+            <div class="name-heading head-item">
+              <div class="input">
+                <input
+                  type="text"
+                  class="name-input"
+                  ngModel
+                  (input)="changeNameVV($event)"
+                  placeholder="Name"
+                  #name="ngModel"/>
+              </div>
+            </div>
+            <div class=" head-item ">Catalog#</div>
+            <div class=" head-item ">Avg Time</div>
+            <div class=" head-item ">Book $</div>
+            <div class=" head-item ">Your $</div>
+            <div class=" head-item ">Club $</div>
+            <div class=" head-item ">Forum $</div>
+            <div class="flor">
+              <div *ngIf="!showEdit  && !showVariant" class="add-order-heading head-item">
+                <button
+                  class="uptracker-form-btn waves-light waves-effect add-order-btn"
+                  (click)="addToOrder()"
+
+                  [disabled]="!addOrderVariantsButtonShow">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  Add to Order
+                </button>
+              </div>
+
+              <div class="filter-heading noselect head-item">
+                <fa [name]="'filter'"></fa>
+              </div>
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <div class="table-body">
+          <div class="variant-table">
+            <div *ngFor="let item of currentVariant.vendor_variants" class="uptracker-form  table-item">
+              <div class="flex-middle name-heading row-item">
+                <a [routerLink]="'/vendors/view/'+[item.vendor_id]" target="_blank">
+                  {{item.vendor_name || ""}}
+                </a>
+              </div>
+              <div class="row-item nowrap">{{item.catalog_number || ""}}</div>
+              <div class="row-item">{{item.avg_lead_time || ""}}</div>
+              <div class="row-item">{{item.price || ""}}</div>
+
+              <div class="row-item">
+                <span *ngIf="!showEdit">
+                  {{item.your_price}}
+                </span>
+                <div *ngIf="showEdit" class="input variant-detail-table-head-item">
+                  <input (click)="$event.stopPropagation();" type="text" class="yourprice" [(ngModel)]="item.your_price" >
+                </div>
+              </div>
+
+              <div class="row-item">{{item.club_price || ""}}</div>
+              <div class="row-item">{{item.forum_price || ""}}</div>
+              <div *ngIf="!showEdit" class="add-order-heading right head-item">
+                <button
+                  class="uptracker-form-btn waves-light waves-effect add-order-btn"
+                  (click)="addToOrder(currentVariant, item)">
+                  <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+                  Add to Order
+                </button>
+              </div>
+              <div class="clearfix"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="inventory">
+      <div *ngIf="showVariant" class="inner">
+        <div *ngFor="let inv of currentVariant.trimmed_inventory; let i=index;">
+          <div *ngIf="currentLocation[currentVariant.id] ? inv.location_id==currentLocation[currentVariant.id] : i==0">
+            <app-inventory-detail
+              [(vis)]="currentVariant.detailView"
+              [variant]="inv">
+            </app-inventory-detail>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!showVariant" class="inner">
+        <div class="variant-table">
+          <div class="uptracker-form variant-head">
+            <div class="head-item">
+              Variation
+            </div>
+            <div class="head-item">
+              Total
+            </div>
+            <div class="head-item">
+              Primary Location
+            </div>
+            <div class="head-item">
+              Secondary Location
+            </div>
+            <div class="head-item">
+              Tertiary Location
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <div class="table-body">
+          <div class="variant-table">
+            <div class="uptracker-form  table-item" *ngFor="let variant of filteredVariants$ | async">
+
+              <div class="name-heading variant-name row-item valign-wrapper">
+                        <span [class.reddish]="variant.status == 2" class="valign"
+                          (click)="toggleVariantDetailView(variant)">{{variant.name || "Product Here"}}
+                        </span>
+              </div>
+              <div class="small-heading row-item">{{variant.total_inventory}}</div>
+              <div *ngFor="let inv of variant.trimmed_inventory; let i=index;"
+                [class.selected]="currentLocation[variant.id] ? (inv.location_id==currentLocation[variant.id] && variant.detailView) : (i==0 && variant.detailView)"
+                class="small-heading row-item"
+                (click)="inv.current_inventory ? changeSelected(inv.location_id,variant.id) : void">
+                {{inv.current_inventory || ''}}
+              </div>
+              <div class="clearfix"></div>
+              <div *ngIf="variant.detailView">
+                <div *ngFor="let inv of variant.trimmed_inventory; let i=index;">
+                  <div *ngIf="currentLocation[variant.id] ? inv.location_id==currentLocation[variant.id] : i==0">
+                    <app-inventory-detail
+                      [(vis)]="variant.detailView"
+                      [variant]="inv">
+                    </app-inventory-detail>
+                  </div>
+                </div>
+                <div class="right variant-detail-collapse">
+                  <span (click)="inventoryDetailCollapse(variant)"><i class="fa fa-chevron-up" aria-hidden="true"></i> Collapse</span>
+                </div>
+                <div class="clearfix"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tracking" *ngIf="product?.trackable">
+      <div class="inner">
+        Tracking tab
+      </div>
+    </div>
+    <div id="info">
+      <div class="inner uptracker-form">
+        <div class="row">
+          <div class="ttl col s12">
+            Description
+          </div>
+          <div *ngIf="showEdit" class="col s12 textarea">
+            <textarea placeholder="Type here" class="col s12 " [(ngModel)]="productCopy.description"></textarea>
+          </div>
+          <div *ngIf="!showEdit" class="col s12 bold">
+            {{product?.description}}
+            <i class="no-info" *ngIf="!product?.description">No additional information</i>
+          </div>
+        </div>
+        <div class="row">
+          <div class="ttl col s12">
+            Notes
+          </div>
+          <div *ngIf="showEdit" class="col s12 textarea">
+            <textarea placeholder="Type here" class=" col s12 " [(ngModel)]="productCopy.notes"></textarea>
+          </div>
+          <div *ngIf="!showEdit" class="col s12 bold">
+            {{product?.notes}}
+            <i class="no-info" *ngIf="!product?.notes">No additional information</i>
+          </div>
+        </div>
+        <div class="row mbot0">
+          <div class="col s6 ">
+            <div class="row mbot0">
+              <div class="ttl col s12">
+                MSDS
+              </div>
+              <div *ngIf="showEdit" class="col s12 input">
+                <input placeholder="Enter URL" class="col s12" [(ngModel)]="productCopy.msds" type="text">
+              </div>
+              <div *ngIf="!showEdit" class="col s12">
+                <a href="#">{{product?.msds}}</a>
+                <i class="no-info" *ngIf="!product?.msds">No additional information</i>
+              </div>
+            </div>
+            <div *ngIf="!showEdit" class="row">
+              <div class="ttl col s12">
+                Hazardous Form
+              </div>
+              <div class="col s12">
+                <a href="#">{{product?.hazardous_form}}</a>
+                <i class="no-info" *ngIf="!product?.hazardous_form">No additional information</i>
+              </div>
+            </div>
+          </div>
+          <div class="col s6 ">
+            <div *ngIf="showEdit" class="row mbot0">
+              <div class="ttl col s12">
+                Hazardous Form
+              </div>
+              <div class="col s12 input">
+                <input placeholder="Enter URL" class="col s12" [(ngModel)]="productCopy.hazardous_form"
+                  type="text">
+              </div>
+            </div>
+            <div *ngIf="!showEdit && hasDocs" class="row">
+              <div class="ttl col s12">
+                Documents
+              </div>
+              <div class="col s12">
+                <div *ngFor="let doc of doc$ | async">
+                  <a href="{{doc.uri}}" target="_blank">{{doc.file_name}}</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="showEdit" class="row">
+          <div class="ttl col s12 mbot10">
+            Documents
+          </div>
+          <div class="col s6">
+            <div class="img-container-edit col s12" title="Drop files here" fileDrop
+              [ngClass]="{'file-is-over': fileIsOver}"
+              [options]="options"
+              (fileOver)="fileOver($event)"
+              (onFileDrop)="onFileDrop($event)">
+            </div>
+          </div>
+          <div *ngIf="hasDocs || hasFiles" class="col s6">
+            <div *ngFor="let doc of doc$ | async; let index = $index">
+              <div class="col s10">
+                <a href="{{doc.uri}}">{{doc.file_name}}</a>
+              </div>
+              <div class="col s2" (click)="removeDoc(doc, index)">
+                <i class="fa fa-trash"></i>
+              </div>
+            </div>
+            <div class="new-file-list" *ngFor="let file of file$ | async; let index = $index">
+              <div class="col s10">
+                {{file.name}}
+              </div>
+              <div class="col s2" (click)="removeFile(file, index)">
+                <i class="fa fa-trash"></i>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!hasDocs && !hasFiles" class="col s6 no-docs">
+            <div class="ttl">Document</div>
+            <div class="grey-text mbot10">Please upload documents with max size 10MB</div>
+            <div>
+              <input type="file" (change)="onFileUpload($event)" id="file-upload-dialog" class="hidden">
+              <label for="file-upload-dialog" class="tealish-text normal-size cursor-pointer">Upload a document
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="history">
+      <div class="inner">
+        <div class="variant-table">
+          <div class="uptracker-form variant-head">
+            <div class="head-item">
+              Variation
+            </div>
+            <div class="head-item">
+              Qty
+            </div>
+            <div class="head-item">
+              Location
+            </div>
+            <div class="head-item">
+              Status
+            </div>
+            <div class="head-item">
+              Ordered
+            </div>
+            <div class="head-item">
+              Received
+            </div>
+            <div class="clearfix"></div>
+          </div>
+        </div>
+
+        <div class="table-body">
+          <div class="variant-table">
+            <div class="uptracker-form  table-item"
+              *ngFor="let order of showVariant ? (filteredOrders$ | async) : (orders$ | async)">
+              <div class="name-heading variant-name row-item valign-wrapper">
+                            <span class="valign"
+                              (click)="toggleVariantDetailView(order)">{{order.variant_name }}</span>
+              </div>
+              <div class="small-heading row-item">{{order.quantity}}</div>
+              <div class="small-heading row-item">{{order.location_name}}</div>
+              <div class="small-heading row-item">{{order.status}}</div>
+              <div class="small-heading row-item">{{order.order_date}}</div>
+              <div class="small-heading row-item">{{order.received_date}}</div>
+              <div class="clearfix"></div>
+              <app-history-detail [order]="order" *ngIf="order.detailView"></app-history-detail>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div id="comments">
+      <div class="inner">
+
+        <form class="uptracker-form" (submit)="sendComment()" #commentForm="ngForm" novalidate autocomplete="off">
+          <div class="input row textarea-row">
+            <div class="label col s12">Add Comment</div>
+            <div class="col s10">
+              <div class="textarea">
+              <textarea id="comments-textarea" class="validate materialize-textarea" name="comment_body" required
+                #inputComment [(ngModel)]="comment.body"></textarea>
+              </div>
+            </div>
+            <div class="buttons col s2">
+              <button class="btn white-text waves-effect waves-light" [disabled]="!commentForm.valid">Send
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <div class="comments">
+          <ul class="collection">
+            <li class="collection-item avatar" *ngFor="let comment of filteredComments$ | async">
+              <img [src]="comment.author_avatar || ''" class="responsive-img circle author-avatar">
+              <span class="title">{{comment.author_name}}</span>
+              <span class="date">{{comment.created_at}}</span>
+              <span class="edit-comment" *ngIf="comment.author_id==userService.selfData.id"
+                (click)="editComment(comment)">
+              <i class="fa fa-pencil" aria-hidden="true"></i>
+            </span>
+              <p [innerHtml]="comment.body"></p>
+              <div class="secondary-content" *ngIf="comment.author_id==userService.selfData.id">
+                <div class="delete-comment " (click)="deleteComment(comment)">
+                  <i class="fa fa-times" aria-hidden="true"></i>
+                </div>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

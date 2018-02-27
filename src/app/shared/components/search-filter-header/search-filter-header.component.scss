@@ -1,0 +1,25 @@
+:host /deep/ {
+  .title {
+    margin-bottom: 15px;
+  }
+
+  .filter {
+
+    .filter-btn {
+      a {
+        line-height: 30px;
+        cursor: pointer;
+        min-width: 65px;
+        display: block;
+        i {
+          margin-right: 3px;
+          font-size: 22px;
+        }
+
+        & > * {
+          vertical-align: middle;
+        }
+      }
+    }
+  }
+}

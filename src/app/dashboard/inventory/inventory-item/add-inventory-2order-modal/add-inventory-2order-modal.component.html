@@ -1,0 +1,59 @@
+<div class="inner add-to-order-modal">
+  <div class="row title center-align">Add to Order</div>
+  <div class="row">
+    <div class="col s3 select-title">Quantity</div>
+    <div class="col s9 select-title">Unit Type</div>
+    <div class="col s3 ">
+      <div class="input">
+        <input
+          type="text"
+          class="quantity"
+          [(ngModel)]="defaultProduct.qty"
+          id="quantity"
+          required
+        />
+        <label for="quantity"></label>
+      </div>
+    </div>
+    <div class="col s9 ">
+      <div class="left select">
+        <select [(ngModel)]="inventory.inventory_by" materialize="material_select"
+        [disabled]="true">
+        <option *ngFor="let package of defaultProduct.inventory_by"  [value]="package.value">{{ package.label }}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 select-title">Vendor</div>
+    <div class="col s12">
+      <div class="left select">
+        <select [(ngModel)]="defaultProduct.vendor_id"
+        materialize="material_select">
+          <option value="">Auto</option>
+          <ng-container *ngFor="let v of defaultProduct.vendors">
+          <option *ngIf="v.vendor_name" [value]="v.vendor_id">{{v.vendor_name}}</option>
+        </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12 select-title">Location</div>
+    <div class="col s12">
+      <div class="left select">
+        <select
+        [(ngModel)]="defaultProduct.location_id"
+        materialize="material_select">
+        <option *ngFor="let location of context.data.locations" [value]="location.id">{{location.name}}</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row mtop">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
+      <button class="uptracker-form-btn" [disabled]="defaultProduct.qty <= 0" (click)="saveOrder()">Add</button>
+    </div>
+  </div>
+</div>
