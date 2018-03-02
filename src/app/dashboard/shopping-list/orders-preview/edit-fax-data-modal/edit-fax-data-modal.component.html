@@ -1,0 +1,134 @@
+<div class="close" (click)="dismissModal()"></div>
+
+<div class="title center-align">Send PO</div>
+<button
+  (click)="sendPO()"
+  [disabled]="!nameto.valid || !namefrom.valid || !faxsubject.valid"
+  class="send-btn right uptracker-form-btn white-text waves-effect tealish waves-light">
+  <fa name="send-o"></fa>
+  Send
+</button>
+
+<div class="inner">
+  <div class="row">
+    <div class="subttl col s12">To Name</div>
+    <div class="col s12 input validate">
+      <input
+        placeholder="Enter Name"
+        [(ngModel)]="nameTo"
+        class="col s12"
+        name="nameto"
+        #nameto="ngModel"
+        required
+
+        maxlength="254"
+        type="text">
+      <div [hidden]="nameto.valid || nameto.pristine" class="error red-text left-align">
+        Name must be from 6 to 254 characters long.
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="subttl col s12">From Name</div>
+    <div class="col s12 input">
+      <input type="text"
+        required
+        placeholder="Enter Name"
+        [(ngModel)]="nameFrom"
+        class="col s12"
+        name="namefrom"
+        #namefrom="ngModel"
+        maxlength="254"
+      />
+      <div [hidden]="namefrom.valid || namefrom.pristine" class="error red-text left-align">
+        Name must be from 6 to 254 characters long.
+      </div>
+    </div>
+  </div>
+
+  <div class="input row modalfax" *ngIf="context.order_method=='Fax'">
+    <div class="subttl col s12">Fax number</div>
+    <phone-input
+      class="col s12"
+      (onCountryChange)="onCountryChange($event)"
+      [selectedCountry]="faxCountry">
+      <input
+        [textMask]="phoneMask"
+        id="phone"
+        placeholder="Enter fax number"
+        class="validate "
+        [(ngModel)]="faxNumber"
+        name="phone"
+        #phone="ngModel"
+        type="text">
+    </phone-input>
+  </div>
+
+  <div class="row">
+    <div class="subttl col s12">Subject</div>
+    <div class="col s12 input">
+      <input type="text"
+        required
+        placeholder="Enter Subject"
+        [(ngModel)]="faxSubject"
+        class="col s12"
+        name="faxsubject"
+        #faxsubject="ngModel"
+        minlength="2" maxlength="254"
+      />
+      <div [hidden]="faxsubject.valid || faxsubject.pristine" class="error red-text left-align">
+        Please enter subject.
+      </div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col s12 subttl">Message</div>
+    <div class="col s12  materialize-textarea">
+      <textarea
+        [(ngModel)]="faxMessage"
+        class="col s12"
+      >
+      </textarea>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s12  subttl">Attachments</div>
+    <div class="col s12 attachments">
+      <a href="{{ apiUrl }}/po/{{ context.order_id }}/download" target="_blank">
+        <fa name="file-pdf-o"></fa>
+        Purchase Order #{{ context.po_number }}
+        <fa class="tealish-text invis" name="external-link"></fa>
+      </a>
+    </div>
+    <div *ngFor="let file of (file$ | async)" class="col s12 attachments">
+      <a href="{{ apiUrl }}/po/{{ context.order_id }}/attachment/{{ file.id }}"  target="_blank">
+        <fa *ngIf="file.type == 'application/pdf'" name="file-pdf-o"></fa>
+        <fa *ngIf="file.type == 'application/zip'" name="file-zip-o"></fa>
+        <fa *ngIf="(getType(file.type) == 'application')
+          && (file.type != 'application/pdf')
+          && (file.type != 'application/zip')"
+          name="file-code-o"></fa>
+        <fa *ngIf="getType(file.type) == 'image'" name="file-image-o"></fa>
+        <fa *ngIf="getType(file.type) == 'text'" name="file-word-o"></fa>
+        <fa *ngIf="getType(file.type) == 'audio'" name="file-audio-o"></fa>
+        <fa *ngIf="getType(file.type) == 'video'" name="file-video-o"></fa>
+        Attachment - {{ file.file_name }}
+      </a>
+      <a href="{{ apiUrl }}/po/{{ context.order_id }}/attachment/{{ file.id }}"  target="_blank" class="link-icon">
+        <fa class="tealish-text invis" name="external-link"></fa>
+      </a>
+      <fa class="red-text invis" name="trash" (click)="removeFile(file)"></fa>
+    </div>
+
+    <div class="col s12 additional-space tealish-text">
+      <input type="file" id="add-attachment" (change)="onFileUpload($event)">
+      <label for="add-attachment" >
+        <fa name="plus"></fa>
+        Add Attachment
+      </label>
+    </div>
+  </div>
+</div>

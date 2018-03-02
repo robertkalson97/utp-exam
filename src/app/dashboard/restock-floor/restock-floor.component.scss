@@ -1,0 +1,236 @@
+@import "../../../colors.scss";
+
+.restock-floor {
+  .input {
+    border-color: #cccccc;
+
+    input {
+      color: #4a4a4a;
+      background-color: #fff;
+      margin: 0;
+    }
+  }
+
+  .back-btn {
+    width: 40px;
+    height: 40px;
+    background-color: $tealish;
+    border-radius: 20px;
+    text-align: center;
+    border: none;
+    color: #fff;
+    font-size: 21px;
+
+    &:hover {
+      background-color: lighten($tealish, 10%);
+    }
+
+    i {
+      margin-right: 3px;
+    }
+  }
+
+  .main-title {
+    margin-bottom: 40px;
+  }
+
+  .floors-list-sidebar {
+    * {
+      line-height: 27px;
+    }
+
+    h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: none;
+    }
+
+    .location {
+      margin-top: 20px;
+
+      h5 {
+        color: $grey;
+        font-size: 18px;
+        margin-top: 0.82rem;
+        margin-bottom: 0;
+      }
+
+      ul {
+        margin: 0;
+
+        li {
+          color: $tealish;
+          font-size: 18px;
+          cursor: pointer;
+
+          &::after {
+            font: normal normal normal 23px/28px FontAwesome;
+            display: none;
+            content: '\F105';
+            float: right;
+          }
+
+          &.current {
+            color: $red;
+          }
+
+          &:hover {
+            &::after {
+              display: block;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .location-details {
+    .details-header {
+      > * {
+        margin-top: none;
+        margin-bottom: 30px;
+      }
+
+      h3 {
+        font-size: 18px;
+        color: #4a4a4a;
+      }
+
+      .keywords-search {
+        position: relative;
+
+        input {
+          padding: 17px 25px 17px 10px;
+          width: 300px !important;
+          border-radius: 3px;
+        }
+
+        i {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          color: $grey;
+        }
+      }
+    }
+
+    .table-wrapper {
+      table {
+        font-size: 14px;
+
+        td, th {
+          line-height: 1;
+          padding-top: 7px;
+        }
+
+        thead  {
+          tr {
+            border-bottom: 1px solid #a8a8a8;
+
+            th {
+              padding-bottom: 15px
+            }
+
+            :first(th) {
+              padding-left: 7px;
+            }
+          }
+        }
+
+        tbody {
+          color: $tealish;
+
+          tr {
+            border-bottom: 1px solid #cccccc;
+
+            &:hover {
+              cursor: default;
+            }
+
+            :first(td) {
+              padding-left: 7px;
+            }
+
+            td {
+              padding-bottom: 7px;
+
+              * {
+                border-radius: 3px;
+              }
+
+
+              &.on-floor {
+                width: 1px;
+
+                .input {
+                  position: relative;
+                  display: inline-block;
+
+                  input {
+                    width: 80px;
+                    text-align: right;
+                    padding-right: 40px;
+                  }
+
+                  .restock-suggested-qty {
+                    color: #a8a8a8;
+                    position: absolute;
+                    top: 9px;
+                    right: 8px;
+                    font-size: 15px;
+                  }
+                }
+              }
+
+              &.restock-qty {
+                width: 140px;
+
+                .input {
+                  display: inline-block;
+                  margin-right: 48px;
+
+                  input {
+                    width: 60px;
+                    text-align: right;
+                    padding-right: 10px;
+                  }
+                }
+
+                button {
+                  background-color: white;
+                  padding: 3px 8px;
+                  margin: 0 0 0 10px;
+                  vertical-align: baseline;
+                  font-size: 20px;
+                  border-color: $tealish;
+                  text-align: center;
+                  display: none;
+
+                  i {
+                    vertical-align: middle;
+                  }
+
+                  &:hover {
+                    border-color: lighten($tealish, 20%);
+                  }
+                }
+              }
+            }
+
+            &:hover {
+              .restock-qty {
+                .input {
+                  margin: 0;
+                }
+
+                button {
+                  display: inline-block;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

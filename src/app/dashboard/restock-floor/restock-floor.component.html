@@ -1,0 +1,67 @@
+<div class="restock-floor content">
+  <div class="top">
+    <div class="title">
+      <button class="back-btn left" (click)="goBack();">
+        <i class="fa fa-chevron-left" aria-hidden="true"></i>
+      </button>
+      <div class="main-title center">Restock Floor</div>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col l3 floors-list-sidebar">
+      <h3>Floor Stock Locations</h3>
+      <div class="location" *ngFor="let location of locations | async">
+        <h5>{{ location.name }}</h5>
+        <ul>
+          <li *ngFor="let floorstockLocation of location.floorstock_locations" (click)="selectFloorstockLocation(floorstockLocation)" [class.current]="floorstockLocation.id === currentFloorstockLocation.id">
+            {{floorstockLocation.name}}
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col l9 location-details" *ngIf="currentFloorstockLocation.id">
+      <div class="details-header">
+        <h3 class="left">{{currentFloorstockLocation.name}}</h3>
+        <div class="right input wide-input keywords-search">
+          <input type="text" placeholder="Keyword Search" [(ngModel)]="keywordSearchValue">
+          <i class="fa fa-times-circle" aria-hidden="true" (click)="clearKeywordSearchValue()" *ngIf="keywordSearchValue"></i>
+        </div>
+      </div>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Inventory Group</th>
+              <th>Last Restock</th>
+              <th>On Hand</th>
+              <th>On Floor</th>
+              <th>Restock Qty</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let inventoryGroup of currentFloorstockLocation.inventory_groups | inputValueSearch:keywordSearchValue:'name'">
+              <td>{{inventoryGroup.name}}</td>
+              <td>{{inventoryGroup.last_restock_qty}} Item{{inventoryGroup.last_restock_qty === 1 ? '' : 's'}} on {{inventoryGroup.last_restock_date}}</td>
+              <td>{{inventoryGroup.on_hand}} Item{{inventoryGroup.on_hand === 1 ? '' : 's'}}</td>
+              <td class="on-floor">
+                <span class="input">
+                  <input type="text" [(value)]="inventoryGroup.on_floor_qty" (keyup)="calculateRestockQty($event, inventoryGroup)">
+                  <div class="restock-suggested-qty"> / {{inventoryGroup.suggested_on_floor}}</div>
+                </span>
+              </td>
+              <td class="restock-qty">
+                <span class="input">
+                  <input type="text" [(value)]="inventoryGroup.restock_qty" (keyup)="calculateOnFloorQty($event, inventoryGroup)">
+                </span>
+                <button>
+                  <i class="fa fa-barcode" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="inner">
+  <div class="row title center-align">Warning</div>
+  <div class="row center-align high">Please note, it is your responsibility to place the order online through the vendors website. This vendor does not do direct
+    connect with UPtracker and the order will NOT be automatically placed. Alternatively you can select "email" to send the
+    vendor a PDF Purchase Order.</div>
+  <div class="row">
+    <div class="col s12 grey-text">Order Method</div>
+    <div class="col s12 grey-text">
+      <div class="select low-height mysel">
+        <select name="sel2" id="sel2" materialize="material_select" [(ngModel)]="action">
+          <option>Email</option>
+          <option>Print</option>
+          <option>Go to website</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="row mtop mbot">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="closeModal()">Finalize</button>
+    </div>
+  </div>
+  <div class="row mtop mbot">
+    <div class="center-align col s12">
+      <strong *ngIf="action == 'Go to website' && !website">*No website is registered for this vendor</strong>
+    </div>
+  </div>
+</div>

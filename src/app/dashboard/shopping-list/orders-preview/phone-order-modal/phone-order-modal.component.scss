@@ -1,0 +1,60 @@
+@import "../../../../../colors.scss";
+
+:host /deep/ {
+  .inner {
+    .row {
+      &.check {
+        margin: 10px 0;
+        .s2 {
+          padding-left: 0;
+        }
+      }
+    }
+    .select-title {
+      margin-bottom: 5px;
+    }
+    .uptracker-form-btn {
+      height: 36px;
+      font-size: 14px;
+      border: 1px solid #fff;
+      width: 100px;
+      margin: 0 10px;
+      font-weight: normal;
+      min-width: 80px !important;
+      &:first-of-type {
+        border-color: red;
+        background-color: #fff;
+        color: red;
+      }
+      &:last-of-type {
+        border-color: $tealish;
+        background-color: $tealish;
+        color: #fff;
+      }
+    }
+  }
+
+  .uptracker-form-btn {
+    min-width: 80px;
+    &[disabled] {
+      background-color: $grey !important;
+      border-color: $grey !important;
+    }
+  }
+  .mtop {
+    margin-top: 20px;
+  }
+  .inner input.select-dropdown {
+    color: $dark;
+  }
+  .mbot {
+    margin-bottom: 10px;
+  }
+
+  .high {
+    min-height:50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,88 @@
+<div class="col s3">
+  <div class="select custom-select select-light flex-center">
+    <select
+      materialize="material_select"
+      [materializeSelectOptions]="statusList$ | async"
+      [formControl]="typeControl"
+    >
+      <ng-template let-statusItem ngFor [ngForOf]="statusList$ | async">
+        <option [value]="statusItem.value">{{ statusItem.text }}</option>
+      </ng-template>
+    </select>
+  </div>
+</div>
+<div class="col s1">
+  <div class="input flex-center">
+    <input
+      type="number"
+      min="0"
+      [max]="pendingQty + qtyControl.value"
+      [formControl]="qtyControl"
+    >
+  </div>
+  <div [hidden]="!qtyControl.hasError('min') || (qtyControl.pristine && !(formSubmitted$ | async))"
+    class="error red-text left-align">
+    Could not be less than 1
+  </div>
+</div>
+<div class="col s4">
+  <div class="select select-light flex-center input relative"
+    *ngIf="typeControl.value === receiveStatus">
+    <input auto-complete
+      placeholder="Select one"
+      [source]="inventoryGroups$ | async"
+      [ngModel]="selectedInventoryGroup$ | async"
+      (ngModelChange)="selectInventoryGroup($event)"
+      display-property-name="name"
+      value-property-name="id"
+      [list-formatter]='"name"'
+      [tab-to-select]='false'
+      [disabled]="(inventoryGroup$ | async)"
+    />
+    <div [hidden]="inventoryGroupIdControl.valid || (inventoryGroupIdControl.pristine && !(formSubmitted$ | async))"
+      class="error red-text left-align error-absolute">
+      Inventory group is required
+    </div>
+  </div>
+  <div
+    class="select select-light flex-center"
+    *ngIf="typeControl.value !== receiveStatus">
+    <select
+      materialize="material_select"
+      [disabled]="true"
+    >
+      <option value="null">N/A</option>
+    </select>
+  </div>
+</div>
+<div class="col s3">
+  <div class="select select-light flex-center">
+    <select
+      materialize="material_select"
+      [materializeSelectOptions]="locations$ | async"
+      [disabled]="typeControl.value !== receiveStatus"
+      (ngModelChange)="selectLocation($event)"
+      [ngModel]="selectedLocation$ | async"
+    >
+      <ng-template [ngIf]="typeControl.value !== receiveStatus">
+        <option value="null">N/A</option>
+      </ng-template>
+      <ng-template [ngIf]="typeControl.value === receiveStatus">
+        <option [value]="null">Select Location</option>
+        <option
+          *ngFor="let location of locations$ | async"
+          [ngValue]="location">{{ location.label }}
+        </option>
+      </ng-template>
+    </select>
+  </div>
+  <div [hidden]="!statusFormGroup.hasError('locationRequired') || (locationIdControl.pristine && !(formSubmitted$ | async))"
+    class="error red-text left-align">
+    Location Is Required
+  </div>
+</div>
+<div class="col s1 flex-center justify-center trash-icon">
+  <a (click)="removeStatus()">
+    <fa name="trash" class="tealish-text"></fa>
+  </a>
+</div>
