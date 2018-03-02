@@ -1,6 +1,28 @@
 $tealish: #33c6d9;
 
 :host /deep/ {
+
+  .divider-container {
+    display: flex;
+    flex-flow: row;
+    width: 100%;
+    .divider-header {
+      flex: 0 1 auto;
+      margin-right: 10px;
+    }
+    .divider-line {
+      flex: 1 1 auto;
+      margin-right: 5px;
+      border-top: 1px solid #d6d6d6;
+      align-self: center;
+      height: 0;
+    }
+  }
+
+  .rep {
+    padding-left: 16px;
+  }
+
   .title.notabs {
     margin-bottom:40px!important;
   }
@@ -47,7 +69,12 @@ $tealish: #33c6d9;
       margin:0 -15px;
 
       .row {
-        margin-bottom: 12px;
+        margin-bottom: 0;
+
+        .col {
+          min-height: 1.5em;
+          margin: 6px 0;
+        }
 
         .label {
           padding-right: 5px;

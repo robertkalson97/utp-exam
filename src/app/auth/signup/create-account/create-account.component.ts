@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { UserModel } from '../../../models/index';
 import { UserService, PhoneMaskService } from '../../../core/services/index';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 @Component({

@@ -1,15 +1,17 @@
 import { Injectable } from '@angular/core';
 
-import * as _ from 'lodash';
 import { Modal } from 'angular2-modal';
+
 import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+
+import * as _ from 'lodash';
 
 import { PastOrderService } from '../../../../core/services/pastOrder.service';
 import { ModalWindowService } from '../../../../core/services/modal-window.service';
 import { ToasterService } from '../../../../core/services/toaster.service';
 import { OrderTableService } from './order-table.service';
-import { selectedOrderModel } from '../../../../models/selected-order.model';
-import { ConfirmModalService } from '../../../../shared/modals/confirm-modal/confirm-modal.service';
+import { AddCommentModalComponent } from '../../../../shared/modals/add-comment-modal/add-comment-modal.component';
 
 
 @Injectable()
@@ -24,57 +26,36 @@ export class OrderTableOnVoidService {
     public modalWindowService: ModalWindowService,
     public toasterService: ToasterService,
     public orderTableService: OrderTableService,
-    public confirmModalService: ConfirmModalService,
   ) {
     this.voidOrder$ = new Subject<any>();
     this.voidCheckedOrders$ = new Subject<any>();
     this.openConfirmVoidModal$ = new Subject();
 
     this.openConfirmVoidModal$
-    .switchMap((data) =>
-      this.confirmModalService.confirmModal(
-      'Void?', {text: 'Set order status to "Void"?', btn: 'Void'}
+    .map((data) => _.isArray(data) ? [...data] : [data])
+    .map((items) => _.map(items, 'id'))
+    .switchMap((ids) =>
+      Observable.fromPromise(
+        this.modal
+        .open(AddCommentModalComponent, this.modalWindowService
+        .overlayConfigFactoryWithParams({
+          title: `Why are you voiding this item${ids.length > 1 ? 's' : ''}?`,
+          placeholder: 'Message'
+        }, true, 'mid'))
+        .then((resultPromise) => resultPromise.result)
       )
-      .filter(({success}) => success)
-      .mapTo(data)
+      .catch(() => Observable.never())
+      .map((result) => ids.map((id) => ({id, message: result.body})))
     )
-    .switchMap((data: any) => {
-      let orders;
-      if (_.isArray(data)) {
-        const filteredChecked = this.onFilterCheckedOrders(data);
-        orders = {
-          'orders': filteredChecked,
-        };
-
-      } else {
-        orders = {
-          'orders': [
-            {
-              'order_id': data.order_id,
-              'items_ids': [data.id],
-            }
-          ]
-        };
-      }
-      return this.pastOrderService.onVoidOrder(orders);
-    })
+    .switchMap((items: any) =>
+      this.pastOrderService.onVoidOrder({items})
+    )
     .subscribe();
 
   }
-  
+
   onVoidOrder(data) {
     this.openConfirmVoidModal$.next(data);
-  }
-
-  onFilterCheckedOrders(orders) {
-    return orders
-    .map((order: any) => {
-      return new selectedOrderModel(
-        Object.assign(order, {
-          items_ids: [order.id],
-        })
-      );
-    });
   }
 
 }

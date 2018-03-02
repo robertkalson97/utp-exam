@@ -23,6 +23,7 @@ import { PurchaseOrderRoutes } from './shopping-list/orders-preview/purchase-ord
 import { ReportsRoutes } from './reports/reports.routing';
 import { AppliancesRoutes } from './appliances/appliances.routing';
 import { AssetsRoutes } from './assets/assets.routing';
+import { RestockFloorRoutes } from './restock-floor/restock-floor.routing';
 
 
 export const DashboardRoutes = [
@@ -43,7 +44,8 @@ export const DashboardRoutes = [
       ...ReportsRoutes,
       ...ShoppingListRoutes,
       ...OrdersPreviewRoutes,
-      ...PurchaseOrderRoutes
+      ...PurchaseOrderRoutes,
+      ...RestockFloorRoutes
     ],
     canActivate: [AuthGuard],
     resolve: {

@@ -16,7 +16,7 @@ import { OnboardModule } from './onboard/onboard.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     ModalModule.forRoot(),

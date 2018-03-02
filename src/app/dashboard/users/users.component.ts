@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { Overlay, overlayConfigFactory } from 'angular2-modal';
 import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
 
 import { EditUserModal } from '../../shared/modals/index';
@@ -27,7 +27,7 @@ export class UsersComponent implements OnInit {
   public users$: Observable<any> = new Observable<any>();
   public sortBy: string;
   public sortBy$: any = new BehaviorSubject('relevance');
-  
+
   constructor(
     public modal: Modal,
     public userService: UserService,
@@ -35,9 +35,9 @@ export class UsersComponent implements OnInit {
     public modalWindowService: ModalWindowService
   ) {
   }
-  
+
   ngOnInit() {
-    
+
     // this.subscribers.getUsersSubscription
     this.users$ = Observable
     .combineLatest(
@@ -51,14 +51,14 @@ export class UsersComponent implements OnInit {
       return user.account;
     })
     .map(([user, searchKey, sortBy, location]) => {
-      
+
       this.total = user.account.users.length;
-      
+
       let allLocations = user.account.locations;
-      
+
       let filteredUsers = _.filter(user.account.users, (user: any) => {
         let key = new RegExp(searchKey, 'i');
-        
+
         //check if user has checked this location
         let userLocation: any = _.filter(user.locations, (item: any) => item.checked);
         userLocation = _.map(userLocation, (item: any) => item.location_id);
@@ -68,26 +68,26 @@ export class UsersComponent implements OnInit {
       let key = (sortBy=="relevance") ? "name" : sortBy;
       return _.sortBy(filteredUsers, [key]);
     });
-    
+
     this.sortBy$
     .subscribe(
       (r) => {
         this.sortBy = r;
       }
     );
-    
+
   }
-  
+
   sortChange($event){
     this.sortBy$.next($event.target.value);
   }
-  
+
   sendMessageToUser(user = null) {
     // check not to send message to self
     let sendMessage = this.accountService.selfData.account_owner == user.id ? false : true;
     this.viewUserModal(Object.assign(user, {sendMessage: sendMessage}));
   }
-  
+
   viewUserModal(user = null) {
     //this.modal
     //    .open(ViewUserModal, this.modalWindowService.overlayConfigFactoryWithParams({ user: user}))
@@ -100,22 +100,22 @@ export class UsersComponent implements OnInit {
     //      );
     //    });
   }
-  
+
   editUserModal(user = null) {
     //this.modal.open(EditUserModal, this.modalWindowService.overlayConfigFactoryWithParams({ user: user}));
   }
-  
+
   usersFilter(event) {
     // replace forbidden characters
     let value = event.target.value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
     this.searchKey$.next(value);
   }
-  
+
   resetFilters() {
     this.searchKey$.next('');
     this.searchKey = '';
   }
-  
+
   inviteUser(){
     this.modal.open(InviteUserModal, this.modalWindowService.overlayConfigFactoryWithParams({},true));
   }

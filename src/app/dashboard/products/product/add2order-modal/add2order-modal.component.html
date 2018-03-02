@@ -3,8 +3,8 @@
   <div class="row">
     <div class="col s12 red-text center-align mbot">
       1 {{ context.data.package_type }}
-      <span *ngIf="context.data.sub_unit_per_package "> = {{ context.data.sub_unit_per_package }} {{ context.data.sub_unit_type }}</span>
       <span *ngIf="context.data.units_per_package "> = {{ context.data.units_per_package }} {{ context.data.unit_type }}</span>
+      <span *ngIf="context.data.sub_unit_per_package "> = {{ context.data.sub_unit_per_package }} {{ context.data.sub_unit_type }}</span>
     </div>
 
     <div class="col s3 select-title">Quantity</div>

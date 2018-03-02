@@ -5,6 +5,16 @@
     .top {
       .title {
         margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+
+        .round-back-btn {
+          min-width: 40px;
+        }
+
+        .main-title {
+          white-space: normal;
+        }
       }
 
       .filter {
@@ -191,6 +201,7 @@
       background: $grey;
     }
     .status-line {
+      display: block;
       margin: 10px 0;
     }
   }
@@ -351,7 +362,6 @@ div.top {
 .products .list.is-grid-view input {
   box-sizing: border-box;
   border-color:$light-grey;
-  //background-color: $white!important;
   &:disabled {
     color: $grey;
     background: #f5f6f7;

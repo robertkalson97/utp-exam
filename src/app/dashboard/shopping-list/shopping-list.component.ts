@@ -4,7 +4,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
 
 import { ViewProductModal } from './view-product-modal/view-product-modal.component';

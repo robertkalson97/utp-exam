@@ -19,7 +19,7 @@ import {
 import * as _ from 'lodash';
 import { MapsAPILoader } from "angular2-google-maps/core";
 import { FormControl } from "@angular/forms";
-import { DestroySubscribers } from "ng2-destroy-subscribers";
+import { DestroySubscribers } from "ngx-destroy-subscribers";
 
 
 @Directive({

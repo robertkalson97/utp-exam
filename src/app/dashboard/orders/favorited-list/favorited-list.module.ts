@@ -13,7 +13,6 @@ import { FavoritedListComponent } from './favorited-list.component';
     AppSharedModule,
     OrderTableModule,
   ],
-  providers: [],
 })
 export class FavoritedListModule {
 

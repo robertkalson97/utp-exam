@@ -6,7 +6,7 @@
     </div>
     <div class=" col s6">
       <div class="title">
-        <div class="main-title center-align">Orders Preview</div>
+        <div class="main-title center-align">Checkout</div>
       </div>
     </div>
     <div class="col s3">
@@ -14,7 +14,7 @@
         <button
           class="uptracker-form-btn tealish white-text waves-effect waves-light"
         (click)="prefillAll()"
-        >Convert All
+        >Preview All
         </button>
         <button materialize="dropdown"
           class='dropdown-button  uptracker-form-btn square tealish white-text waves-effect waves-light'
@@ -47,7 +47,8 @@
             <div class="col s6">
               <div class="right dd-bt">
                 <button
-                  class="uptracker-form-btn tealish white-text waves-effect waves-light" (click)="prefillDataForConvertion([ order ])">Convert
+                  class="uptracker-form-btn tealish white-text waves-effect waves-light" (click)="prefillDataForConvertion([ order ])">
+                  {{getButtonText(order)}}
                 </button>
                 <button materialize="dropdown"
                   class='dropdown-button  uptracker-form-btn square tealish white-text waves-effect waves-light'

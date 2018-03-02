@@ -16,18 +16,22 @@ export class AddCommentModalContext extends BSModalContext {
 export class AddCommentModalComponent implements OnInit, CloseGuard, ModalComponent<AddCommentModalContext> {
   context;
   public comment: any;
+  public title: string;
+  public placeholder: string;
 
   constructor(
     public dialog: DialogRef<AddCommentModalContext>,
   ) {
     this.context = dialog.context;
+    this.title = this.context.title || 'Add a comment';
+    this.placeholder = this.context.placeholder || 'Please, type your comment here.';
     dialog.setCloseGuard(this);
     this.comment = {};
   }
   ngOnInit() {
-  
+
   }
-  
+
   dismissModal() {
     this.dialog.dismiss();
   }

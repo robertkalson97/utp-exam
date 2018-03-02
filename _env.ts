@@ -3,7 +3,7 @@ import { AppConfig } from './src/app/app.config';
 export const APP_DI_CONFIG: AppConfig = {
 
   // here is the URL you need
-  apiEndpoint: 'http://uptracker-api.herokuapp.com/api/v1',
+  apiEndpoint: 'https://uptracker-api.herokuapp.com/api/v1',
 
 
   streetView: {

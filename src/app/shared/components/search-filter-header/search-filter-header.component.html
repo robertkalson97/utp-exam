@@ -5,13 +5,24 @@
         </span>
   </div>
   <div class="ptop5 filter-right">
-    <div class="col s4 l3 m2 input wide-input">
-      <input type="text"
+    <div
+      *ngIf="isKeyword"
+      class="col s4 l3 m2 input wide-input"
+    >
+      <input
+        type="text"
         placeholder="Keyword search"
-        [(ngModel)]="searchKey"
-        class="col s12"
-        (input)="searchFilter($event)"/>
+        [ngModel]="searchKey"
+        (ngModelChange)="searchFilter($event)"
+        class="col s12"/>
     </div>
+    <app-chips-input
+      *ngIf="isMultiple || isChips"
+      class="col s4 l3 m2"
+      [disabled]="isMultiple ? false : true"
+      [ngModel]="chips"
+      (ngModelChange)="chipsChange.emit($event)"
+    ></app-chips-input>
     <div class="col s4 l1 m2 filter-btn text-right">
       <a (click)="showFiltersModal()">
         <fa [name]="'filter'"></fa>

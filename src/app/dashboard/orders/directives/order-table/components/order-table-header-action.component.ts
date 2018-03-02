@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import * as _ from 'lodash';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Modal } from 'angular2-modal';
 import { Subject } from 'rxjs/Subject';
 
@@ -20,14 +20,14 @@ import { OrderTableOnVoidService } from '../order-table-on-void.service';
 })
 @DestroySubscribers()
 export class OrderTableHeaderActionComponent implements OnInit {
-  
+
   private subscribers: any = {};
   public reorderOrders$: Subject<any>;
-  
+
   @Input() listName: string;
   @Input() isShow: boolean;
   @Input() orders: any;
-  
+
   constructor(
     public modal: Modal,
     public pastOrderService: PastOrderService,
@@ -37,11 +37,11 @@ export class OrderTableHeaderActionComponent implements OnInit {
     public orderTableOnVoidService: OrderTableOnVoidService,
   ) {
   }
-  
+
   ngOnInit() {
     this.reorderOrders$ = new Subject<any>();
   }
-  
+
   addSubscribers() {
     this.subscribers.reorderOrdersSubscription = this.reorderOrders$
     .switchMap(() => {
@@ -53,10 +53,10 @@ export class OrderTableHeaderActionComponent implements OnInit {
     })
     .subscribe((res: any) => this.toasterService.pop('', res.msg));
   }
-  
+
   onReceiveOrders() {
     const uniqOrdersByVendors = _.uniqBy(this.orders, 'vendor_id');
-    
+
     if (uniqOrdersByVendors.length === 1) {
       this.sendToReceiveProducts(this.orders);
     } else {
@@ -75,7 +75,7 @@ export class OrderTableHeaderActionComponent implements OnInit {
       });
     }
   }
-  
+
   onFilterCheckedOrders() {
     return this.orders
     .map((order: any) => {
@@ -86,7 +86,7 @@ export class OrderTableHeaderActionComponent implements OnInit {
       );
     });
   }
-  
+
   sendToReceiveProducts(filteredCheckedProducts, singleOrder = false) {
     const sendOrders = filteredCheckedProducts.map((order) => {
       return order.order_id;
@@ -98,11 +98,11 @@ export class OrderTableHeaderActionComponent implements OnInit {
     const queryParams = uniqsendOrders.toString() + '&' + sendItems.toString();
     this.pastOrderService.goToReceive(queryParams);
   }
-  
+
   buyAgainOrders() {
     this.reorderOrders$.next('');
   }
-  
+
   onVoidOrder() {
     this.orderTableOnVoidService.onVoidOrder(this.orders);
   }

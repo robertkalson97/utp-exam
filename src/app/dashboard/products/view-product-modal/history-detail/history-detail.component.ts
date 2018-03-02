@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
 
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 
@@ -18,10 +17,9 @@ export class ViewProductModalContext extends BSModalContext {
   templateUrl: './history-detail.component.html',
   styleUrls: ['./history-detail.component.scss']
 })
-@DestroySubscribers()
 export class HistoryDetailComponent implements OnInit, AfterViewInit {
   public received_approved_by: any;
-  
+
   @Input("order") public order;
 
   constructor() {

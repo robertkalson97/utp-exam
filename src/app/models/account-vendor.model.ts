@@ -1,24 +1,17 @@
 export class AccountVendorModel {
-  id: string = '';
-  account_id: string = null;
+  _id: string = '';
   avg_lead_time: string = null;
   created_at: string = null;
   currency: string = 'USD';
   default_order_type: string = 'email';
   discount_percentage: any = null;
   documents: any = null;
-  email: string = null;
   ext_account_number: string = null;
-  fax: string = null;
-  hidden: boolean = null;
+  is_all: boolean = false;
   location_id: string = null;
-  logo: string = null;
-  name: string = null;
   notes: string = null;
   payment_method: string = 'check';
-  phone: string = null;
-  priority: string = '1';
-  product_count: number = null;
+  priority: number = 1;
   rep_email: string = '';
   rep_fax: string = '';
   rep_mobile_phone: string = '';
@@ -31,8 +24,6 @@ export class AccountVendorModel {
   secondary_rep_office_phone: string = '';
   shipping_handling: any = null;
   updated_at: string = null;
-  vendor_id: string = null;
-  website: string = null;
   
   constructor(obj?:any) {
     for (let field in obj) {

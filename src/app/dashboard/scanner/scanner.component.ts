@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs/Observable';
 import { Component, EventEmitter, Input, NgZone, OnInit, Output, ViewChild } from '@angular/core';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Subject } from 'rxjs/Subject';
 import * as _ from 'lodash';
 import { ToasterService } from '../../core/services/toaster.service';
@@ -36,15 +36,15 @@ export class ScannerComponent implements OnInit {
     public scannerService: ScannerService,
   ) {
   }
-  
+
   ngOnInit() {
     this.subscribers = {};
     this.barCode$ = new Subject();
     this.qrCode$ = new Subject();
-    
+
     this.navigator = navigator;
     this.window = window;
-    
+
     this.code$ = Observable.zip(
       this.barCode$,
       this.qrCode$

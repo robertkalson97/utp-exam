@@ -20,6 +20,7 @@ import { PurchaseOrderModule } from './shopping-list/orders-preview/purchase-ord
 import { ReportsModule } from './reports/reports.module';
 import { AppliancesModule } from './appliances/appliances.module';
 import { AssetsModule } from './assets/assets.module';
+import { RestockFloorModule } from './restock-floor/restock-floor.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { AssetsModule } from './assets/assets.module';
     TranseferModule,
     ReportsModule,
     ShoppingListModule,
+    RestockFloorModule,
   ],
   providers: []
 })

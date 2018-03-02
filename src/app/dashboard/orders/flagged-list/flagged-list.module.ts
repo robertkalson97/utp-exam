@@ -13,7 +13,6 @@ import { FlaggedListComponent } from './flagged-list.component';
     AppSharedModule,
     OrderTableModule,
   ],
-  providers: [],
 })
 export class FlaggedListModule {
 

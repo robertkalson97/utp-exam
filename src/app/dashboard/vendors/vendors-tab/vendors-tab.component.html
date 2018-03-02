@@ -8,7 +8,8 @@
   <div class="col m5 s4">
     <button
             class="uptracker-form-btn white-text waves-effect waves-light test"
-            (click)="openAddVendorsModal()">
+            (click)="openAddVendorsModal()"
+            *ngIf="(vendorService.getVendorsData$ | async) ==='my'">
       <fa name="plus"></fa> Add Vendor
     </button>
   </div>

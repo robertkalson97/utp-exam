@@ -108,6 +108,10 @@
         .row {
           .col {
             display: block;
+            .col-flex-content {
+              display: flex;
+              justify-content: space-between;
+            }
             label {
               vertical-align: middle;
 
@@ -193,6 +197,7 @@
       font-weight:bold;
       a {
         font-size: 1.2rem;
+        text-transform: capitalize;
       }
     }
   }

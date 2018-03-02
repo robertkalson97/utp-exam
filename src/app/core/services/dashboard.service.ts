@@ -16,7 +16,7 @@ export class DashboardService extends ModelService {
   public selfData$: Observable<any>;
   public dashboardText: string;
   public hasInfo: boolean = false;
-  
+
   constructor(
     public injector: Injector,
     public restangular: Restangular,
@@ -27,12 +27,12 @@ export class DashboardService extends ModelService {
     this.appConfig = injector.get(APP_CONFIG);
     this.onInit();
   }
-  
+
   onInit() {
     this.selfData$ = this.restangular.all('dashboard').customGET()
     .filter((data: any) => data.data && data.data.html)
     .map((data: any) => data.data.html);
-    
+
    let a =  this.selfData$.subscribe((text: string) => {
       this.dashboardText = text;
       if (this.localStorage.get('read_info')) {
@@ -41,10 +41,10 @@ export class DashboardService extends ModelService {
         this.setRead(false);
       }
     });
-    
-    
+
+
   }
-  
+
   setRead(status = true){
     this.hasInfo=!status;
     this.localStorage.set('read_info', status ? '1' : '0')

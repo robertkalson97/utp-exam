@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import * as _ from 'lodash';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import createNumberMask from 'text-mask-addons/dist/createNumberMask';
 
 import { UserService, AccountService, ToasterService, SessionService } from '../../core/services/index';
@@ -49,7 +49,7 @@ export class AccountingComponent implements OnInit, OnDestroy {
       public sessionService: SessionService
   ) {
   }
-  
+
   addSubscribers() {
     this.subscribers.getLocationsSubscription = this.userService.selfData$
     .filter(res => res.account)
@@ -68,11 +68,11 @@ export class AccountingComponent implements OnInit, OnDestroy {
  }
   ngOnInit() {
     this.accounting = this.accountService.onboardacc;
-  
+
     this.subscribers.getCurrencySubscription = this.accountService.getCurrencies().subscribe((res) => {
       this.currencyArr = res;
     });
-  
+
     this.localAccounting = JSON.parse(this.sessionService.getLocal("onboardacc")) || {
         total: [],
         budget_distribution: [],
@@ -97,7 +97,7 @@ export class AccountingComponent implements OnInit, OnDestroy {
     });
 
     this.maxRange = this.amount2number(this.accounting.annual_inventory_budget) || 0; //1000000;
-    
+
     //Tax Rate autocalc throw API
     // TODO add taxRate library
     //this.subscribers.taxRateSubscription = this.accountService.getTaxRate(this.accountService.selfData.address)

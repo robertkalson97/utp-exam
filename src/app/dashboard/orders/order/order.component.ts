@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs/Rx';
 
 
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
 
 import { ModalWindowService } from "../../../core/services/modal-window.service";
@@ -18,6 +18,7 @@ import { EditEmailDataModal } from '../../shopping-list/orders-preview/purchase-
 import { OrderService } from '../../../core/services/order.service';
 import { Subject } from 'rxjs/Subject';
 import { APP_DI_CONFIG } from '../../../../../env';
+import { FlaggedListService } from '../services/flagged-list.service';
 
 
 @Component({
@@ -45,12 +46,13 @@ export class OrderComponent implements OnInit, OnDestroy {
     public router: Router,
     public toasterService: ToasterService,
     public orderService: OrderService,
+    public flaggedListService: FlaggedListService
   ) {
     this.apiUrl = APP_DI_CONFIG.apiEndpoint;
   }
 
 ngOnInit() {
-    
+
     this.subscribers.showOrderSubscription = this.route.params
     .switchMap((p: Params) => {
       this.orderId = p['id'];
@@ -59,27 +61,27 @@ ngOnInit() {
     .subscribe((item: any) =>
       this.order$.next(item)
     );
-    
+
   }
   addSubscribers() {
     this.subscribers.updateOrderFlaggedSubscription = this.updateFlagged$
     .switchMapTo(this.order$.first())
-    .switchMap(order => this.pastOrderService.setFlag(order, order.id))
+    .switchMap(order => this.flaggedListService.putItem(order))
     .subscribe(res => {
         this.order$.next(res);
         this.toasterService.pop('', res.flagged ? 'Flagged' : "Unflagged");
       },
       err => console.log('error'));
   }
-  
+
   ngOnDestroy() {
     console.log('for unsubscribing');
   }
-  
+
   goBack(): void {
     this.windowLocation.back();
   }
-  
+
   sendOrder() {
     let order = {};
     this.order$
@@ -106,7 +108,7 @@ ngOnInit() {
     (err: any) => {
     })
   }
-  
+
   showEmailDataEditModal(data) {
     if (!data.email_text) {
       data.email_text = "Email text"
@@ -121,5 +123,5 @@ ngOnInit() {
     e.stopPropagation();
     this.updateFlagged$.next(this.order$);
   }
-  
+
 }

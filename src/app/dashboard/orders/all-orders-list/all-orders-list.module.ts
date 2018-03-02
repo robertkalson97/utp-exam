@@ -13,7 +13,6 @@ import { OrderTableModule } from '../directives/order-table/order-table.module';
     AppSharedModule,
     OrderTableModule,
   ],
-  providers: [],
 })
 export class AllOrdersListModule {
 

@@ -5,7 +5,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 
 import * as _ from 'lodash';
 

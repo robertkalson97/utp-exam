@@ -16,6 +16,7 @@ import { SearchFilterHeaderModule } from '../../shared/components/search-filter-
 import { FavoritedListModule } from './favorited-list/favorited-list.module';
 import { FlaggedListModule } from './flagged-list/flagged-list.module';
 import { ReconciledListModule } from './reconciled-list/reconciled-list.module';
+import { ORDER_PROVIDERS } from './services';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,9 @@ import { ReconciledListModule } from './reconciled-list/reconciled-list.module';
     ReconcileModule,
     ResendOrderModalModule,
   ],
-  providers: []
+  providers: [
+    ORDER_PROVIDERS
+  ]
 })
 export class OrdersModule {
 }

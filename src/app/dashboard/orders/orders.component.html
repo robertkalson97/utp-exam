@@ -3,6 +3,8 @@
     <app-search-filter-header
       [title]="'Orders'"
       [searchKey]="searchKey"
+      searchType="chips"
+      [chips]="chips$ | async"
       (searchEvent)="searchOrders($event)"
       (resetEvent)="resetFilters()"
       (openModalEvent)="showFiltersModal()"
@@ -10,39 +12,25 @@
 
     <div class="row">
       <ul class="tabs location-tabs mrg-btm-0" materialize="tabs">
-        <li class="tab">
-          <a href="#allTab">All</a>
-        </li>
-        <li class="tab">
-          <a href="#openTab">Open</a>
-        </li>
-        <li class="tab">
-          <a href="#receivedTab">Received</a>
-        </li>
-        <li class="tab">
-          <a href="#backorderedTab">Backordered</a>
-        </li>
-        <li class="tab">
-          <a href="#reconciledTab">Reconciled</a>
-        </li>
-        <li class="tab">
-          <a href="#closedTab">Closed</a>
-        </li>
-        <li class="tab">
-          <a href="#flaggedTab">Flagged</a>
-        </li>
-        <li class="tab">
-          <a href="#favoritedTab">Favorited</a>
+        <li
+          class="tab"
+          *ngFor="let tab of orderTabsArr"
+        >
+          <a
+            href="#{{tab}}Tab"
+            appHasClass="active"
+            (hasClassChange)="activeChange($event, tab)"
+          >{{tab}}</a>
         </li>
       </ul>
     </div>
-    <app-all-orders-list id="allTab"></app-all-orders-list>
-    <app-open-orders-list id="openTab"></app-open-orders-list>
-    <app-received-list id="receivedTab"></app-received-list>
-    <app-favorited-list id="favoritedTab"></app-favorited-list>
-    <app-backordered-list id="backorderedTab"></app-backordered-list>
-    <app-reconciled-list id="reconciledTab"></app-reconciled-list>
-    <app-flagged-list id="flaggedTab"></app-flagged-list>
-    <app-closed-list id="closedTab"></app-closed-list>
+    <app-all-orders-list id="{{orderTabs.all}}Tab"></app-all-orders-list>
+    <app-open-orders-list id="{{orderTabs.open}}Tab"></app-open-orders-list>
+    <app-received-list id="{{orderTabs.received}}Tab"></app-received-list>
+    <app-favorited-list id="{{orderTabs.favorited}}Tab"></app-favorited-list>
+    <app-backordered-list id="{{orderTabs.backordered}}Tab"></app-backordered-list>
+    <app-reconciled-list id="{{orderTabs.reconciled}}Tab"></app-reconciled-list>
+    <app-flagged-list id="{{orderTabs.flagged}}Tab"></app-flagged-list>
+    <app-closed-list id="{{orderTabs.closed}}Tab"></app-closed-list>
   </div>
 </div>

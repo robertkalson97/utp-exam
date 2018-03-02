@@ -1,14 +1,20 @@
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject } from 'rxjs/Rx';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
-import { PastOrderService } from '../../core/services/pastOrder.service';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 
-import { Router } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Subject } from 'rxjs/Subject';
+
+import { map } from 'lodash';
+
+import { PastOrderService } from '../../core/services/pastOrder.service';
 import { ModalWindowService } from '../../core/services/modal-window.service';
 import { ToasterService } from '../../core/services/toaster.service';
 import { OrderTableResetService } from './directives/order-table/order-table-reset.service';
+import { OrderTableFilterByService } from './directives/order-table/order-table-filter-by.service';
 
 @Component({
   selector: 'app-orders',
@@ -16,7 +22,7 @@ import { OrderTableResetService } from './directives/order-table/order-table-res
   styleUrls: ['./orders.component.scss']
 })
 @DestroySubscribers()
-export class OrdersComponent implements OnInit, OnDestroy, AfterViewInit {
+export class OrdersComponent implements OnInit, OnDestroy {
   public subscribers: any = {};
   public searchKey$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public orders$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
@@ -24,7 +30,27 @@ export class OrdersComponent implements OnInit, OnDestroy, AfterViewInit {
   public sortBy: string;
   public sortBy$: BehaviorSubject<any> = new BehaviorSubject(null);
   public visible: boolean[] = [];
-  
+
+  public orderTabs = {
+    all: 'all',
+    open: 'open',
+    received: 'received',
+    backordered: 'backordered',
+    reconciled: 'reconciled',
+    closed: 'closed',
+    flagged: 'flagged',
+    favorited: 'favorited',
+  };
+
+  public orderTabsArr = map(this.orderTabs, (value, key) => value);
+
+  private activeChange$ = new Subject<{active: boolean, tab: string}>();
+  private activeTab$: Observable<string>;
+
+  public chips$;
+
+  private filterItems$: Observable<any[]>;
+
   constructor(
       public modal: Modal,
       public router: Router,
@@ -32,17 +58,27 @@ export class OrdersComponent implements OnInit, OnDestroy, AfterViewInit {
       public modalWindowService: ModalWindowService,
       public toasterService: ToasterService,
       public orderTableResetService: OrderTableResetService,
+      private orderTableFilterByService: OrderTableFilterByService
   ) {
-  
   }
 
   ngOnInit() {
-  
+    this.activeTab$ = this.activeChange$
+    .filter((event) => event.active)
+    .map((event) => event.tab)
+    .shareReplay(1);
+
+    this.filterItems$ = this.activeTab$
+    .switchMap((tab) =>
+      this.orderTableFilterByService.getFilterByListName(tab)
+    )
+    .map((filterObj) => map(filterObj, (value, key) => ({value, key})))
+    .shareReplay(1);
+
+    this.chips$ = this.filterItems$
+    .map((items) => map(items, (item) => item.value));
   }
-  
-  ngAfterViewInit() {
-  }
-  
+
   ngOnDestroy() {
     console.log('for unsubscribing');
   }
@@ -52,13 +88,16 @@ export class OrdersComponent implements OnInit, OnDestroy, AfterViewInit {
     const value = event.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
     this.searchKey$.next(value);
   };
-  
+
   showFiltersModal() {
-  
+
   }
-  
+
   resetFilters() {
     this.orderTableResetService.resetFilters();
   }
-  
+
+  activeChange(active: boolean, tab: string) {
+    this.activeChange$.next({active, tab});
+  }
 }

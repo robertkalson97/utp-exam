@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Modal } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
 
 import { ProductFilterModal } from './product-filter-modal/product-filter-modal.component';
 import { ProductService } from '../../core/services/index';
@@ -15,17 +14,16 @@ import { ToasterService } from '../../core/services/toaster.service';
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.scss']
 })
-@DestroySubscribers()
 export class ProductsComponent implements OnInit {
   public nothingChecked: boolean;
-  
+
   public dashboardLocation;
   public searchKey: string;
   public searchKeyLast: string;
   public locationId: string;
   private subscribers: any;
   public test: string;
-  
+
   constructor(
     public modal: Modal,
     public productService: ProductService,
@@ -34,10 +32,10 @@ export class ProductsComponent implements OnInit {
     public toasterService: ToasterService
   ) {
   }
-  
+
   ngOnInit() {
   }
-  
+
   searchProducts(event) {
     this.productService.updateSearchKey(event);
   }
@@ -55,7 +53,7 @@ export class ProductsComponent implements OnInit {
       );
     });
   }
-  
+
   showUploadDialog() {
     this.modal
     .open(UploadCsvModal, this.modalWindowService.overlayConfigFactoryWithParams({}, true))
@@ -69,7 +67,7 @@ export class ProductsComponent implements OnInit {
       );
     });
   }
-  
+
   resetFilters() {
     this.searchKey = '';
     this.productService.updateSearchKey('');

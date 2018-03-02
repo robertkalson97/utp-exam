@@ -7,6 +7,15 @@
     transition: all .3s;
   }
   .main-row .underline-text {
-    text-decoration: underline;
+    &.expanded {
+      text-decoration: underline;
+    }
+    color: #000 !important;
+  }
+  .black-text {
+    color: #000 !important;
+  }
+  .cursor-default {
+    cursor: default;
   }
 }

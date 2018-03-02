@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
 
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { ModalWindowService } from '../../../../core/services/modal-window.service';
@@ -24,10 +24,12 @@ export class ViewProductModalContext extends BSModalContext {
 @DestroySubscribers()
 export class VariantShortDetailComponent implements OnInit, AfterViewInit {
   public locationArr: any;
-  
+
   @Input("variant") public variant;
   @Input("product_id") public product_id;
   @Input("showEdit") public showEdit;
+
+  private subscribers: any = {};
 
   constructor(
     public modalWindowService: ModalWindowService,
@@ -35,9 +37,9 @@ export class VariantShortDetailComponent implements OnInit, AfterViewInit {
     public accountService: AccountService,
 
 ) {
-    this.accountService.locations$
+    this.subscribers.locationSubscribtion = this.accountService.locations$
     .subscribe(r=>{this.locationArr = r});
-  
+
   }
 
   ngOnInit() {
@@ -54,9 +56,9 @@ export class VariantShortDetailComponent implements OnInit, AfterViewInit {
   variantDetailCollapse() {
     this.variant.detailView = false;
   }
-  
+
   log(p){
     console.log(p);
   }
- 
+
 }

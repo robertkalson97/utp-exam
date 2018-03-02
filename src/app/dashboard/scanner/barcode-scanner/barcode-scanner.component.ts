@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, Simp
 import Quagga from 'quagga';
 
 import { Observable } from 'rxjs/Observable';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Subject } from 'rxjs/Subject';
 
 

@@ -5,10 +5,12 @@ import { AppSharedModule } from '../../../shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { ReceiveItemModule } from './receive-item/receive-item.module';
+import { ReceiveService } from './receive.service';
 
 @NgModule({
   declarations: [
     ReceiveComponent,
+
   ],
   imports: [
     AppSharedModule,
@@ -16,7 +18,7 @@ import { ReceiveItemModule } from './receive-item/receive-item.module';
     ReactiveFormsModule,
     ReceiveItemModule,
   ],
-  providers: []
+  providers: [ReceiveService],
 })
 export class ReceiveModule {
 

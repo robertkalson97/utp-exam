@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { UserService } from '../../../core/services/user.service';
 import { ToasterService } from '../../../core/services/toaster.service';
 
@@ -21,7 +21,9 @@ export class InviteUserModal implements OnInit, CloseGuard, ModalComponent<Invit
   name:string;
   efoc:boolean = true;
   nfoc:boolean = true;
-  
+
+  private subscribers: any = {};
+
   constructor(
       public dialog: DialogRef<InviteUserModalContext>,
       public userService: UserService,
@@ -40,9 +42,9 @@ export class InviteUserModal implements OnInit, CloseGuard, ModalComponent<Invit
   closeModal(data){
     this.dialog.close(data);
   }
-  
+
   invite(){
-    this.userService.inviteUser(this.name,this.email)
+    this.subscribers.inviteSubscribtion = this.userService.inviteUser(this.name,this.email)
     .subscribe((res:any)=>{
       this.toasterService.pop("", res.message);
       this.dismissModal();

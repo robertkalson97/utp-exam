@@ -1,152 +1,93 @@
 <div class="row">
-  <div class="col s3 tealish-text pointer" [routerLink]="['/','orders',item.order_id]">
-    {{ item.po_number }}
+  <div class="col s3 tealish-text pointer" [routerLink]="['/','orders', orderId]">
+    {{ (order$ | async)?.po_number }}
   </div>
-  <div class="col s1" [class.strikethrough]=product.edit>
-    {{ product.quantity }}
-    <a (click)="editQuantityToggle(product)" *ngIf="!product.edit">
+  <div class="col s1" [class.strikethrough]="editQty">
+    {{ itemTotal }}
+    <a (click)="editQtyToggle()" *ngIf="!editQty">
       <fa name="pencil" class="tealish-text"></fa>
     </a>
   </div>
   <div class="col s4 tealish-text">
-    {{ product.item_name }}
+    {{ (item$ | async)?.item_name }}
   </div>
-  <div class="col s4 tealish-text pointer" [routerLink]="['/locations','view',product.location_id]">
-    {{ product.location_name }}
+  <div class="col s4 tealish-text pointer" [routerLink]="['/locations','view',(item$ | async)?.location_id]">
+    {{ (item$ | async)?.location_name }}
   </div>
 </div>
-<div class="row" *ngIf="product.edit">
+
+<app-receive-status-line-qty-item
+  class="row relative status-line"
+  *ngFor="let item of statusLineQtyItems$ | async"
+  [item]="item"
+></app-receive-status-line-qty-item>
+
+<div class="row" *ngIf="editQty">
   <div class="col s3">
     <div class="input flex-center">
       <input type="text" value="New Order Quantity"
         disabled
-        name="edit{{i}}"
       >
     </div>
   </div>
   <div class="col s1">
     <div class="input flex-center">
-      <input type="text" value="{{product.quantity}}"
-        name="qty{{i}}"
-        (change)="onChangeProductQuantity(product)"
-        required
+      <input
+        type="number"
+        [min]="minItemQuantity"
+        [formControl]="quantityControl"
       >
+    </div>
+    <div [hidden]="!orderItemForm.hasError('minItemQty') || (quantityControl.pristine && !(formSubmitted$ | async))"
+      class="error red-text left-align">
+      Quantity couldn't be less than received
     </div>
   </div>
   <div class="col s7">
     <div class="input flex-center">
-      <input type="text" placeholder="Custom Note">
+      <input
+        type="text"
+        placeholder="Custom Note"
+        [formControl]="noteControl"
+      >
+    </div>
+    <div [hidden]="noteControl.valid || (noteControl.pristine && !(formSubmitted$ | async))"
+      class="error red-text left-align">
+      Note is required
     </div>
   </div>
   <div class="col s1 flex-center justify-center trash-icon">
-    <a (click)="editQuantityToggle(product)">
+    <a (click)="editQtyToggle()">
       <fa name="trash" class="tealish-text"></fa>
     </a>
   </div>
 </div>
-<div class="row relative status-line" *ngFor="let statusLine of product.status_line_items">
-  <div class="col s3">
-    {{ statusLine.status }}
-  </div>
-  <div class="col s1">
-    {{statusLine.quantity}}
-  </div>
-  <div class="col s4 tealish-text pointer" [routerLink]="['/', 'inventory','item', statusLine.inventory_group_id]">
-    {{statusLine.inventory_group_name}}
-  </div>
-  <div class="col s3">
-    {{statusLine.location_name}}: {{statusLine.storage_location_name}}
-  </div>
-  <div class="col s1 flex-center justify-center">
-    <a (click)="removePreviouslyReceivedToggle(statusLine)">
-      <fa name="trash" *ngIf="!statusLine.removed" class="tealish-text"></fa>
-      <fa name="undo" *ngIf="statusLine.removed" class="tealish-text"></fa>
-    </a>
-  </div>
-  <div class="col s11" [class.strikethrough-line]="statusLine.removed"></div>
-</div>
+<app-receive-status-line-item
+  class="row relative status-line"
+  *ngFor="let statusFormGroup of statusLineItemsControl?.controls"
+  [statusFormGroup]="statusFormGroup"
+  [inventoryGroupId]="inventoryGroupIdControl?.value"
+></app-receive-status-line-item>
 
-<div class="row" *ngFor="let status of product.status; let i=index;">
-  <div class="col s3">
-    <div class="select custom-select select-light flex-center" *ngIf="status.showStatusSelect">
-      <select
-        materialize="material_select"
-        [materializeSelectOptions]="statusList"
-        (ngModelChange)="changeStatus($event, product, status)"
-        [ngModel]='status.type'
-        name="status{{i}}"
-      >
-        <ng-container *ngFor="let statusItem of statusList">
-          <option [value]="statusItem.value">{{ statusItem.text }}</option>
-        </ng-container>
-      </select>
-    </div>
-  </div>
-  <div class="col s1">
-    <div class="input flex-center">
-      <input type="text" [(ngModel)]="status.qty"
-        [disabled]="status.type === 'pending'"
-        (change)="onchangeStatusQty(product, status, $event.target.value)"
-        name="qty{{i}}"
-      >
-    </div>
-  </div>
-  <div class="col s4">
-    <div class="select select-light flex-center input relative"
-      *ngIf="status.type === 'receive' || (status.type === 'partial receive' && status.inventoryHide)">
-      <input auto-complete
-        placeholder="Select one"
-        [source]="product.inventory_groups"
-        [disabled]="product.existInvGroup"
-        [(ngModel)]='product.inventory_group'
-        (ngModelChange)='selectedAutocompledInventoryGroup($event, product)'
-        [list-formatter]='"name"'
-        [tab-to-select]='false'
-        name="inventoryGroup"
-        #inventoryGroup="ngModel"
-        required minlength="1"
-        [class.invalid]="!inventoryGroupValid && !product.existInvGroup"
-      />
-      <div [hidden]="inventoryGroup.untouched || product.inventory_group_id"
-        class="error red-text left-align error-absolute">
-        Inventory group is required
-      </div>
-    </div>
-    <div class="select select-light flex-center"
-      *ngIf="status.type === 'pending' || status.type === 'return' || status.type === 'backorder' || status.type === 'quantity increase' || status.type === 'quantity decrease'|| (status.type === 'partial receive' && !status.inventoryHide)">
-      <select
-        materialize="material_select"
-        [disabled]="true"
-        name="inventory{{i}}"
-        required
-      >
-        <option value="null">N/A</option>
-      </select>
-    </div>
-  </div>
-  <div class="col s3">
-    <div class="select select-light flex-center">
-      <select materialize="material_select"
-        [materializeSelectOptions]="product.locations"
-        (ngModelChange)="changeLocation($event, status)"
-        [ngModel]='status.location'
-        [disabled]="status.type === 'pending' || status.type === 'return' || status.type === 'backorder'"
-        name="location{{i}}"
-      >
-        <ng-container *ngIf="status.type === 'pending' || status.type === 'return' || status.type === 'backorder' || !product.inventory_group_id">
-          <option value="null">N/A</option>
-        </ng-container>
-        <ng-container *ngIf="status.type === 'receive' || status.type === 'partial receive' || status.type === 'quantity increase' || status.type === 'quantity decrease'">
-          <option *ngFor="let location of product.locations" [ngValue]="location">{{location.location_name}}: {{
-            location.name }}
-          </option>
-        </ng-container>
-      </select>
-    </div>
-  </div>
-  <div class="col s1 flex-center justify-center trash-icon">
-    <a (click)="remove(product, status)" *ngIf="status.type !== 'pending'">
-      <fa name="trash" class="tealish-text"></fa>
-    </a>
-  </div>
+<app-receive-new-status-item
+  class="row"
+  *ngFor="let statusFormGroup of statusControl?.controls; index as i"
+  [statusFormGroup]="statusFormGroup"
+  [inventoryGroupIdControl]="inventoryGroupIdControl"
+  [inventoryGroupIds]="inventoryGroupIds$ | async"
+  [itemProductVariantId]="itemProductVariantId$ | async"
+  [pendingQty]="pendingQty$ | async"
+  [selected]="statusItemStatuses$ | async"
+  (remove)="removeStatus(i)"
+  (createInventoryEvent)="createNewInventoryEvent($event)"
+></app-receive-new-status-item>
+<div [hidden]="!orderItemForm.hasError('maxItemsQty')"
+  class="error red-text left-align">
+  Items quantity couldn`t be more than {{ quantityControl.value }}
 </div>
+<app-receive-add-new-status-item
+  [qty]="(pendingQty$ | async) >= 0 ? (pendingQty$ | async) : 0"
+  [selected]="statusItemStatuses$ | async"
+  (statusAdd)="onStatusAdd($event)"
+></app-receive-add-new-status-item>
+

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Location }               from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
 
 import { AccountService, UserService, ModalWindowService } from '../../../core/services/index';
@@ -25,7 +25,7 @@ export class ViewUserComponent implements OnInit {
   public toSendMessage: boolean = false;
   public userLocations;
   public deleteUser$: ReplaySubject<any> = new ReplaySubject(1);
-  
+
   constructor(
     public router:Router,
     public location: Location,
@@ -35,7 +35,7 @@ export class ViewUserComponent implements OnInit {
     public modalWindowService: ModalWindowService
   ) {
   }
-  
+
   ngOnInit() {
     this.subscribers.userSubscription = Observable.combineLatest(
       this.route.params,
@@ -65,7 +65,7 @@ export class ViewUserComponent implements OnInit {
     });
     //ToDO
     //this.toSendMessage = userData.sendMessage || false;
-    
+
     this.subscribers.deleteUserSubscription = this.deleteUser$
     .switchMap(() => this.accountService.deleteUser(this.user))
     .subscribe((res: any) =>
@@ -74,26 +74,26 @@ export class ViewUserComponent implements OnInit {
         this.goBack()
     );
   }
-  
+
   deleteUser(user) {
     this.modalWindowService.confirmModal('Delete user?', {text: 'Are you sure you want to delete the user?', btn: 'Delete'}, this.deleteUserFunc.bind(this));
   }
-  
+
   deleteUserFunc() {
     this.deleteUser$.next('');
   }
-  
+
   confirmMessage() {
     this.messageConfirm = true;
   }
-  
+
   sendNewMessage() {
     this.message = {};
     this.messageConfirm = false;
   }
-  
+
   goBack(): void {
     this.router.navigate(['/users']);
   }
-  
+
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, NgZone, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { Modal } from 'angular2-modal';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { Location }                 from '@angular/common';

@@ -2,7 +2,6 @@ import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Overlay, overlayConfigFactory } from 'angular2-modal';
 import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
 import { Observable } from 'rxjs/Rx';
 
 import { EditLocationModal } from '../../shared/modals/index';
@@ -13,7 +12,6 @@ import { UserService } from '../../core/services/index';
   templateUrl: './locations.component.html',
   styleUrls: ['./locations.component.scss']
 })
-@DestroySubscribers()
 export class OnboardLocationsComponent implements OnInit {
   public locations$: Observable<any>;
 

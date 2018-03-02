@@ -62,6 +62,16 @@
       </div>
       <div class="row">
         <div class="col s12">
+          <div class="ttl">Catalog #</div>
+          <div class="input">
+            <input [(ngModel)]="newProductData.catalog_number" type="text" placeholder="Catalog #"
+              name="catalog"
+              #catalog="ngModel">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12">
           <div class="ttl">Outer Package</div>
           <div class="row relative">
             <div class="col s11">
@@ -232,16 +242,6 @@
                 Price should be a number.
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col s12">
-          <div class="ttl">Catalog #</div>
-          <div class="input">
-            <input [(ngModel)]="newProductData.catalog_number" type="text" placeholder="Catalog #"
-              name="catalog"
-              #catalog="ngModel">
           </div>
         </div>
       </div>

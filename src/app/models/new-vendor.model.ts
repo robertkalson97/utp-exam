@@ -8,8 +8,8 @@ export class NewVendorModel {
   phone: string = '';
   state: string = '';
   city: string = '';
-  street_1: string = '';
-  street_2: string = '';
+  address_1: string = '';
+  address_2: string = '';
   country: string = '';
   postCode: string = '';
   email: string = '';

@@ -3,7 +3,7 @@ import { Observable, BehaviorSubject } from 'rxjs/Rx';
 
 import { Overlay, overlayConfigFactory } from 'angular2-modal';
 import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
 
 import { EditLocationModal } from '../../shared/modals/index';
@@ -24,7 +24,7 @@ export class LocationsComponent implements OnInit {
   public sortBy$: any = new BehaviorSubject('relevance');
   public total: number;
   public locations$: Observable<any>;
-  
+
   constructor(
     public modal: Modal,
     public userService: UserService,
@@ -32,7 +32,7 @@ export class LocationsComponent implements OnInit {
     public modalWindowService: ModalWindowService
   ) {
   }
-  
+
   ngOnInit() {
     this.locations$ = Observable
     .combineLatest(
@@ -40,13 +40,13 @@ export class LocationsComponent implements OnInit {
       this.sortBy$,
       this.searchKey$.debounceTime(1000)
     )
-    
+
     // filter for emitting only if user account exists (for logout user updateSelfData)
     .filter(([user, sortBy, searchKey]) => {
       return user.account;
     })
     .map(([user, sortBy, searchKey]) => {
-      
+
       this.total = user.account.locations.length;
       let filteredLocations = user.account.locations;
       if (searchKey && searchKey != '') {
@@ -64,28 +64,28 @@ export class LocationsComponent implements OnInit {
         this.sortBy = r;
       }
     );
-  
+
   }
-  
+
   viewLocationModal(location = null) {
   }
-  
+
   editLocationModal(location = null) {
     this.modal.open(EditLocationModal, this.modalWindowService.overlayConfigFactoryWithParams({location: location}));
   }
-  
+
   locationsSort(event) {
     let value = event.target.value;
     this.sortBy$.next(value);
   }
-  
+
   locationsFilter(event) {
     // replace forbidden characters
     let value = event.target.value.replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
     this.searchKey$.next(value);
   }
-  
-  
+
+
   resetFilters() {
     this.sortBy = '';
     this.searchKey = '';

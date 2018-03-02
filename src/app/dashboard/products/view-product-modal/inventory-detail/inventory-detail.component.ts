@@ -1,7 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone, Input } from '@angular/core';
 
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
 import * as _ from 'lodash';
 import { validateConfig } from '@angular/router/src/config';
@@ -19,7 +18,6 @@ export class ViewProductModalContext extends BSModalContext {
   templateUrl: './inventory-detail.component.html',
   styleUrls: ['./inventory-detail.component.scss']
 })
-@DestroySubscribers()
 export class InventoryDetailComponent implements OnInit, AfterViewInit {
 
   @Input("variant") public variant;
@@ -35,5 +33,5 @@ export class InventoryDetailComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
   }
 
-  
+
 }

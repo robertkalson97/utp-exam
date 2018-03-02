@@ -54,7 +54,7 @@
               [source]="observableSource.bind(this)"
               (ngModelChange) = 'selectedAutocompled($event)'
               [min-chars] = '3'
-              [ngModel] = 'searchText'
+              [(ngModel)] = 'searchText'
               [no-match-found-text] ='noSearchedRes'
               [tab-to-select] = 'false'
             />

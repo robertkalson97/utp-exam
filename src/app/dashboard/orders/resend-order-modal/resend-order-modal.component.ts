@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { DialogRef, ModalComponent, CloseGuard, Modal } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { EditEmailDataModal } from '../../shopping-list/orders-preview/purchase-order/edit-email-data-modal/edit-email-data-modal.component';
 import { ModalWindowService } from '../../../core/services/modal-window.service';
 import { PastOrderService } from '../../../core/services/pastOrder.service';

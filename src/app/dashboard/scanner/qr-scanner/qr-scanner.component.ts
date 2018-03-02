@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, NgZone, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 
 import QrCode from 'qrcode-reader';
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Subject } from 'rxjs/Subject';
 
 

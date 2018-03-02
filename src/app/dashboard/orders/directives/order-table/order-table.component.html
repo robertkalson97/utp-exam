@@ -17,21 +17,24 @@
     <div class="col pointer"
       (click)="sortByHeaderCol(headerCol)"
       [ngClass]="headerCol.className"
+      [class.red-text]="(sort$ | async)?.alias === headerCol.alias"
       *ngFor="let headerCol of header;">
       {{headerCol.name}}
+      <fa
+        *ngIf="(sort$ | async)?.alias === headerCol.alias"
+        [name]="(sort$ | async)?.order === asc ? 'chevron-up' : 'chevron-down'"
+      ></fa>
       <app-order-table-header-action
         [orders]="checkedOrders$ | async"
         [isShow]="headerCol.actions && showHeaderMenu$ | async"
-        [listName]="listName"
+        [listName]="_listName"
       ></app-order-table-header-action>
     </div>
 
   </div>
 
   <div class="item" *ngFor="let item of filteredOrders$ | async; index as i;">
-    <div class="row flex-center mrg-btm-0 main-row"
-      [class.pointer] = "listName !== 'backordered' && item.status_line_items"
-      (click)="(listName !== 'backordered') ? toggleStatusHistoryDetail(item) : ''">
+    <div class="row flex-center mrg-btm-0 main-row">
       <div class="input-checkbox left checkbox">
         <input
           type="checkbox"
@@ -45,21 +48,31 @@
 
       <div class="col"
         *ngFor="let headerCol of header;"
-        (click)="headerCol?.filterBy ? onFilterBy(item[headerCol.alias], headerCol) : ''"
+        (click)="headerCol?.filterBy && !(headerCol.showChevron && item.statusHistoryVisibility) ? onFilterBy(item[headerCol.alias], headerCol) : ''"
         [ngClass]="headerCol.className"
         [class.tealish-text]="headerCol?.filterBy"
         [class.pointer]="headerCol?.filterBy"
+        [class.expanded]="item.statusHistoryVisibility"
       >
-        <ng-template
-          [ngIf]="headerCol.alias && item[headerCol.alias]"
-        >
-          {{item[headerCol.alias]}}
-        </ng-template>
+        <div [ngClass]="{'col-flex-content': headerCol.showChevron}">
+          <span
+            *ngIf="headerCol.alias && item[headerCol.alias]"
+            [ngClass]="{'black-text cursor-default': headerCol.showChevron && item.statusHistoryVisibility, 'red-text':  (filterByObj$ | async)[headerCol.alias] === item[headerCol.alias]}">
+            {{item[headerCol.alias]}}
+          </span>
+          <fa
+            *ngIf="headerCol.showChevron && item.status_int === orderStatus.multiple"
+            (click)="toggleStatusHistoryDetail(item); $event.stopPropagation()"
+            class="expand-chevron"
+            [name]="item.statusHistoryVisibility ? 'chevron-up' : 'chevron-down'"
+          ></fa>
+        </div>
+
 
         <app-order-table-item-action
           [item]="item"
           [isShow]="headerCol.actions"
-          [listName]="listName"
+          [listName]="_listName"
           [uniqueField]="uniqueField"
           [i]="i"
         ></app-order-table-item-action>

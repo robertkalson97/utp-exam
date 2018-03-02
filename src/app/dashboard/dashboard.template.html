@@ -5,9 +5,9 @@
     </div>
     <div class="nav">
       <a [routerLink]="['/dashboard']"
-        class="relative"
-        [routerLinkActiveOptions]="{ exact: true }"
-        routerLinkActive="active"
+         class="relative"
+         [routerLinkActiveOptions]="{ exact: true }"
+         routerLinkActive="active"
       >
         <div class="icon dash"></div>
         Dashboard
@@ -55,7 +55,7 @@
     <header class="header">
       <div class="row">
         <div class="col s6 m6">
-          <div class="select custom-select low-height input-field" *ngIf="!stateService.isUrl('/dashboard/locations') && !stateService.isUrl('/dashboard') && (accountService.locations$ | async)?.length >1">
+          <div class="select custom-select low-height input-field left" *ngIf="!stateService.isUrl('/dashboard/locations') && !stateService.isUrl('/dashboard') && (accountService.locations$ | async)?.length >1">
             <select *ngIf="showLocSelect"
                 [(ngModel)]="selectedLocation"
                 name="location"
@@ -66,6 +66,35 @@
               <option *ngFor="let location of locationArr" [value]="location.id">{{location.name}}</option>
             </select>
           </div>
+          <div materialize="dropdown" class="navigation-dropdown-button left" data-activates="navigation-dropdown" data-beloworigin="true" data-alignment="left">
+            <i class="fa fa-bars" aria-hidden="true"></i>
+          </div>
+          <ul id="navigation-dropdown" class="navigation-dropdown-content dropdown-content">
+            <li>
+              <a href="#">
+                <i class="fa fa-barcode" aria-hidden="true"></i>
+                Subtract Inventory
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/restock-floor']" routerLinkActive="active">
+                <i class="fa fa-sitemap" aria-hidden="true"></i>
+                Restock Floor
+              </a>
+            </li>
+            <li>
+              <a [routerLink]="['/transfers']" routerLinkActive="active">
+                <i class="fa fa-exchange" aria-hidden="true"></i>
+                Transfer
+              </a>
+            </li>
+            <li>
+              <a href="#">
+                <i class="fa fa-list-ol" aria-hidden="true"></i>
+                Stock Count
+              </a>
+            </li>
+          </ul>
         </div>
         <div class="col s6 m6 user-menu-col">
           <user-dropdown-menu></user-dropdown-menu>

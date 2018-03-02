@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Location }                 from '@angular/common';
 
-import { DestroySubscribers } from 'ng2-destroy-subscribers';
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 
 import { AccountService, ModalWindowService } from '../../../core/services/index';
 import { LocationModel } from '../../../models/index';
@@ -24,7 +24,7 @@ export class ViewLocationComponent implements OnInit, OnDestroy {
   public location: LocationModel;
   public locationId: string;
   public deleteLocation$: ReplaySubject<any> = new ReplaySubject(1);
-  
+
   constructor(
     public accountService: AccountService,
     public windowLocation: Location,
@@ -35,7 +35,7 @@ export class ViewLocationComponent implements OnInit, OnDestroy {
   ) {
     this.location = new LocationModel();
   }
-  
+
   ngOnInit() {
     this.route.params
     .switchMap((params: Params) =>
@@ -54,26 +54,26 @@ export class ViewLocationComponent implements OnInit, OnDestroy {
       this.location.zip_code = this.location.address.postal_code;
       this.location.state = this.location.address.state;
     });
-    
+
     this.subscribers.deleteLocationSubscription = this.deleteLocation$
     .switchMap(() => this.locationService.deleteLocation(this.location))
     .subscribe(() => this.goBack());
   }
-  
+
   ngOnDestroy() {
     console.log('for unsubscribing')
   }
-  
+
   deleteLocation(location) {
     this.modalWindowService.confirmModal('Delete location?', {text: 'Are you sure you want to delete the location?', btn: 'Delete'}, this.deleteLocationFunc.bind(this));
   }
-  
+
   deleteLocationFunc() {
     this.deleteLocation$.next('');
   }
-  
+
   goBack(): void {
     this.router.navigate(['/locations']);
   }
-  
+
 }
