@@ -4,22 +4,12 @@
   <div class="row">
     <div class="col s4">
       <div class="img-container">
-        <div class="img" *ngIf="logoPreview || generalVendor.logo" [ngStyle]="{ 'background-image': 'url(' + (logoPreview || generalVendor.logo) + ')' }"></div>
-      </div>
-      <div class="text">
-        <div class="file-field uptracker-form">
-          <div class="upload-link">
-            <input type="file"   (change)="uploadLogo($event)" />
-            <a>Upload</a>
-          </div>
-        </div>
+        <div class="img" *ngIf="generalVendor.logo" [ngStyle]="{ 'background-image': 'url(' + generalVendor.logo + ')' }"></div>
       </div>
     </div>
     <div class="col s8">
       <div class="ttl-box">
-        <div class="ttl">
-          <input type="text" [(ngModel)]="generalVendor.name">
-        </div>
+        <div class="ttl">{{generalVendor.name}}</div>
       </div>
     </div>
   </div>

@@ -46,7 +46,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   });
   public discountMask: any = this.amountMask; //[/\d/, /\d/, /\d/];
   public priorityMargin: string = '0';
-
+  
   public vendorFormPhone: string = '';
   public vendorFormPhone2: string = '';
   public vendorFormFax: string = '';
@@ -64,7 +64,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   public selectedSecondaryCountry: any = this.phoneMaskService.defaultCountry;
   public selectedSecondaryCountry2: any = this.phoneMaskService.defaultCountry;
   public selectedSecondaryFaxCountry: any = this.phoneMaskService.defaultCountry;
-
+  
   fileIsOver: boolean = false;
   public files$: Observable<any>;
   public newFiles$: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -80,8 +80,6 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   public primaryLocation: any;
   public secondaryLocation: any;
   public secondaryLocationArr: any = [];
-  public logo: File;
-  public logoPreview: string = null;
 
   @ViewChild('secondary') secondaryLocationLink: ElementRef;
   @ViewChild('all') allLocationLink: ElementRef;
@@ -103,7 +101,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   public inited: boolean = false;
   private noAV:  boolean = true;
 
-
+  
   constructor(
     public userService: UserService,
     public accountService: AccountService,
@@ -159,7 +157,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-
+    
     this.files$ = Observable.combineLatest(
       this.newFiles$,
       this.oldFiles$,
@@ -168,7 +166,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
         return files;
       }
     );
-
+    
     this.locations$ = this.accountService.locations$
     .map((res: any) => {
       this.primaryLocation = _.find(res, {'location_type': 'Primary'}) || res[0];
@@ -181,7 +179,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
     });
 
     this.currentVendor$ = this.vendorService.globalVendor$;
-
+    
     this.vendorService.globalVendor$.subscribe(value => {
       this.generalVendor = new VendorModel(value);
       this.generalVendor.locations.forEach(v => {
@@ -290,19 +288,19 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
     this.vendor = null;
     if (this.currentLocation && this.currentLocation.id) {
       this.vendor = _.cloneDeep(this.locationVendors.find(v => v.location_id === this.currentLocation.id));
-    }
+    } 
     if (!this.vendor) {
       this.vendor = _.cloneDeep(this.locationVendors.find(v => v.is_all));
-    }
+    } 
     if (!this.vendor) {
       this.vendor = new AccountVendorModel();
     }
 
     this.fillForm();
   }
-
+  
   fillForm() {
-
+    
     this.oldFiles$.next(null);
     this.newFiles$.next(null);
     this.vendorFormPhone = '';
@@ -314,11 +312,11 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
     console.log(this.vendor, 2222222);
 
     this.calcPriorityMargin(this.vendor.priority || 1);
-
+    
     this.vendor.discount_percentage = this.vendor.discount_percentage ? this.vendor.discount_percentage * 100 : 0;
     this.oldFileArr = this.vendor.documents;
     this.oldFiles$.next(this.oldFileArr);
-
+    
     this.vendorFormPhone = this.phoneMaskService.getPhoneByIntlPhone(this.vendor.rep_office_phone);
     this.selectedCountry = this.phoneMaskService.getCountryArrayByIntlPhone(this.vendor.rep_office_phone);
     this.vendorFormPhone2 = this.phoneMaskService.getPhoneByIntlPhone(this.vendor.rep_mobile_phone);
@@ -365,15 +363,15 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   onSecondaryCountryChange($event) {
     this.selectedSecondaryCountry = $event;
   }
-
+  
   onSecondaryCountryChange2($event) {
     this.selectedSecondaryCountry2 = $event;
   }
-
+  
   onSecondaryFaxCountryChange($event) {
     this.selectedSecondaryFaxCountry = $event;
   }
-
+  
   // upload by input type=file
   changeListener($event): void {
     this.readThis($event.target);
@@ -399,7 +397,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
     this.fileArr.push(file);
     this.newFiles$.next(this.fileArr);
   }
-
+  
   public prepareFormData():void {
     this.formData = new FormData();
     _.each(this.vendor, (value, key) => {
@@ -411,7 +409,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
     if (value != null && typeof value === 'string')
       this.formData.append(key, value);
     });
-
+    
     let i = 0;
     _.each(this.fileArr, (value, key) => {
       this.formData.append('new_documents[' + i + ']', this.fileArr[i]);
@@ -423,10 +421,6 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
       this.formData.append('documents[' + j + ']', this.oldFileArr[j]);
       j++;
     });
-
-    if (this.logoPreview) {
-      this.formData.append('logo', this.logo);
-    }
   }
 
   fillVendor() {
@@ -444,7 +438,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
     this.vendor.documents = null;
     this.vendor.location_id = this.currentLocation ? this.currentLocation.id : 'all';
     this.generalVendor.vendor_id = this.vendorId || this.generalVendor.id;
-
+    
     let requests = [];
     this.prepareFormData();
 
@@ -477,7 +471,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
         }
       }
     }
-
+    
     Observable.combineLatest(requests).subscribe(res => {
       this.goBackOneStep();
     })
@@ -492,17 +486,6 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   }
   goBackOneStep(): void {
     this.location.back();
-  }
-
-  uploadLogo(file: any) {
-    let reader = new FileReader();
-
-    reader.onload = ($event: any) => {
-      this.logoPreview = $event.target.result;
-      this.logo = file.target.files[0];
-    };
-
-    reader.readAsDataURL(file.target.files[0]);
   }
 
 }
