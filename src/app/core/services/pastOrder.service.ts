@@ -8,8 +8,6 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
 
-import * as _ from 'lodash';
-
 import { APP_CONFIG, AppConfig } from '../../app.config';
 import { ModelService } from '../../overrides/model.service';
 import { UserService } from './user.service';
@@ -24,26 +22,10 @@ export class PastOrderService extends ModelService {
   public sortBy$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
   public filterBy$: BehaviorSubject<any> = new BehaviorSubject<any>([]);
 
-  public openCollectionGetRequest$: Observable<any>;
-  public receivedCollectionGetRequest$: Observable<any>;
-  public favoritedCollectionGetRequest$: Observable<any>;
-  public flaggedCollectionGetRequest$: Observable<any>;
-  public flaggedCollectionPutRequest$: Observable<any>;
+  public voidOrder$ = new Subject();
+  public voidOrderRequest$: ConnectableObservable<any>;
 
-  public openCollectionGet$: Subject<any> = new Subject();
-  public receivedCollectionGet$: Subject<any> = new Subject();
-  public favoritedCollectionGet$: Subject<any> = new Subject();
-  public flaggedCollectionGet$: Subject<any> = new Subject();
-  public flaggedCollectionPut$: Subject<any> = new Subject();
-
-  public openListCollection$: Observable<any>;
-  public receivedListCollection$: Observable<any>;
-  public flaggedListCollection$: Observable<any>;
-
-  public openCollectionIds$: ConnectableObservable<any>;
-  public receivedCollectionIds$: ConnectableObservable<any>;
-  public flaggedCollectionIds$: ConnectableObservable<any>;
-  public removeIds$ = new Subject<string[]>();
+  public removeIds$;
   private addCollectionToEntittesStream$: Subject<Observable<any>> = new Subject();
 
   constructor(
@@ -55,6 +37,18 @@ export class PastOrderService extends ModelService {
   ) {
     super(restangular);
     this.appConfig = injector.get(APP_CONFIG);
+
+    this.voidOrderRequest$ = this.voidOrder$
+    .switchMap((data) =>
+      this.restangular.one('pos', 'void').customPOST(data)
+      .map(res => res.data)
+    ).publish();
+    this.voidOrderRequest$.connect();
+
+    this.removeIds$ = this.voidOrderRequest$
+    .map((voidedOrders) => voidedOrders.map((order) => order.id));
+
+    this.addCollectionStreamToEntittesStream(this.voidOrderRequest$);
 
     this.entities$ = this.addCollectionToEntittesStream$
     .mergeAll()
@@ -79,11 +73,8 @@ export class PastOrderService extends ModelService {
   }
 
   onVoidOrder(data) {
-    return this.restangular.one('pos', 'void').customPOST(data)
-    .map(res => res.data)
-    .do((voidedOrders: any[]) => {
-      this.removeIds$.next(voidedOrders.map((order) => order.id));
-    });
+    this.voidOrder$.next(data);
+    return this.voidOrderRequest$;
   }
 
   updateSortBy(param) {
@@ -100,8 +91,8 @@ export class PastOrderService extends ModelService {
     .map((res: any) => res.data);
   }
 
-  goToReceive(queryParams) {
-    this.router.navigate(['orders/receive', queryParams]);
+  goToReceive(params, type?) {
+    this.router.navigate(['orders/receive', params], {queryParams: {type}});
   }
 
   /**

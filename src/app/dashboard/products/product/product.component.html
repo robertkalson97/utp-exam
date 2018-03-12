@@ -16,28 +16,35 @@
     <div class="title center-align">{{showVariant ? 'Product Variation' : 'Product Details' }}
     </div>
     <div class="row uptracker-form">
+      <div class="ttl-box row input" *ngIf="product?.name != null">
+        <div *ngIf="!showEdit" class="ttl col s12 variant-show-name">
+          {{ showVariant ? currentVariant.name : product?.name}}
+        </div>
+        <div class="col s12">
+          <input (click)="$event.stopPropagation();"
+                 class="ttl col s12 name-field"
+                 *ngIf="showEdit"
+                 [(ngModel)]="productCopy.name"
+                 type="text">
+        </div>
+      </div>
+      <div class="ttl-box row input" *ngIf="product?.name != product?.proper_name">
+        <div [class.variant-show-name]="product?.name == null" class="ttl col s12">
+          {{ showVariant ? currentVariant.proper_name : product?.proper_name}}
+        </div>
+      </div>
       <div class="info-box col s12" [class.condensed]="showVariant">
         <div class="img-container left">
-          <div class="img" *ngIf="!showVariant && product?.image || showVariant && !currentVariant?.image"
-            [ngStyle]="{ 'background-image': 'url(' + product?.image + ')' }">
+          <div class="img file-field" *ngIf="!showVariant || showVariant && !currentVariant?.image"
+            [ngStyle]="{ 'background-image': 'url(' + (productCopy?.image || product?.image) + ')' }">
+            <input *ngIf="showEdit" type="file" (change)="uploadLogo($event)" />
           </div>
-          <div class="img" *ngIf="showVariant && currentVariant?.image"
-            [ngStyle]="{ 'background-image': 'url(' + currentVariant?.image + ')' }">
+          <div class="img file-field" *ngIf="showVariant && currentVariant?.image"
+            [ngStyle]="{ 'background-image': 'url(' + (currentVariant?.image) + ')' }">
+            <input *ngIf="showEdit" type="file" (change)="uploadLogo($event)" />
           </div>
         </div>
         <div class="left product-params">
-          <div class="ttl-box row input">
-            <div *ngIf="!showEdit" class="ttl col s12 variant-show-name">
-              {{ showVariant ? currentVariant.name : product?.name}}
-            </div>
-            <div class="col s12">
-              <input (click)="$event.stopPropagation();"
-                class="ttl col s12 name-field"
-                *ngIf="showEdit"
-                [(ngModel)]="productCopy.name"
-                type="text">
-            </div>
-          </div>
           <div class="row" [ngClass]="{'checks':showEdit}">
 
             <div class="col m4" [class.l2]="!showEdit" >

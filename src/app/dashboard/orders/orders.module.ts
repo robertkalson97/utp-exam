@@ -17,6 +17,7 @@ import { FavoritedListModule } from './favorited-list/favorited-list.module';
 import { FlaggedListModule } from './flagged-list/flagged-list.module';
 import { ReconciledListModule } from './reconciled-list/reconciled-list.module';
 import { ORDER_PROVIDERS } from './services';
+import { OrderFlagModalModule } from './directives/order-flag-modal/order-flag-modal.module';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { ORDER_PROVIDERS } from './services';
     ClosedListModule,
     ReconcileModule,
     ResendOrderModalModule,
+    OrderFlagModalModule
   ],
   providers: [
     ORDER_PROVIDERS

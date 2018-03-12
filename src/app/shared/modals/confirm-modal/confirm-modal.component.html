@@ -1,11 +1,20 @@
 <div class="inner">
   <div class="row title center-align">{{ context.title }}</div>
-  <div class="row center-align high">{{ context.content.text }}</div>
+  <div class="row center-align high">{{ context.text }}</div>
 
   <div class="row mtop mbot">
-    <div class="center-align col s12">
-      <button class="uptracker-form-btn" (click)="dismissModal()">Cancel</button>
-      <button  class="uptracker-form-btn " (click)="closeModal()">{{context.content.btn}}</button>
+    <div class="center-align col s12 confirm-modal-btns">
+      <button
+        class="uptracker-form-btn danger-btn"
+        *ngIf="!context.hasCancel"
+        (click)="dismissModal()"
+      >Cancel</button>
+      <button
+        class="uptracker-form-btn"
+        *ngFor="let btn of context.btns"
+        [ngClass]="{'danger-btn': btn.red}"
+        (click)="btn.cancel ? dismissModal() : closeModal(btn.value)"
+      >{{btn.text}}</button>
     </div>
   </div>
 </div>

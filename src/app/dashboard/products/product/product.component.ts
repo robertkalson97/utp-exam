@@ -804,4 +804,10 @@ ngOnDestroy() {
 
   }
 
+  uploadLogo(file: any) {
+    let reader = new FileReader();
+    reader.onload = ($event: any) => this.productCopy.image = $event.target.result;
+    reader.readAsDataURL(file.target.files[0]);
+  }
+
 }

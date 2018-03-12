@@ -15,7 +15,7 @@ import { PastOrderService } from '../../../../core/services/pastOrder.service';
 import { OrderTableSortService } from './order-table-sort.service';
 import { OrderTableService } from './order-table.service';
 import { OrderTableOnVoidService } from './order-table-on-void.service';
-import { OrderStatus } from '../../order-status';
+import { OrderStatus } from '../../models/order-status';
 import { OrderTableFilterByService } from './order-table-filter-by.service';
 
 
@@ -103,7 +103,7 @@ export class OrderTableComponent implements OnInit, OnDestroy, OnChanges {
       return _.findIndex(orders, {checked: true}) >= 0;
     });
 
-    this.filterByObj$ = this.orderTableService.filterByObject$
+    this.filterByObj$ = this.orderTableFilterByService.getFilterByListName(this._listName)
     .filter((obj) => !!obj)
     .startWith({});
 

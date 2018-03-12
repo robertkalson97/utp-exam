@@ -54,11 +54,24 @@
         [class.pointer]="headerCol?.filterBy"
         [class.expanded]="item.statusHistoryVisibility"
       >
-        <div [ngClass]="{'col-flex-content': headerCol.showChevron}">
+        <div
+          [class.col-content-wrapper]="headerCol.wrap <= 1 || !headerCol.wrap"
+          [class.col-wrap-multiline]="headerCol.wrap > 1"
+          [class.col-flex-content]="headerCol.showChevron"
+          [ngStyle]="{'-webkit-line-clamp': headerCol.wrap > 1 && headerCol.wrap}"
+        >
           <span
             *ngIf="headerCol.alias && item[headerCol.alias]"
+            [title]="item[headerCol.alias]"
             [ngClass]="{'black-text cursor-default': headerCol.showChevron && item.statusHistoryVisibility, 'red-text':  (filterByObj$ | async)[headerCol.alias] === item[headerCol.alias]}">
             {{item[headerCol.alias]}}
+          </span>
+          <span
+            *ngIf="headerCol.aliasArray && headerCol.aliasArray.length"
+          >
+            <ng-template ngFor let-alias [ngForOf]="headerCol.aliasArray" let-last="last">
+              {{ item[alias] }}{{ last ? '' : headerCol.join }}
+            </ng-template>
           </span>
           <fa
             *ngIf="headerCol.showChevron && item.status_int === orderStatus.multiple"

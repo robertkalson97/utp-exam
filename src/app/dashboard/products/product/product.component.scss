@@ -205,6 +205,10 @@ $normal: 14px;
         height: 100%;
         background-position: center center;
         background-size: cover;
+
+        &.file-field {
+          background-size: contain;
+        }
       }
     }
     .product-params {
@@ -744,7 +748,7 @@ $normal: 14px;
     left: 30px;
     top: 30px;
   }
-  .inner .info-box .ttl.variant-show-name {
+  .inner .ttl.variant-show-name {
     font-size: 1.5em;
     color: #666;
   }

@@ -14,7 +14,7 @@ import * as _ from 'lodash';
 
 import { ReceivedOrderService } from '../../../../../core/services/received-order.service';
 
-import { OrderStatusValues } from '../../../order-status';
+import { OrderStatusValues } from '../../../models/order-status';
 import { OrderItemStatusFormGroup, OrderReceivingStatus } from '../../models/order-item-status-form.model';
 import { ReceivedInventoryGroupModel } from '../../models/received-inventory-group.model';
 import { ReceiveService } from '../../receive.service';

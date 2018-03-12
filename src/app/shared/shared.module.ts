@@ -46,6 +46,7 @@ import { APP_DI_CONFIG } from '../../../env';
 import { NguiAutoCompleteModule } from '@ngui/auto-complete';
 import { PerfectScrollbarConfigInterface, PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { AddVendorModalComponent } from './modals/add-vendor-modal/add-vendor-modal.component';
+import { ChipsInputModule } from './components/chips-input/chips-input.module';
 import { ChipsModule } from './components/chips/chips.module';
 
 const modalsArr = [
@@ -107,6 +108,7 @@ const PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     PerfectScrollbarModule,
 
     HasClassModule,
+    ChipsInputModule,
     ChipsModule,
 
     ...directivesArr,

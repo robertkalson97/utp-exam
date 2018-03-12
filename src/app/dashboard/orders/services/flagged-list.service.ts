@@ -23,8 +23,8 @@ export class FlaggedListService extends OrderListBaseService {
     this.putItemRequest$ = this.putItem$
     .switchMap((item) => {
       const data = {
-        'flagged': !item.flagged,
-        'flagged_comment': !item.flagged ? item.flagged_comment : '',
+        'flagged': true,
+        'flagged_comment': item.flagged_comment,
       };
       return this.restangular.one('pos', item.order_id).one('flag', item.id).customPUT(data)
       .map((res: any) => res.data)

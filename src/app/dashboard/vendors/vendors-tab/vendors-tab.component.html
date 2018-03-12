@@ -32,7 +32,10 @@
       <div *ngIf="vendor.logo" class="img" [ngStyle]="{ 'background-image': 'url(' + vendor.logo + ')' }"></div>
       <div *ngIf="!vendor.logo"  class="img" ></div>
       <div class="info">
-        <div class="ttl">{{vendor.name}}</div>
+        <div class="ttl">
+          {{vendor.name}}
+          <span *ngIf="vendor.custom" class="custom">(Custom)</span>
+        </div>
         <div class="edit" [routerLink]="'edit/'+[vendor.id]"  (click)="$event.stopPropagation()"></div>
       </div>
     </div>

@@ -1,15 +1,14 @@
 <div
-  [ngClass]="{'disabled': isDisabled}"
+  class="chips"
 >
   <div
-    class="chips asda"
-    #chips
-    materialize="material_chip"
-    [materializeParams]="[materializeParams]"
-    [materializeActions]="chipActions"
-    appHasClass="focus"
-    (hasClassChange)="onFocus($event)"
-    (chip.delete)="onDelete($event)"
-    (chip.add)="onAdd($event)"
-  ></div>
+    *ngFor="let chip of _chips"
+    class="chip"
+  >
+    {{ chip}}
+    <fa
+      name="times-circle"
+      (click)="onChipDelete(chip)"
+    ></fa>
+  </div>
 </div>

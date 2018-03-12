@@ -50,20 +50,18 @@
       }
 
       i {
+        cursor: pointer;
         position: absolute;
         right: 6px;
         top: 50%;
         transform: translateY(-50%);
         line-height: 12px;
-        padding-left: 1px;
         margin: 0;
         height: 12px;
         width: 12px;
         border-radius: 50%;
-        background-color: #fff;
-        color: #747474;
-        font-weight: bold;
-        font-size: 10px;
+        //background-color: #fff;
+        color: #fff;
       }
     }
 

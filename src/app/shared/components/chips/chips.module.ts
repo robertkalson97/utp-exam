@@ -1,24 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MaterializeModule } from 'angular2-materialize';
-
-import { ChipsInputComponent } from './chips.component';
-import { HasClassModule } from '../../directives';
+import { ChipsComponent } from './chips.component';
+import { Angular2FontawesomeModule } from 'angular2-fontawesome';
 
 @NgModule({
   imports: [
-    MaterializeModule,
     CommonModule,
-    HasClassModule
+    Angular2FontawesomeModule,
   ],
   exports: [
-    ChipsInputComponent,
+    ChipsComponent,
   ],
   declarations: [
-    ChipsInputComponent,
+    ChipsComponent,
   ],
-  providers: [],
 })
 export class ChipsModule {
 

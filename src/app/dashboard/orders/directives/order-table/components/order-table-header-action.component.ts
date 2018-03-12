@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import * as _ from 'lodash';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
@@ -12,6 +12,8 @@ import { SelectVendorModal } from '../../../select-vendor-modal/select-vendor.co
 import { selectedOrderModel } from '../../../../../models/selected-order.model';
 import { ToasterService } from '../../../../../core/services/toaster.service';
 import { OrderTableOnVoidService } from '../order-table-on-void.service';
+import { OrderStatusValues } from '../../../models/order-status';
+import { OrderListType } from '../../../models/order-list-type';
 
 
 @Component({
@@ -19,14 +21,15 @@ import { OrderTableOnVoidService } from '../order-table-on-void.service';
   templateUrl: './order-table-header-action.component.html',
 })
 @DestroySubscribers()
-export class OrderTableHeaderActionComponent implements OnInit {
+export class OrderTableHeaderActionComponent implements OnInit, OnDestroy {
 
-  private subscribers: any = {};
   public reorderOrders$: Subject<any>;
 
   @Input() listName: string;
   @Input() isShow: boolean;
   @Input() orders: any;
+
+  private subscribers: any = {};
 
   constructor(
     public modal: Modal,
@@ -38,8 +41,20 @@ export class OrderTableHeaderActionComponent implements OnInit {
   ) {
   }
 
+  get isReceiveList() {
+    return this.listName === OrderListType.received;
+  }
+
+  get isBackorderedList() {
+    return this.listName === OrderListType.backordered;
+  }
+
   ngOnInit() {
     this.reorderOrders$ = new Subject<any>();
+  }
+
+  ngOnDestroy() {
+    console.log(`${this.constructor.name} Destroys`);
   }
 
   addSubscribers() {
@@ -54,28 +69,6 @@ export class OrderTableHeaderActionComponent implements OnInit {
     .subscribe((res: any) => this.toasterService.pop('', res.msg));
   }
 
-  onReceiveOrders() {
-    const uniqOrdersByVendors = _.uniqBy(this.orders, 'vendor_id');
-
-    if (uniqOrdersByVendors.length === 1) {
-      this.sendToReceiveProducts(this.orders);
-    } else {
-      this.modal
-      .open(SelectVendorModal, this.modalWindowService
-      .overlayConfigFactoryWithParams({'vendors': uniqOrdersByVendors}, true, 'mid'))
-      .then((resultPromise) => {
-        resultPromise.result.then(
-          (selectedVendor) => {
-            const filteredOrders = _.filter(this.orders, (item: any) => selectedVendor === item.vendor_name);
-            this.sendToReceiveProducts(filteredOrders);
-          },
-          (err) => {
-          }
-        );
-      });
-    }
-  }
-
   onFilterCheckedOrders() {
     return this.orders
     .map((order: any) => {
@@ -87,7 +80,7 @@ export class OrderTableHeaderActionComponent implements OnInit {
     });
   }
 
-  sendToReceiveProducts(filteredCheckedProducts, singleOrder = false) {
+  sendToReceiveProducts(filteredCheckedProducts, type?) {
     const sendOrders = filteredCheckedProducts.map((order) => {
       return order.order_id;
     });
@@ -96,7 +89,7 @@ export class OrderTableHeaderActionComponent implements OnInit {
       return order.id;
     });
     const queryParams = uniqsendOrders.toString() + '&' + sendItems.toString();
-    this.pastOrderService.goToReceive(queryParams);
+    this.pastOrderService.goToReceive(queryParams, type);
   }
 
   buyAgainOrders() {
@@ -106,4 +99,38 @@ export class OrderTableHeaderActionComponent implements OnInit {
   onVoidOrder() {
     this.orderTableOnVoidService.onVoidOrder(this.orders);
   }
+
+  edit() {
+    this.onReceiveOrders();
+  }
+
+  receive() {
+    this.onReceiveOrders(OrderStatusValues.receive);
+  }
+
+  backorder() {
+    this.onReceiveOrders(OrderStatusValues.backorder);
+  }
+
+  private onReceiveOrders(type?) {
+    const uniqOrdersByVendors = _.uniqBy(this.orders, 'vendor_id');
+
+    if (uniqOrdersByVendors.length === 1) {
+      this.sendToReceiveProducts(this.orders, type);
+    } else {
+      this.modal
+      .open(SelectVendorModal, this.modalWindowService
+      .overlayConfigFactoryWithParams({'vendors': uniqOrdersByVendors}, true, 'mid'))
+      .then((resultPromise) => resultPromise.result)
+      .then(
+        (selectedVendor) => {
+          const filteredOrders = _.filter(this.orders, (item: any) => selectedVendor === item.vendor_name);
+          this.sendToReceiveProducts(filteredOrders, type);
+        },
+        (err) => {
+        }
+      );
+    }
+  }
+
 }

@@ -7,7 +7,10 @@
 <div class="col s4 tealish-text pointer" [routerLink]="['/', 'inventory','item', inventoryGroupId]">
   {{(inventoryGroup$ | async)?.name}}
 </div>
-<div class="col s3">
+<div
+  class="col s3 location-col"
+  title="{{(location$ | async)?.name}}: {{(storageLocation$ | async)?.name}}"
+>
   {{(location$ | async)?.name}}: {{(storageLocation$ | async)?.name}}
 </div>
 <div class="col s1 flex-center justify-center">

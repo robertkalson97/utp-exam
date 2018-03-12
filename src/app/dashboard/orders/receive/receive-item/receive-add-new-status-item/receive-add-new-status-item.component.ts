@@ -9,7 +9,7 @@ import * as _ from 'lodash';
 import { ReceivedOrderService } from '../../../../../core/services';
 
 import { OrderReceivingStatus } from '../../models/order-item-status-form.model';
-import { OrderStatusValues } from '../../../order-status';
+import { OrderStatusValues } from '../../../models/order-status';
 
 @Component({
   selector: 'app-receive-add-new-status-item',

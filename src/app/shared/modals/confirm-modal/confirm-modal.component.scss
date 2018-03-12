@@ -21,16 +21,6 @@
       margin: 0 10px;
       font-weight: normal;
       min-width: 80px !important;
-      &:first-of-type {
-        border-color: red;
-        background-color: #fff;
-        color: red;
-      }
-      &:last-of-type {
-        border-color: $tealish;
-        background-color: $tealish;
-        color: #fff;
-      }
     }
   }
 
@@ -56,5 +46,22 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  .confirm-modal-btns {
+    display: flex;
+    justify-content: center;
+
+    button {
+      border-color: $tealish;
+      background-color: $tealish;
+      color: #fff;
+
+      &.danger-btn {
+        border-color: red;
+        background-color: #fff;
+        color: red;
+      }
+    }
   }
 }

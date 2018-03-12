@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
 
@@ -43,6 +43,7 @@ export class ReceiveComponent implements OnInit, OnDestroy {
     public receivedOrderService: ReceivedOrderService,
     public toasterService: ToasterService,
     public route: ActivatedRoute,
+    public router: Router,
     public receiveService: ReceiveService,
     public location: Location,
     public confirmModalService: ConfirmModalService,
@@ -105,17 +106,30 @@ export class ReceiveComponent implements OnInit, OnDestroy {
     )
     .subscribe(() => {
       this.toasterService.pop('', 'Successfully received');
-      this.location.back();
+      this.router.navigate(['/orders']);
     });
 
     this.subscribers.openConfirmModalSubscription = this.openConfirmModal$
     .switchMap(() => this.confirmModalService.confirmModal(
-      'Save?', {text: 'Do you want to save the applied changes?', btn: 'Save'}
-    )).subscribe(res => {
-      if (res.success) {
-        this.save();
-      } else {
-        this.location.back();
+      'Save?',
+      'You are about to leave without saving changes. Are you sure you want to exit?',
+      [
+          {text: 'Exit', value: 'exit', red: true},
+          {text: 'Cancel', value: 'cancel', cancel: true},
+          {text: 'Save', value: 'save'},
+        ]
+    ))
+    .filter((ev) => ev.success)
+    .subscribe((ev) => {
+      switch (ev.data) {
+        case 'save': {
+          this.save();
+          break;
+        }
+        case 'exit': {
+          this.router.navigate(['/orders']);
+          break;
+        }
       }
     });
 

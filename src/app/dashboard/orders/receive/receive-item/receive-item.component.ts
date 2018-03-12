@@ -17,11 +17,13 @@ import { Observable } from 'rxjs/Observable';
 import { OrderItemFormGroup, ReceiveOrderItemModel } from '../models/order-item-form.model';
 import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { ConnectableObservable } from 'rxjs/observable/ConnectableObservable';
-import { OrderStatusValues } from '../../order-status';
+import { OrderStatusValues } from '../../models/order-status';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-receive-item',
   templateUrl: './receive-item.component.html',
+  styleUrls: ['./receive-item.component.scss'],
 })
 @DestroySubscribers()
 
@@ -64,6 +66,7 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
     public modal: Modal,
     public receivedOrderService: ReceivedOrderService,
     public receiveService: ReceiveService,
+    private route: ActivatedRoute,
   ) {
 
   }
@@ -132,6 +135,7 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
     .map(([orderTotal, statusLineTotal, statusTotal]) =>
       orderTotal - statusLineTotal - statusTotal
     )
+    .distinctUntilChanged()
     .publishReplay(1);
     this.pendingQty$.connect();
 
@@ -149,16 +153,21 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
   }
 
   addSubscribers() {
+    const statusType$ = this.route.queryParams
+    .pluck('type')
+    .map((type) => _.find(this.statusList, ['value', type]))
+    .map((type) => type && type.value);
+
     this.subscribers.pendingQtySubscription = this.pendingQty$
     .take(1)
-    .subscribe((qty) => {
-      const type = this.statusList && this.statusList.length &&  this.statusList[0].value;
-
+    .withLatestFrom(statusType$)
+    .filter(([qty, type]: [number, string]) => !!type)
+    .subscribe(([qty, type]: [number, string]) => {
       const data: OrderItemStatusFormModel = {
-        type: type,
         primary_status: type === 'receive',
         location_id: null,
         storage_location_id: null,
+        type,
         qty,
       };
 
@@ -167,7 +176,7 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
 
     this.subscribers.minQtySubscriber = Observable.combineLatest(
       this.statusItems$,
-      this.statusLineItems$,
+      this.statusLineItems$.map((items) => items.filter((item: any) => !item.delete)),
       (statusItems, statusLineItems) => {
         const receiveList = [...statusItems, ...statusLineItems].filter((item) =>
           item.type === OrderStatusValues.receive
@@ -237,6 +246,7 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
   private getFormStatusItems() {
     return this.statusControl.valueChanges
     .startWith(this.statusControl.value)
+    .distinctUntilChanged(_.isEqual)
     .shareReplay(1);
   }
 
@@ -250,7 +260,9 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
     if (!_.isArray(statusLineItems)) {
       return 0;
     }
-    return statusLineItems.reduce((sum, status) => sum + status.qty, 0);
+    return statusLineItems
+    .filter((status: any) => !status.delete)
+    .reduce((sum, status) => sum + status.qty, 0);
   }
 
   private addStatusControl(data) {
