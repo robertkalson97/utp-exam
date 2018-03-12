@@ -1,0 +1,79 @@
+@import "../../../../../colors.scss";
+
+:host /deep/ {
+  .inner {
+    form {
+      max-height: 60vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+
+      .textarea-row {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        justify-content: space-between;
+
+        .comments-wrapper {
+          overflow: auto;
+          flex-grow: 1;
+
+          .comment {
+            margin: 10px 0;
+            p {
+              margin: 0;
+
+              span {
+                color: grey;
+                font-size: 12px;
+              }
+
+              &.comment-text {
+                font-size: 12px;
+              }
+            }
+          }
+        }
+
+        div:not(.comments-wrapper) {
+          flex-shrink: 0;
+        }
+
+      }
+
+      .buttons-row {
+        flex-shrink: 0;
+        margin: 0;
+      }
+    }
+
+    button.uptracker-form-btn {
+      height: 36px;
+      font-size: 14px;
+      border: 1px solid #fff;
+      width: 100px;
+      margin: 0 10px;
+      font-weight: normal;
+      min-width: 80px;
+      &.red-btn {
+        border-color: red;
+        background-color: #fff !important;
+        color: red;
+      }
+      &.teal-btn {
+        border-color: $tealish;
+        background-color: $tealish;
+        color: #fff;
+      }
+      &[disabled] {
+        background-color: $grey !important;
+        border-color: $grey !important;
+      }
+    }
+
+    textarea {
+      min-height: 150px;
+    }
+  }
+
+}

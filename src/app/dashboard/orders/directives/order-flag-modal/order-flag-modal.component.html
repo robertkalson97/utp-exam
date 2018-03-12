@@ -1,0 +1,38 @@
+<div class="inner" >
+  <form [formGroup]="form" #formEl="ngForm" class="uptracker-form" (submit)="onSubmit()">
+    <div class="input row textarea-row">
+      <div class="col s12 title center-align">
+        Add Comment
+      </div>
+      <div class="col s12 comments-wrapper" *ngIf="comments.length">
+        <div class="row">
+          <div class="col s12 comment" *ngFor="let comment of comments">
+            <p><b>{{comment.user_name}}</b> <span>{{comment.date}}</span></p>
+            <p class="comment-text">{{comment.comment}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="col s12">
+        <div class="textarea">
+          <textarea
+            class="validate materialize-textarea"
+            placeholder="Please, type your comment here."
+            [formControl]="commentControl"
+          ></textarea>
+          <div class="red-text" [hidden]="!commentControl.hasError('required') || (commentControl.pristine && !formEl.submitted)">
+            Comment is required
+          </div>
+          <div class="red-text" [hidden]="!commentControl.hasError('maxlength') || (commentControl.pristine && !formEl.submitted)">
+            Max length is {{commentControl.getError('maxlength')?.requiredLength}} symbols
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mtop buttons-row">
+      <div class="center-align col s12">
+        <button class="uptracker-form-btn red-btn" type="reset" (click)="dismissModal()">Cancel</button>
+        <button class="uptracker-form-btn teal-btn">Save</button>
+      </div>
+    </div>
+  </form>
+</div>

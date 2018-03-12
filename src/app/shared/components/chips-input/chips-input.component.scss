@@ -1,0 +1,84 @@
+:host /deep/ {
+  display: block;
+  width: 100%;
+
+  .disabled .chips {
+    cursor: default;
+
+    .chip {
+      pointer-events: none;
+      padding: 0 6px;
+
+      i {
+        display: none;
+        pointer-events: none;
+      }
+    }
+  }
+
+  .chips {
+    border: 1px solid #d6d6d6;
+    border-radius: 5px;
+    background-color: #fff;
+    padding: 5px 10px 0;
+    margin: 0;
+    box-shadow: none !important;
+    font: 12px Lato;
+    min-height: 30px;
+    height: auto;
+    box-sizing: border-box;
+
+    &.focus {
+      border-color: #33c6d9;
+    }
+
+    .chip {
+      background-color: #747474;
+      color: white;
+      line-height: 21px;
+      height: 21px;
+      padding: 0 26px 0 6px;
+      border-radius: 5px;
+      position: relative;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+      max-width: 100%;
+
+      &.selected {
+        background-color: #33c6d9;
+      }
+
+      i {
+        position: absolute;
+        right: 6px;
+        top: 50%;
+        transform: translateY(-50%);
+        line-height: 12px;
+        padding-left: 1px;
+        margin: 0;
+        height: 12px;
+        width: 12px;
+        border-radius: 50%;
+        background-color: #fff;
+        color: #747474;
+        font-weight: bold;
+        font-size: 10px;
+      }
+    }
+
+    input {
+      line-height: 30px;
+      min-height: 30px;
+      height: auto;
+      width: auto !important;
+      max-width: 100%;
+
+      &:disabled,
+      &:focus {
+        border-bottom: none;
+        box-shadow: none !important;
+      }
+    }
+  }
+}
