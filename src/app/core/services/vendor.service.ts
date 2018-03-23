@@ -171,17 +171,12 @@ export class VendorService extends ModelService {
   }
   
   getVendors() {
-
-    //let query: any = {
-    //  page: 1,
-    //  limit: this.pagination_limit,
-    //};
-    //return this.vendors$.isEmpty().switchMap((isEmpty) => {
-    //  if (isEmpty) {
-    //    this.vendors$ = this.getVendorsData(query, true);
-    //  }
-    //});
-    return this.vendors$;
+    return this.vendors$.isEmpty().switchMap((isEmpty) => {
+     if (isEmpty) {
+       this.vendors$ = this.restangular.all('vendors').customGET('', {limit: ''}).shareReplay(1);
+     }
+      return this.vendors$;
+    });
   }
   
   getNextVendors(page?) {

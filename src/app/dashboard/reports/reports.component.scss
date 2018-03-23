@@ -1,0 +1,115 @@
+@import "../../../colors.scss";
+@import "../../../spinner.scss";
+@import "~@swimlane/ngx-datatable/release/index.css";
+// @import "~@swimlane/ngx-datatable/release/assets/icons.css";
+// @import "~@swimlane/ngx-datatable/release/themes/material.css";
+
+:host /deep/ {
+  .reports {
+    .price-header {
+      font-family: 'Roboto';
+      font-weight: bold;
+    }
+    .price-content {
+      color: #9a9c9e;
+      font-family: 'Roboto';
+    }
+    .chart {
+      background-color: white;
+      border: 1px solid #9a9c9e;
+      border-radius: 5px;
+      font-size: 11px;
+      width: 100%;
+      height: 500px;
+    }
+    .search-filter {
+      margin-left: auto;
+      max-width: 300px;
+    }
+
+    .chart-info {
+      position: absolute;
+      top: 40px;
+      right: 30px;
+      z-index: 9;
+      .bar {
+        display: flex;
+        align-items: center;
+        .forum {
+          display: flex;
+          align-items: center;
+        }
+        .color {
+          background-color: #33c6d9;
+          margin-right: 5px;
+          width: 20px;
+          height: 3px;
+        }
+        .dashed {
+          border: 0 none;
+          border-top: 3px dashed #9a9c9e;
+          margin-right: 5px;
+          width: 20px;
+          height: 0;
+        }
+      }
+    }
+    .title {
+      color: #9a9c9e;
+      font-family: 'Roboto';
+      font-size: 16px;
+      margin-left: 15px;
+    }
+    .save {
+      background-color: #33c6d9;
+      box-shadow: none;
+      margin-left: 15px;
+    }
+    .select .select-wrapper.ng-valid input.select-dropdown {
+      border-color: #9a9c9e;
+    }
+    .datatable-header {
+      border-bottom: 1px solid black;
+      font-family: 'Roboto';
+      font-weight: bold;
+      height: 40px !important;
+    }
+    .datatable-scroll {
+      color: #9a9c9e;
+      font-family: 'Roboto';
+      font-weight: 400;
+    }
+    .index-check {
+      display: flex;
+      margin-left: 30%;
+      width: 100%;
+    }
+    .ngx-datatable.fixed-row .datatable-scroll .datatable-body-row .datatable-body-cell {
+      display: flex;
+      align-items: center;
+    }
+    .ngx-datatable .datatable-body .datatable-body-row > div {
+      border-bottom: 1px solid #9a9c9e;
+    }
+    .ngx-datatable .datatable-header .datatable-header-cell .sort-btn {
+      color: #33c6d9;
+    }
+    [type="checkbox"].filled-in:not(:checked) + label:after {
+      border: 1px solid #9a9c9e;
+      top: 2px;
+    }
+    [type="checkbox"].filled-in:checked + label:after {
+      background-color: transparent;
+      border: 1px solid #9a9c9e;
+      top: 2px;
+    }
+    [type="checkbox"].filled-in:checked + label:before {
+      border-right: 2px solid #f00;
+      border-bottom: 2px solid #f00;
+      top: 2px;
+    }
+    .amcharts-chart-div {
+      z-index: 99;
+    }
+  }
+}

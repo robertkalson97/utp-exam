@@ -30,13 +30,41 @@
 
     &.focus {
       border-color: #33c6d9;
+      .autocomplete-content {
+        width: fit-content;
+        &.dropdown-content {
+          position: absolute;
+          box-shadow: none;
+          border-left: 1px solid #4a4a4a;
+          border-right: 1px solid #4a4a4a;
+          li {
+            min-height: 20px;
+            line-height: 1rem;
+            &:hover {
+              background-color: #33c6d9;
+              span {
+                color: #ffffff;
+              }
+            }
+            & > a, & > span {
+              font-size: 14px;
+              color: #000000;
+              padding: 5px;
+            }
+            &:first-child {
+              border-top: 1px solid #4a4a4a;
+            }
+            &:last-child {
+              border-bottom: 1px solid #4a4a4a;
+            }
+          }
+        }
+      }
     }
 
     .chip {
-      background-color: #747474;
+      background-color: #33c6d9;
       color: white;
-      line-height: 21px;
-      height: 21px;
       padding: 0 26px 0 6px;
       border-radius: 5px;
       position: relative;
@@ -46,13 +74,14 @@
       max-width: 100%;
 
       &.selected {
-        background-color: #33c6d9;
+        background-color: #18a6b9;
       }
 
       i {
         position: absolute;
         right: 6px;
         top: 50%;
+        left: auto;
         transform: translateY(-50%);
         line-height: 12px;
         padding-left: 1px;
@@ -60,8 +89,7 @@
         height: 12px;
         width: 12px;
         border-radius: 50%;
-        background-color: #fff;
-        color: #747474;
+        color: #ffffff;
         font-weight: bold;
         font-size: 10px;
       }
@@ -73,6 +101,7 @@
       height: auto;
       width: auto !important;
       max-width: 100%;
+      vertical-align: top;
 
       &:disabled,
       &:focus {

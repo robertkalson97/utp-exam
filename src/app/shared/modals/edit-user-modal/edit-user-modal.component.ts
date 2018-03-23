@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard, Modal } from 'angular2-modal';
+import { DialogRef, ModalComponent, Modal } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
@@ -30,7 +30,7 @@ export class EditUserModalContext extends BSModalContext {
   styleUrls: ['./edit-user-modal.component.scss']
 })
 @DestroySubscribers()
-export class EditUserModal implements OnInit, CloseGuard, ModalComponent<EditUserModalContext> {
+export class EditUserModal implements OnInit, ModalComponent<EditUserModalContext> {
   public roleArr: any;
   
   public subscribers: any = {};
@@ -81,11 +81,9 @@ export class EditUserModal implements OnInit, CloseGuard, ModalComponent<EditUse
               public modal: Modal,
               public modalWindowService: ModalWindowService) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit() {
-    
     let userData = this.context.user || {tutorial_mode: true};
     this.user = new UserModel(userData);
     if (this.context.user) {
@@ -131,10 +129,8 @@ export class EditUserModal implements OnInit, CloseGuard, ModalComponent<EditUse
       });
 
     this.departmentCollection$ = this.accountService.getDepartments().take(1);
-  
     this.subscribers.getRolesSubscription = this.userService.selfData$.subscribe((res: any) => {
       if (res.account) {
-      
         this.permissionArr = _.cloneDeep(res.permissions);
         this.rolesArr = res.account.roles;
         if (!this.user || !this.user['id']) {
@@ -154,22 +150,21 @@ export class EditUserModal implements OnInit, CloseGuard, ModalComponent<EditUse
       }
     });
   }
-  
+
   addSubscribers() {
     this.subscribers.departmentCollectionSubscribtion = this.departmentCollection$
     .subscribe(departments =>
         this.departmentsArr = departments
     )
   }
-  
+
   setDefaultPermissions() {
     this.permissionArr.map((data: any) => {
       data.default = false;
       return data;
     });
   }
-  
-  
+
   dismissModal() {
     this.dialog.dismiss();
   }
@@ -208,8 +203,6 @@ export class EditUserModal implements OnInit, CloseGuard, ModalComponent<EditUse
   onCountryChangePhoneExt($event) {
     this.selectedCountryPhoneExt = $event;
   }
-
-  
 
   // upload by input type=file
   changeListener($event): void {

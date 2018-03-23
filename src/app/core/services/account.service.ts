@@ -84,6 +84,7 @@ export class AccountService extends ModelService{
     this.dashboardLocation$.subscribe((l:any)=>{
       this.dashboardLocation = l;
     });
+
   }
   
   addSubscribers(){
@@ -113,49 +114,53 @@ export class AccountService extends ModelService{
         );
   }
 
-  getStates(){
+  getStates() {
     return this.stateCollection$.isEmpty().switchMap((isEmpty) => {
-      if(isEmpty) {
+      if (isEmpty) {
         this.stateCollection$ = this.restangular.all('config').all('states').customGET('')
-          .map((res: any) => {
-            return res.data;
-          });
+        .map((res: any) => {
+          return res.data;
+        })
+        .shareReplay(1);
       }
       return this.stateCollection$;
     });
   }
 
-  getDepartments(){
+  getDepartments() {
     return this.departmentCollection$.isEmpty().switchMap((isEmpty) => {
-      if(isEmpty) {
+      if (isEmpty) {
         this.departmentCollection$ = this.restangular.all('config').all('departments').customGET('')
-            .map((res: any) => {
-              return res.data;
-            });
+        .map((res: any) => {
+          return res.data;
+        })
+        .shareReplay(1);
       }
       return this.departmentCollection$;
     });
   }
 
-  getProductCategories(){
+  getProductCategories() {
     return this.productCategoriesCollection$.isEmpty().switchMap((isEmpty) => {
-      if(isEmpty) {
+      if (isEmpty) {
         this.productCategoriesCollection$ = this.restangular.all('config').all('product_categories').customGET('')
-            .map((res: any) => {
-              return res.data;
-            });
+        .map((res: any) => {
+          return res.data;
+        })
+        .shareReplay(1);
       }
       return this.productCategoriesCollection$;
     });
   }
-  
-  getProductAccounting(){
+
+  getProductAccounting() {
     return this.productAccountingCollection$.isEmpty().switchMap((isEmpty) => {
-      if(isEmpty) {
+      if (isEmpty) {
         this.productAccountingCollection$ = this.restangular.all('config').all('accounting_categories').customGET('')
-            .map((res: any) => {
-              return res.data;
-            });
+        .map((res: any) => {
+          return res.data;
+        })
+        .shareReplay(1);
       }
       return this.productAccountingCollection$;
     });

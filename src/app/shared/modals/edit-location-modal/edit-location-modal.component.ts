@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone } from '@angular/core';
 
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { Modal, BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
@@ -29,7 +29,7 @@ export class EditLocationModalContext extends BSModalContext {
   styleUrls: ['./edit-location-modal.component.scss']
 })
 @DestroySubscribers()
-export class EditLocationModal implements OnInit, CloseGuard, ModalComponent<EditLocationModalContext> {
+export class EditLocationModal implements OnInit, ModalComponent<EditLocationModalContext> {
   public searchKey: any;
   public subscribers: any = {};
   context: EditLocationModalContext;
@@ -82,7 +82,6 @@ export class EditLocationModal implements OnInit, CloseGuard, ModalComponent<Edi
               public modalWindowService: ModalWindowService,
               public locationService: LocationService) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
     this.location = new LocationModel();
   }
 

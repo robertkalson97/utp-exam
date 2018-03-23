@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 
-import { DialogRef, ModalComponent, CloseGuard, Modal } from 'angular2-modal';
+import { DialogRef, ModalComponent, Modal } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { UserService, AccountService } from '../../../core/services/index';
@@ -34,7 +34,7 @@ export class AddInventoryModalContext extends BSModalContext {
 })
 
 @DestroySubscribers()
-export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalComponent<AddInventoryModalContext> {
+export class AddInventoryModal implements OnInit, OnDestroy, ModalComponent<AddInventoryModalContext> {
   public subscribers: any = {};
   public scrollConfig = {
     suppressScrollY: true,
@@ -123,7 +123,6 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
     public modal: Modal,
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit() {
@@ -384,7 +383,6 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
         });
       })
     }
-
   }
 
   ngOnDestroy() {
@@ -426,6 +424,7 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
       this.typeIn$.next(null);
     }
   }
+
   observableSource(keyword: any) {
     return Observable.of(this.autocompleteProducts).take(1);
   }
@@ -480,7 +479,6 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
   }
 
   putCheckbox(item) {
-
     this.showSelect = false;
     item.checked = !item.checked;
 
@@ -789,14 +787,17 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
     };
     img.src = imgBase64;
   }
+
   onMSDCFileUpload(event) {
     this.onMsdsDrop(event.target.files[0]);
-    }
+  }
+
   onMsdsDrop(msds: any): void {
     let myReader: any = new FileReader();
     myReader.fileName = msds.name;
     this.addMsds(msds);
   }
+
   onFileDrop(file: any): void {
     let myReader: any = new FileReader();
     myReader.fileName = file.name;
@@ -810,6 +811,7 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
   addFile(file) {
     this.addFileToFile$.next([file]);
   }
+
   addMsds(msds) {
     this.addMsdsToMsds$.next([msds]);
   }
@@ -817,6 +819,7 @@ export class AddInventoryModal implements OnInit, OnDestroy, CloseGuard, ModalCo
   removeFile(file) {
     this.deleteFromFile$.next(file);
   }
+
   removeMsds(msds) {
     this.deleteFromMsds$.next(msds);
   }

@@ -4,7 +4,7 @@
   </div>
   <div class="col s1" [class.strikethrough]="(statusLineQtyItems$ | async)?.length">
     {{ itemTotal }}
-    <a (click)="editQtyToggle()" *ngIf="(statusLineQtyItems$ | async)?.length === 0">
+    <a (click)="editQtyToggle()" *ngIf="(statusLineQtyItems$ | async)?.length <= 1 && !editQty">
       <fa name="pencil" class="tealish-text"></fa>
     </a>
   </div>

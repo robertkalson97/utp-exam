@@ -9,14 +9,10 @@ import { UserService } from './core/services/index';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit{
-
   constructor(
-      public activatedRoute: ActivatedRoute,
-      public userService: UserService
-  ) {
-  
-  
-  }
+    public activatedRoute: ActivatedRoute,
+    public userService: UserService
+  ) {}
 
   ngOnInit(){
     this.userService.selfData$
@@ -49,6 +45,5 @@ export class AppComponent implements OnInit{
       node.charset = 'utf-8';
       document.getElementsByTagName('head')[0].appendChild(node);
     });
-    
   }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard, Modal } from 'angular2-modal';
+import { DialogRef, ModalComponent, Modal } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
@@ -29,7 +29,7 @@ export class ChangePasswordUserModalContext extends BSModalContext {
   styleUrls: ['./change-password-user-modal.component.scss']
 })
 @DestroySubscribers()
-export class ChangePasswordUserModal implements OnInit, CloseGuard, ModalComponent<ChangePasswordUserModalContext> {
+export class ChangePasswordUserModal implements OnInit, ModalComponent<ChangePasswordUserModalContext> {
   public subscribers: any = {};
   context: ChangePasswordUserModalContext;
 
@@ -50,7 +50,6 @@ export class ChangePasswordUserModal implements OnInit, CloseGuard, ModalCompone
               public modal: Modal,
               public modalWindowService: ModalWindowService) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit() {
@@ -76,6 +75,5 @@ export class ChangePasswordUserModal implements OnInit, CloseGuard, ModalCompone
         this.dismissModal();
       })
     }
-
   }
 }

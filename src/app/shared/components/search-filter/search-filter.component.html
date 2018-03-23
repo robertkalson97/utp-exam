@@ -1,0 +1,15 @@
+<div class="row filter uptracker-form clearfix">
+  <div class="filter-btn text-left">
+    <a (click)="showFiltersModal()">
+      <fa [name]="'filter'"></fa>
+      <span>Filters</span>
+    </a>
+  </div>
+  <div class="input wide-input">
+    <input type="text"
+      placeholder="Search"
+      [(ngModel)]="searchKey"
+      class="col s12 no-margin filter-input"
+      (ngModelChange)="searchFilter($event)"/>
+  </div>
+</div>

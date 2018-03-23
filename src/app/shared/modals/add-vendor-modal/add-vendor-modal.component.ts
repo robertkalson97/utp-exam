@@ -50,7 +50,6 @@ export class AddVendorModalComponent implements OnInit {
     public phoneMaskService: PhoneMaskService,
   ) {
     this.vendorModel = new NewVendorModel();
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit() {

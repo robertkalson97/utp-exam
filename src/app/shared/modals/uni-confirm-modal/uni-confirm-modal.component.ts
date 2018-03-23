@@ -1,7 +1,7 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 import * as _ from 'lodash';
 
-import { DialogRef, ModalComponent, CloseGuard, Modal } from 'angular2-modal';
+import { DialogRef, ModalComponent, Modal } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 
 export class UniConfirmModalContext extends BSModalContext {
@@ -21,18 +21,16 @@ export class UniConfirmModalContext extends BSModalContext {
   templateUrl: './uni-confirm-modal.component.html',
   styleUrls: ['./uni-confirm-modal.component.scss']
 })
-export class UniConfirmModal implements OnInit, CloseGuard, ModalComponent<UniConfirmModalContext> {
+export class UniConfirmModal implements OnInit, ModalComponent<UniConfirmModalContext> {
   context: UniConfirmModalContext;
 
   constructor(
     public dialog: DialogRef<UniConfirmModalContext>,
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   dismissModal() {
     this.dialog.dismiss();
@@ -42,7 +40,7 @@ export class UniConfirmModal implements OnInit, CloseGuard, ModalComponent<UniCo
     this.dialog.close(data);
   }
 
-  confirm(){
+  confirm() {
     this.dialog.context.fn();
     this.dismissModal();
   }

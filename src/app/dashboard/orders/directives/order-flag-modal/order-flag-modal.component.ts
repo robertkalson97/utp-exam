@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { CloseGuard, DialogRef, ModalComponent } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 
 import { isArray } from 'lodash';
@@ -22,7 +22,7 @@ export interface FlaggedComment {
   templateUrl: './order-flag-modal.component.html',
   styleUrls: ['./order-flag-modal.component.scss'],
 })
-export class OrderFlagModalComponent implements CloseGuard, ModalComponent<OrderFlagModalContext> {
+export class OrderFlagModalComponent implements ModalComponent<OrderFlagModalContext> {
   context;
   public comments: FlaggedComment[];
   public form: FormGroup;

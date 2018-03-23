@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { CartService } from '../../../../core/services/cart.service';
@@ -19,7 +19,7 @@ export class AddInventory2OrderModalContext extends BSModalContext {
 
 @DestroySubscribers()
 
-export class AddInventory2OrderModal implements OnInit, OnDestroy, CloseGuard, ModalComponent<AddInventory2OrderModalContext> {
+export class AddInventory2OrderModal implements OnInit, OnDestroy, ModalComponent<AddInventory2OrderModalContext> {
   context: AddInventory2OrderModalContext;
   public subscribers: any = {};
   public inventory: any;
@@ -31,8 +31,6 @@ export class AddInventory2OrderModal implements OnInit, OnDestroy, CloseGuard, M
     public toasterService: ToasterService,
   ) {
     this.context = dialog.context;
-
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit() {
@@ -66,12 +64,13 @@ export class AddInventory2OrderModal implements OnInit, OnDestroy, CloseGuard, M
       this.defaultProduct.qty = 1;
     }
   }
+
   ngOnDestroy() {
     console.log('for unsubscribing')
   }
-  saveOrder() {
-  let noVendorAutoSelect = !!(this.defaultProduct.vendor_id);
 
+  saveOrder() {
+    let noVendorAutoSelect = !!(this.defaultProduct.vendor_id);
     let data = {
       "product_id": this.defaultProduct.product_id,
       "account_product_id": this.defaultProduct.account_product_id,
@@ -103,5 +102,4 @@ export class AddInventory2OrderModal implements OnInit, OnDestroy, CloseGuard, M
   closeModal(data) {
     this.dialog.close(data);
   }
-
 }

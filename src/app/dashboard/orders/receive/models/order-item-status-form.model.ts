@@ -20,7 +20,7 @@ export class OrderItemStatusFormModel {
   status_int?: string;
   id?: string;
   qty_change?: boolean;
-  note?: string  ;
+  note?: string;
 }
 
 export class OrderItemStatusFormGroup extends FormGroup {

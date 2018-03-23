@@ -80,6 +80,8 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   public primaryLocation: any;
   public secondaryLocation: any;
   public secondaryLocationArr: any = [];
+  public logo: File;
+  public logoPreview: string = null;
 
   @ViewChild('secondary') secondaryLocationLink: ElementRef;
   @ViewChild('all') allLocationLink: ElementRef;
@@ -421,6 +423,10 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
       this.formData.append('documents[' + j + ']', this.oldFileArr[j]);
       j++;
     });
+
+    if (this.logoPreview) {
+      this.formData.append('logo', this.logo);
+    }
   }
 
   fillVendor() {
@@ -486,6 +492,17 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   }
   goBackOneStep(): void {
     this.location.back();
+  }
+
+  uploadLogo(file: any) {
+    let reader = new FileReader();
+
+    reader.onload = ($event: any) => {
+      this.logoPreview = $event.target.result;
+      this.logo = file.target.files[0];
+    };
+
+    reader.readAsDataURL(file.target.files[0]);
   }
 
 }

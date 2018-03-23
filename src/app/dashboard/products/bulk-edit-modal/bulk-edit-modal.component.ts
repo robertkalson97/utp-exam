@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Input } from '@angular/core';
 
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
@@ -23,7 +23,7 @@ export class BulkEditModalContext extends BSModalContext {
   styleUrls: ['./bulk-edit-modal.component.scss']
 })
 @DestroySubscribers()
-export class BulkEditModal implements OnInit, AfterViewInit, CloseGuard, ModalComponent<BulkEditModalContext> {
+export class BulkEditModal implements OnInit, AfterViewInit, ModalComponent<BulkEditModalContext> {
   public subscribers: any = {};
   
   public departmentCollection$: Observable<any> = new Observable<any>();
@@ -67,22 +67,17 @@ export class BulkEditModal implements OnInit, AfterViewInit, CloseGuard, ModalCo
     public productService: ProductService,
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
-    
-    
   }
-  
+
   ngOnInit() {
-    
     this.selectedProducts = this.context.products;
     console.log(this.selectedProducts);
-    
+
     this.dataObj.product_ids = [];
     _.map(this.selectedProducts, (prod: any) => {
       this.dataObj.product_ids.push(prod['id']);
     });
-    
-    
+
     this.additionalInfo$ = this.productService.getBulkEditAdditionalInfo(this.dataObj.product_ids)
     .take(1)
     .map(resp => {
@@ -95,8 +90,7 @@ export class BulkEditModal implements OnInit, AfterViewInit, CloseGuard, ModalCo
     //TODO
     this.workingStockCollection$ = this.accountService.getDepartments().take(1);
     this.backStockCollection$ = this.accountService.getDepartments().take(1);
-    
-    
+
     this.selectInfoReady$ = Observable.combineLatest(
       this.departmentCollection$,
       this.productAccountingCollection$,
@@ -108,25 +102,23 @@ export class BulkEditModal implements OnInit, AfterViewInit, CloseGuard, ModalCo
       this.dropdowns = [a, b, c, d.locations, d.locations, d.vendors]; // make a snapshot of the streams because of f'kn materialize
       return true;
     });
-    
+
     this.vendorCollection$.subscribe(r => console.log('vendors', r));
   }
-  
+
   ngAfterViewInit() {
   }
-  
+
   dismissModal() {
     this.dialog.dismiss();
   }
-  
+
   closeModal(data) {
     this.dialog.close(data);
   }
-  
-  onSubmit() {
-    
-  }
-  
+
+  onSubmit() {}
+
   checkboxChange(event, value) {
     if (!event.target.state || event.target.state == 3) {
       event.target.state = 1;
@@ -152,7 +144,7 @@ export class BulkEditModal implements OnInit, AfterViewInit, CloseGuard, ModalCo
         break;
     }
   }
-  
+
   saveBulkEdit() {
     let data = _.cloneDeep(this.bulk);
     data['back_stock_name'] = null;
@@ -178,32 +170,29 @@ export class BulkEditModal implements OnInit, AfterViewInit, CloseGuard, ModalCo
       delete this.dataObj.back_stock_location;
       delete this.dataObj.back_stock;
     }
-  
-  this.subscribers.updateBulkProducts$ = this.productService.bulkUpdateProducts(this.dataObj);
-  this.dismissModal();
-}
-
-updWorkingStock(item, location = null)
-{
-  if (item == '') {
-    this.bulk.working_stock_name = "No Change";
-    this.bulk.working_stock = null;
-  } else {
-    this.bulk.working_stock_name = item.name;
-    this.bulk.working_stock = item.id;
-    this.bulk.working_stock_location = location.id;
+    this.subscribers.updateBulkProducts$ = this.productService.bulkUpdateProducts(this.dataObj);
+    this.dismissModal();
   }
-}
 
-updBackStock(item, location = null)
-{
-  if (!item) {
-    this.bulk.back_stock_name = "No Change";
-    this.bulk.back_stock = null;
-  } else {
-    this.bulk.back_stock_name = item.name;
-    this.bulk.back_stock = item.id;
-    this.bulk.back_stock_location = location.id;
+  updWorkingStock(item, location = null) {
+    if (item == '') {
+      this.bulk.working_stock_name = "No Change";
+      this.bulk.working_stock = null;
+    } else {
+      this.bulk.working_stock_name = item.name;
+      this.bulk.working_stock = item.id;
+      this.bulk.working_stock_location = location.id;
+    }
   }
-}
+
+  updBackStock(item, location = null) {
+    if (!item) {
+      this.bulk.back_stock_name = "No Change";
+      this.bulk.back_stock = null;
+    } else {
+      this.bulk.back_stock_name = item.name;
+      this.bulk.back_stock = item.id;
+      this.bulk.back_stock_location = location.id;
+    }
+  }
 }

@@ -22,6 +22,8 @@ import { AppliancesModule } from './appliances/appliances.module';
 import { AssetsModule } from './assets/assets.module';
 import { RestockFloorModule } from './restock-floor/restock-floor.module';
 
+import { DashboardFilterModalModule } from './dashboard-filter-modal/dashboard-filter-modal.module';
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -44,6 +46,7 @@ import { RestockFloorModule } from './restock-floor/restock-floor.module';
     ReportsModule,
     ShoppingListModule,
     RestockFloorModule,
+    DashboardFilterModalModule,
   ],
   providers: []
 })

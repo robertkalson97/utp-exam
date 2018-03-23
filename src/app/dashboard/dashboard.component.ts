@@ -1,10 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import * as _ from 'lodash';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
+import { Modal } from 'angular2-modal/plugins/bootstrap';
 
 import { UserService, StateService, AccountService } from '../core/services/index';
 import { Observable } from "rxjs";
 import { DashboardService } from '../core/services/dashboard.service';
+import { ModalWindowService } from '../core/services/modal-window.service';
+import { DashboardFilterModal } from './dashboard-filter-modal/dashboard-filter-modal.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -20,6 +23,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   public showLocSelect: boolean = true;
   
   constructor(
+    public modal: Modal,
+    public modalWindowService: ModalWindowService,
     public userService: UserService,
     public accountService: AccountService,
     public stateService: StateService,
@@ -65,9 +70,22 @@ export class DashboardComponent implements OnInit, OnDestroy {
       }, 1)
     });
   }
-  
+
   changeLocation(event) {
     this.accountService.dashboardLocation$.next(_.find(this.locationArr, {'id': event.target.value}));
   }
-  
+
+  showFiltersModal() {
+    this.modal
+    .open(DashboardFilterModal, this.modalWindowService.overlayConfigFactoryWithParams({}))
+    .then((resultPromise) => {
+      resultPromise.result.then(
+        (res) => {
+          // this.filterProducts();
+        },
+        (err) => {
+        }
+      );
+    });
+  }
 }

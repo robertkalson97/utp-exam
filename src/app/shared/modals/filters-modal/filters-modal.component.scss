@@ -1,0 +1,27 @@
+:host /deep/ {
+  .checkboxesList {
+    margin: 5px 0;
+    padding: 0;
+    .input-checkbox {
+      float: left;
+    }
+    .checkbox-text {
+      padding-left: 25px;
+      word-break: break-all;
+    }
+  }
+  .ttl {
+    font-family: Roboto, sans-serif;
+    color: #444;
+    border-bottom: 1px solid #333;
+    padding-bottom: 7px;
+    margin-bottom: 15px;
+  }
+  .footer-btn {
+    button {
+      margin-right: 20px;
+      height: 40px;
+      min-width: 140px;
+    }
+  }
+}

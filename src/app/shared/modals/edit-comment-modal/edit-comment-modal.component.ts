@@ -1,6 +1,6 @@
 import { Component, OnInit, NgZone, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard, Modal } from 'angular2-modal';
+import { DialogRef, ModalComponent, Modal } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
@@ -29,7 +29,7 @@ export class EditCommentModalContext extends BSModalContext {
   styleUrls: ['./edit-comment-modal.component.scss']
 })
 @DestroySubscribers()
-export class EditCommentModal implements OnInit, CloseGuard, ModalComponent<EditCommentModalContext> {
+export class EditCommentModal implements OnInit, ModalComponent<EditCommentModalContext> {
   public subscribers: any = {};
   context: EditCommentModalContext;
 
@@ -46,7 +46,6 @@ export class EditCommentModal implements OnInit, CloseGuard, ModalComponent<Edit
               public modal: Modal,
               public modalWindowService: ModalWindowService) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit() {

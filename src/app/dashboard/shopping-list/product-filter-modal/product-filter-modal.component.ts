@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable } from 'rxjs/Rx';
@@ -21,7 +21,7 @@ export class ProductFilterModalContext extends BSModalContext {
   styleUrls: ['./product-filter-modal.component.scss']
 })
 @DestroySubscribers()
-export class ProductFilterModal implements OnInit, CloseGuard, ModalComponent<ProductFilterModalContext> {
+export class ProductFilterModal implements OnInit, ModalComponent<ProductFilterModalContext> {
   public subscribers: any = {};
   context: ProductFilterModalContext;
   public filter:SlFilters = new SlFilters;
@@ -33,7 +33,6 @@ export class ProductFilterModal implements OnInit, CloseGuard, ModalComponent<Pr
       public accountService: AccountService
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
     this.filter = this.context.currentFilters;
   }
 
@@ -47,12 +46,12 @@ export class ProductFilterModal implements OnInit, CloseGuard, ModalComponent<Pr
   closeModal(data){
     this.dialog.close(data);
   }
-  
+
   triggerFilterChange(){
     this.context.callback(this.filter);
     this.dismissModal();
   }
-  
+
   resetFilters(){
     this.filter = new SlFilters;
     this.triggerFilterChange();

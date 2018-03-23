@@ -155,7 +155,7 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
   addSubscribers() {
     const statusType$ = this.route.queryParams
     .pluck('type')
-    .map((type) => _.find(this.statusList, ['value', type]))
+    .map((type) => _.find(this.statusList, {value: `${type}`}))
     .map((type) => type && type.value);
 
     this.subscribers.pendingQtySubscription = this.pendingQty$
@@ -232,6 +232,7 @@ export class ReceiveItemComponent implements OnInit, OnDestroy {
 
   private getFormStatusLineQtyItems() {
     return this.item$
+    .filter((item) => !!item && !!item.status_line_items)
     .map((item) =>
       item.status_line_items && item.status_line_items.filter((statusItem) => statusItem.qty_change)
     );

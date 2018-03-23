@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DestroySubscribers } from "ngx-destroy-subscribers";
-import { CloseGuard, ModalComponent, DialogRef } from "angular2-modal";
+import { ModalComponent, DialogRef } from "angular2-modal";
 import { BSModalContext } from "angular2-modal/plugins/bootstrap";
 import { HttpClient } from "app/core/services/http.service";
 import { ResponseContentType } from "@angular/http";
@@ -22,7 +22,7 @@ export class PhoneOrderModalContext extends BSModalContext {
   styleUrls: ['./phone-order-modal.component.scss']
 })
 @DestroySubscribers()
-export class PhoneOrderModalComponent implements OnInit, CloseGuard, ModalComponent<PhoneOrderModalContext> {
+export class PhoneOrderModalComponent implements OnInit, ModalComponent<PhoneOrderModalContext> {
   context: PhoneOrderModalContext;
 
   constructor(
@@ -32,7 +32,6 @@ export class PhoneOrderModalComponent implements OnInit, CloseGuard, ModalCompon
     public spinner: SpinnerService
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
   
   ngOnInit() {

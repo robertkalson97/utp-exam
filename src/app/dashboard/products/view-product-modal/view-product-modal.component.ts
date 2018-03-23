@@ -1,6 +1,6 @@
 import {Component, OnInit, AfterViewInit, ViewChild, ElementRef, NgZone} from '@angular/core';
 
-import {DialogRef, ModalComponent, CloseGuard, Modal} from 'angular2-modal';
+import {DialogRef, ModalComponent, Modal} from 'angular2-modal';
 import {BSModalContext} from 'angular2-modal/plugins/bootstrap';
 import {DestroySubscribers} from 'ngx-destroy-subscribers';
 import {Observable, BehaviorSubject, Subject} from 'rxjs/Rx';
@@ -27,7 +27,7 @@ export class ViewProductModalContext extends BSModalContext {
     styleUrls: ['./view-product-modal.component.scss']
 })
 @DestroySubscribers()
-export class ViewProductModal implements OnInit, AfterViewInit, CloseGuard, ModalComponent<ViewProductModalContext> {
+export class ViewProductModal implements OnInit, AfterViewInit, ModalComponent<ViewProductModalContext> {
     public subscribers: any = {};
     context: ViewProductModalContext;
     // public product$: BehaviorSubject<any> = new BehaviorSubject([]);
@@ -90,7 +90,6 @@ export class ViewProductModal implements OnInit, AfterViewInit, CloseGuard, Moda
     public deleteFromFile$: Subject<any> = new Subject<any>();
     public updateFile$: Subject<any> = new Subject<any>();
 
-
     public doc$: Observable<any>;
     public doc;
     public loadDoc$: Subject<any> = new Subject<any>();
@@ -102,7 +101,6 @@ export class ViewProductModal implements OnInit, AfterViewInit, CloseGuard, Moda
 
     public hasInfoTab:boolean = false;
 
-
     constructor(public dialog: DialogRef<ViewProductModalContext>,
                 public userService: UserService,
                 public accountService: AccountService,
@@ -113,7 +111,6 @@ export class ViewProductModal implements OnInit, AfterViewInit, CloseGuard, Moda
                 public zone: NgZone,
                 public modal: Modal) {
         this.context = dialog.context;
-        dialog.setCloseGuard(this);
         this.fileActions();
         this.docActions();
         this.showEdit$.next(false);
@@ -155,7 +152,6 @@ export class ViewProductModal implements OnInit, AfterViewInit, CloseGuard, Moda
         this.product = this.context.product;
 
         this.loadFile$.next([]);
-
         this.resetText();
         this.product.comments = [];
         this.location_id = this.product.location_id;

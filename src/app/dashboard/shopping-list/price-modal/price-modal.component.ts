@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
@@ -19,7 +19,7 @@ export class PriceModalContext extends BSModalContext {
   styleUrls: ['./price-modal.component.scss']
 })
 @DestroySubscribers()
-export class PriceModal implements OnInit, CloseGuard, ModalComponent<PriceModalContext> {
+export class PriceModal implements OnInit, ModalComponent<PriceModalContext> {
   public subscribers: any = {};
   context: PriceModalContext;
   public filter: any = {'department': '', 'vendor': '', 'onlymy': false};
@@ -36,7 +36,6 @@ export class PriceModal implements OnInit, CloseGuard, ModalComponent<PriceModal
     public cartService: CartService,
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
   
   ngOnInit() {

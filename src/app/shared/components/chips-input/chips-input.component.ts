@@ -40,14 +40,14 @@ export class ChipsInputComponent implements ControlValueAccessor, AfterViewInit 
   public isDisabled$ = new BehaviorSubject<boolean>(false);
   public isDisabled: boolean;
 
-  public materializeParams: ChipMaterializeParams = {};
-
   public chips: Chip[] = [];
 
   public chipActions = new EventEmitter();
 
   public onChange;
   public onTouched;
+
+  @Input() materializeParams: ChipMaterializeParams = {};
 
   @Input()
   set placeholder(placeholder: string) {
@@ -110,7 +110,7 @@ export class ChipsInputComponent implements ControlValueAccessor, AfterViewInit 
   }
 
   public onFocus(hasFocusClass) {
-    if (hasFocusClass) {
+    if (hasFocusClass && this.onTouched) {
       this.onTouched();
     }
   }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { UserService } from '../../../core/services/user.service';
@@ -15,7 +15,7 @@ export class InviteUserModalContext extends BSModalContext {
   styleUrls: ['./invite-user-modal.component.scss']
 })
 @DestroySubscribers()
-export class InviteUserModal implements OnInit, CloseGuard, ModalComponent<InviteUserModalContext> {
+export class InviteUserModal implements OnInit, ModalComponent<InviteUserModalContext> {
   context: InviteUserModalContext;
   email:string;
   name:string;
@@ -28,9 +28,7 @@ export class InviteUserModal implements OnInit, CloseGuard, ModalComponent<Invit
       public dialog: DialogRef<InviteUserModalContext>,
       public userService: UserService,
       public toasterService: ToasterService
-  ) {
-    dialog.setCloseGuard(this);
-  }
+  ) {}
 
   ngOnInit(){
   }

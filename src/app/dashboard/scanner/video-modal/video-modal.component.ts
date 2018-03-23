@@ -1,6 +1,6 @@
 import {Component, NgZone, OnInit, ViewChild} from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import {Observable} from "rxjs/Observable";
 import {ScannerService} from "../../../core/services/scanner.service";
@@ -26,7 +26,6 @@ export class VideoModal implements ModalComponent<VideoModalContext>, OnInit {
     public scannerService: ScannerService,
   ) {
     this.context = dialog.context.video;
-    dialog.setCloseGuard(this);
 
   }
 

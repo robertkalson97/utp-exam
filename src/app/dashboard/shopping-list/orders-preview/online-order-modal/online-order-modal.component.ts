@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { DestroySubscribers } from "ngx-destroy-subscribers";
-import { CloseGuard, ModalComponent, DialogRef } from "angular2-modal";
+import { ModalComponent, DialogRef } from "angular2-modal";
 import { BSModalContext } from "angular2-modal/plugins/bootstrap";
 import { HttpClient } from "app/core/services/http.service";
 import { ResponseContentType } from "@angular/http";
@@ -24,7 +24,7 @@ export class OnlineOrderModalContext extends BSModalContext {
   styleUrls: ['./online-order-modal.component.scss']
 })
 @DestroySubscribers()
-export class OnlineOrderModalComponent implements OnInit, CloseGuard, ModalComponent<OnlineOrderModalContext> {
+export class OnlineOrderModalComponent implements OnInit, ModalComponent<OnlineOrderModalContext> {
   context: OnlineOrderModalContext;
   action: "Go to website" | "Email" | "Print" = "Email";
   website: string;
@@ -39,7 +39,6 @@ export class OnlineOrderModalComponent implements OnInit, CloseGuard, ModalCompo
     public router: Router
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
   
   ngOnInit() {

@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable } from 'rxjs/Rx';
@@ -20,7 +20,7 @@ export class UploadCsvModalContext extends BSModalContext {
   styleUrls: ['./upload-csv-modal.component.scss']
 })
 @DestroySubscribers()
-export class UploadCsvModal implements OnInit, CloseGuard, ModalComponent<UploadCsvModalContext> {
+export class UploadCsvModal implements OnInit, ModalComponent<UploadCsvModalContext> {
   public subscribers: any = {};
   context: UploadCsvModalContext;
   public filter:any = {'department':'', 'vendor':'', 'onlymy':false};
@@ -40,8 +40,6 @@ export class UploadCsvModal implements OnInit, CloseGuard, ModalComponent<Upload
       public accountService: AccountService
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
-  
   }
 
   ngOnInit(){
@@ -50,9 +48,8 @@ export class UploadCsvModal implements OnInit, CloseGuard, ModalComponent<Upload
       (v) => {
         return (v.vendor_variant_id == this.context.product.selected_vendor.id);
       });
-  
   }
-  
+
   dismissModal(){
     this.dialog.dismiss();
   }
@@ -60,24 +57,23 @@ export class UploadCsvModal implements OnInit, CloseGuard, ModalComponent<Upload
   closeModal(data){
     this.dialog.close(data);
   }
-  
+
   // upload by filedrop
   fileOver(fileIsOver: boolean): void {
     this.fileIsOver = fileIsOver;
     if (fileIsOver){console.log('file_over')}
   }
-  
+
   onFileUpload(event) {
     this.onFileDrop(event.target.files[0]);
   }
-  
-  
+
   onFileDrop(file: any): void {
     let myReader: any = new FileReader();
     myReader.fileName = file.name;
     this.addFile(file);
-    
   }
+
   addFile(file) {
     try {
       this.file = file;
@@ -86,5 +82,4 @@ export class UploadCsvModal implements OnInit, CloseGuard, ModalComponent<Upload
       console.error(e);
     }
   }
-  
 }

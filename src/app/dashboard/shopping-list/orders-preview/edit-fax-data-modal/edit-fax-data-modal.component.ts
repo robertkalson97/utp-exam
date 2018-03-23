@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable } from 'rxjs/Observable';
@@ -39,7 +39,7 @@ export class EditEmailDataModalContext extends BSModalContext {
   styleUrls: ['./edit-fax-data-modal.component.scss']
 })
 @DestroySubscribers()
-export class EditFaxDataModal implements OnInit, AfterViewInit, CloseGuard, ModalComponent<EditEmailDataModalContext> {
+export class EditFaxDataModal implements OnInit, AfterViewInit, ModalComponent<EditEmailDataModalContext> {
   public subscribers: any = {};
   context: EditEmailDataModalContext;
 
@@ -72,11 +72,10 @@ export class EditFaxDataModal implements OnInit, AfterViewInit, CloseGuard, Moda
       public toasterService: ToasterService,
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
     this.faxMessage = this.context.fax_text;
     this.nameFrom = this.context.user_name;
     this.nameTo = this.context.vendor_name;
-  
+
     this.faxNumber = this.phoneMaskService.getPhoneByIntlPhone(this.context.from_fax_number);
     this.faxCountry = this.phoneMaskService.getCountryArrayByIntlPhone(this.context.from_fax_number);
 

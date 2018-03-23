@@ -58,11 +58,11 @@ export class ReceiveStatusLineItemComponent implements OnInit {
 
     this.location$ = this.inventoryGroup$
     .filter((r) => !!r)
-    .map((inventoryGroup) => _.find(inventoryGroup.locations, ['id', this.location_id]));
+    .map((inventoryGroup) => _.find(inventoryGroup.locations, {'id': this.location_id}));
 
     this.storageLocation$ = this.location$
     .filter((location) => !!location)
-    .map((location) => _.find(location.storage_locations, ['id', this.storage_location_id]));
+    .map((location) => _.find(location.storage_locations, {'id': this.storage_location_id}));
   }
 
   removePreviouslyReceivedToggle() {

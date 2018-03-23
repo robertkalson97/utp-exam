@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
 import { Observable, BehaviorSubject } from 'rxjs/Rx';
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
@@ -22,7 +22,7 @@ export class EditProductModalContext extends BSModalContext {
   styleUrls: ['./edit-product-modal.component.scss']
 })
 @DestroySubscribers()
-export class EditProductModal implements OnInit, AfterViewInit, CloseGuard, ModalComponent<EditProductModalContext> {
+export class EditProductModal implements OnInit, AfterViewInit, ModalComponent<EditProductModalContext> {
   public subscribers: any = {};
   public context: EditProductModalContext;
   public product: AccountVendorModel;
@@ -33,7 +33,6 @@ export class EditProductModal implements OnInit, AfterViewInit, CloseGuard, Moda
       public accountService: AccountService
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit(){
@@ -51,7 +50,5 @@ export class EditProductModal implements OnInit, AfterViewInit, CloseGuard, Moda
     this.dialog.close(data);
   }
 
-  onSubmit(){
-    
-  }
+  onSubmit(){}
 }

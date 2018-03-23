@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
@@ -24,7 +24,7 @@ export class ViewProductModalContext extends BSModalContext {
   styleUrls: ['./add-product-modal.component.scss']
 })
 @DestroySubscribers()
-export class AddProductModal implements OnInit, AfterViewInit, CloseGuard, ModalComponent<ViewProductModalContext> {
+export class AddProductModal implements OnInit, AfterViewInit, ModalComponent<ViewProductModalContext> {
   public subscribers: any = {};
   context: ViewProductModalContext;
   public product: any;
@@ -59,7 +59,6 @@ export class AddProductModal implements OnInit, AfterViewInit, CloseGuard, Modal
       public modalWindowService: ModalWindowService
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit(){

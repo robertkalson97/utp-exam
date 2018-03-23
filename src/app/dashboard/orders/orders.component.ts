@@ -15,6 +15,7 @@ import { ModalWindowService } from '../../core/services/modal-window.service';
 import { ToasterService } from '../../core/services/toaster.service';
 import { OrderTableResetService } from './directives/order-table/order-table-reset.service';
 import { OrderTableFilterByService } from './directives/order-table/order-table-filter-by.service';
+import { FiltersModalComponent } from 'app/shared/modals/filters-modal/filters-modal.component';
 
 @Component({
   selector: 'app-orders',
@@ -107,7 +108,16 @@ export class OrdersComponent implements OnInit, OnDestroy {
   };
 
   showFiltersModal() {
-
+    this.modal
+    .open(FiltersModalComponent, this.modalWindowService.overlayConfigFactoryWithParams({}))
+    .then((resultPromise) => {
+      resultPromise.result.then(
+        (res) => {
+        },
+        (err) => {
+        }
+      );
+    });
   }
 
   resetFilters() {

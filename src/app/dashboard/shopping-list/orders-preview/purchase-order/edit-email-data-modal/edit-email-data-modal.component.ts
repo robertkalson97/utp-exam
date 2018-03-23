@@ -1,5 +1,5 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable } from 'rxjs/Observable';
@@ -39,7 +39,7 @@ export class EditEmailDataModalContext extends BSModalContext {
   styleUrls: ['./edit-email-data-modal.component.scss']
 })
 @DestroySubscribers()
-export class EditEmailDataModal implements OnInit, AfterViewInit, CloseGuard, ModalComponent<EditEmailDataModalContext> {
+export class EditEmailDataModal implements OnInit, AfterViewInit, ModalComponent<EditEmailDataModalContext> {
   public subscribers: any = {};
   context: EditEmailDataModalContext;
 
@@ -72,7 +72,6 @@ export class EditEmailDataModal implements OnInit, AfterViewInit, CloseGuard, Mo
       public toasterService: ToasterService,
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
     this.emailMessage = this.context.email_text;
     this.emailFrom = this.context.user_email;
     this.emailTo = this.context.vendor_email;
@@ -91,7 +90,7 @@ export class EditEmailDataModal implements OnInit, AfterViewInit, CloseGuard, Mo
 
   ngAfterViewInit(){
   }
-  
+
   // File add, delete actions
   fileActions(): any {
     let addFileToFile$ = this.addFileToFile$
@@ -123,7 +122,7 @@ export class EditEmailDataModal implements OnInit, AfterViewInit, CloseGuard, Mo
         });
       });
     });
-    
+
     this.file$ = Observable.merge(
       this.loadFile$,
       this.updateFile$,
@@ -136,7 +135,7 @@ export class EditEmailDataModal implements OnInit, AfterViewInit, CloseGuard, Mo
       this.hasFiles = res.length > 0;
     });
   }
-  
+
   dismissModal(){
     this.dialog.dismiss();
   }
@@ -144,36 +143,35 @@ export class EditEmailDataModal implements OnInit, AfterViewInit, CloseGuard, Mo
   closeModal(data){
     this.dialog.close(data);
   }
-  
-  
+
   // upload by filedrop
   fileOver(fileIsOver: boolean): void {
     this.fileIsOver = fileIsOver;
   }
-  
+
   onFileDrop(file: any): void {
     let myReader: any = new FileReader();
     myReader.fileName = file.name;
     this.addFile(file);
   }
-  
+
   onFileUpload(event) {
     this.onFileDrop(event.target.files[0]);
   }
-  
+
   addFile(file) {
     this.addFileToFile$.next([file]);
   }
-  
+
   removeFile(file) {
     console.log(`remove ${file.file_name}`);
     this.deleteFromFile$.next(file);
   }
-  
+
   getType(mime){
     return mime.split('/')[0];
   }
-  
+
   sendPO(){
     this.orderService.sendOrderRequestFinal(this.context.order_id,{
       body:this.emailMessage,

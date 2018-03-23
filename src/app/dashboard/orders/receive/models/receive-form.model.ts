@@ -9,8 +9,8 @@ export interface ReceiveVendor {
 export interface ReceiveFormModel {
   invoice_number?: string;
   packing_slip_number?: string;
-  orders: ReceiveOrderModel[];
-  vendor: ReceiveVendor;
+  orders?: ReceiveOrderModel[];
+  vendor?: ReceiveVendor;
 }
 
 export class ReceiveFormGroup extends FormGroup {

@@ -1,6 +1,6 @@
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Component, OnInit } from '@angular/core';
-import { CloseGuard, DialogRef } from 'angular2-modal';
+import { DialogRef } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { InventorySearchResults } from '../../../models/inventory.model';
 import { ProductService } from '../../../core/services/product.service';
@@ -19,7 +19,7 @@ export class AddCustomProductModalContext extends BSModalContext {
 })
 
 @DestroySubscribers()
-export class AddCustomProductModalComponent implements OnInit, CloseGuard {
+export class AddCustomProductModalComponent implements OnInit {
   public subscribers: any = {};
   
   public addCustomProduct$: any = new ReplaySubject(1);
@@ -29,9 +29,7 @@ export class AddCustomProductModalComponent implements OnInit, CloseGuard {
   constructor(
     public productService: ProductService,
     public dialog: DialogRef<AddCustomProductModalContext>,
-  ) {
-    dialog.setCloseGuard(this);
-  }
+  ) {}
   
   ngOnInit() {
     this.newProductData.custom_product = true;
@@ -42,15 +40,15 @@ export class AddCustomProductModalComponent implements OnInit, CloseGuard {
     .switchMap((data: CustomProductModel) => this.productService.addCustomProduct(data))
     .subscribe(res => this.closeModal(true));
   }
-  
+
   dismissModal() {
     this.dialog.dismiss();
   }
-  
+
   closeModal(data) {
     this.dialog.close(data);
   }
-  
+
   addNewProduct() {
     this.newProductData.inventory_by = [
       {
@@ -72,13 +70,11 @@ export class AddCustomProductModalComponent implements OnInit, CloseGuard {
         qty: 1,
       }
     ];
-    
+
     this.newProductData.vendors = (this.newProductData.vendors[0].vendor_id) ? this.newProductData.vendors : [this.newProductData.vendors[0].vendor_name];
-    
+
     const newCustomProduct = new CustomProductModel(this.newProductData);
-    
+
     this.addCustomProduct$.next(newCustomProduct);
-    
   }
-  
 }

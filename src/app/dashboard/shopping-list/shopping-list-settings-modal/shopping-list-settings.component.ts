@@ -1,6 +1,6 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 
-import { DialogRef, ModalComponent, CloseGuard } from 'angular2-modal';
+import { DialogRef, ModalComponent } from 'angular2-modal';
 import { BSModalContext } from 'angular2-modal/plugins/bootstrap';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { Observable } from 'rxjs/Rx';
@@ -19,7 +19,7 @@ export class ShoppingListSettingsModalContext extends BSModalContext {
   styleUrls: ['./shopping-list-settings.component.scss']
 })
 @DestroySubscribers()
-export class ShoppingListSettingsModal implements OnInit, CloseGuard, ModalComponent<ShoppingListSettingsModalContext> {
+export class ShoppingListSettingsModal implements OnInit, ModalComponent<ShoppingListSettingsModalContext> {
   public subscribers: any = {};
   context: ShoppingListSettingsModalContext;
   public settings:any = {'priority':1, 'vendor':'', 'only':false};
@@ -32,18 +32,17 @@ export class ShoppingListSettingsModal implements OnInit, CloseGuard, ModalCompo
       public accountService: AccountService
   ) {
     this.context = dialog.context;
-    dialog.setCloseGuard(this);
   }
 
   ngOnInit(){
     this.calcPriorityMargin(1);
   }
-  
+
   changePriority(event){
     let value = event.target.value;
     this.calcPriorityMargin(value);
   }
-  
+
   calcPriorityMargin(value){
     let fixer: number = -16;
     this.priorityMargin = 'calc(' + (value-1)*100/9 + '% + ' + fixer + 'px)';

@@ -1,0 +1,33 @@
+:host /deep/ {
+  .filter {
+    display: flex;
+    justify-content: space-between;
+    max-width: 300px;
+
+    .filter-btn {
+      width: 100px;
+      a {
+        display: block;
+        cursor: pointer;
+        line-height: 30px;
+        i {
+          margin-right: 3px;
+          font-size: 22px;
+        }
+
+        & > * {
+          vertical-align: middle;
+        }
+      }
+    }
+    .wide-input {
+      margin-left: 20px;
+      width: 100%;
+      .filter-input {
+        background-color: white;
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+    }
+  }
+}
