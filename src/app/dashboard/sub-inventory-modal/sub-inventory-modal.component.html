@@ -1,0 +1,186 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner">
+  <div class="left" *ngIf="modalState === 0">
+    <div class="title center-align"><span>SEARCH</span></div>
+    <div class="row search">
+      <i class="fa fa-search"></i>
+      <input id="search" [(ngModel)]="searchText" (ngModelChange)="searchProducts($event)">
+    </div>
+    <div class="info"><span>Search by inventory group name, product name, keyword, id number, etc</span></div>
+    <div  *ngIf="!!searchText">
+      <div *ngFor="let group of groups; let i = index">
+        <div class="row product" (click)="toGoModal(1, i)">
+          <div class="preview">
+            <div class="icon"></div>
+          </div>
+          <div class="description">
+            <div class="bold">{{group.name}}</div>
+            <div class="thin">{{group.info}}</div>
+            <div class="thin mrg-top-10">{{group.counts}} Products</div>
+          </div>
+          <div class="arrow">
+            <i class="fa fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="middle" *ngIf="modalState === 1">
+    <div class="nav fa fa-chevron-left" (click)="toGoModal(0)"></div>
+    <div class="title center-align"><span>SUBTRACT FROM INVENTORY</span></div>
+    <div class="row description">
+      <div class="preview">
+        <div class="icon"></div>
+      </div>
+      <div class="content">
+        <div class="bold">Gloves Tender Touch Nitrile</div>
+        <div class="thin">Gloves Tender Touch Nitrile Sempercare PF 200/box</div>
+        <div class="col s12 line-header">
+          <div class="col s4">
+            <div class="row">Department</div>
+            <div class="row">Clinic</div>
+          </div>
+          <div class="col s4 center-align"><div class="left-align">
+            <div class="row">Category</div>
+            <div class="row">Gloves</div></div>
+          </div>
+          <div class="col s4 right-align"><div class="left-align">
+            <div class="row">Accounting</div>
+            <div class="row">Not Specified</div></div>
+          </div>
+        </div>
+        <div class="col s12 range-container">
+          <div class="range-field">
+            <input
+              #inputRange
+              type="range"
+              [min]="selectedGroup.min" [max]="selectedGroup.max || 1" step="1"
+              name="priority"
+            >
+            <div class="value-container">
+              <div class="value" [ngStyle]="calcQuantityMargin(selectedGroup)">{{selectedGroup.on_hand}}</div>
+            </div>
+            <div class="range-value left-align red-text bold" [ngStyle]="selectedGroup.criticalLevel"
+            *ngIf="selectedGroup.critical_level || selectedGroup.critical_level === 0">
+              {{ selectedGroup.critical_level }}
+            </div>
+            <div class="range-value right-align light-green-text bold" [ngStyle]="selectedGroup.overstockLevel"
+              *ngIf="selectedGroup.overstock_level || selectedGroup.overstock_level === 0">
+              {{selectedGroup.overstock_level}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row location select">
+      <span class="bold">Location</span>
+      <select title="sort by" [(ngModel)]="location" materialize="material_select" (change)="locationSort($event)">
+        <option disabled value="">Ft. Lauderdale</option>
+        <option value="relevance">Location 1</option>
+        <option value="A-Z">Location 2</option>
+        <option value="Z-A">Location 3</option>
+      </select>
+    </div>
+    <div class="row subtracting select">
+      <span class="bold">What are you subtracting?</span>
+      <div class="line">
+        <select title="sort by" [(ngModel)]="subtracting" materialize="material_select" (change)="subtractingSort($event)">
+          <option value="Box">1 Box</option>
+          <option value="Glove">1 Glove</option>
+        </select>
+        <span *ngIf="subtracting === 'Box'">=&nbsp;&nbsp;&nbsp;300 Gloves</span>
+      </div>
+    </div>
+    <div class="row backstock">
+      <div class="stock-row bold">Backstock</div>
+      <div class="stock-row bold">QTY</div>
+    </div>
+    <div class="row backstock">
+      <div class="stock-field thin">Mini Fridge</div>
+      <div class="stock-field thin">
+        <input type="number" [(ngModel)]="stockMini" (ngModelChange)="stockMiniClick($event)">
+        <button class="action-button" [disabled]="stockMini >= stockMiniLimit" (click)="stockMiniClick(1)">
+          <fa name="plus"></fa>
+        </button>
+        <button class="action-button right-align" (click)="stockMiniClick(-1)">
+          <fa name="minus"></fa>
+        </button>
+      </div>
+    </div>
+    <div class="row backstock">
+      <div class="stock-field thin">Shelf A</div>
+      <div class="stock-field" thin>
+        <input type="number" [(ngModel)]="stockShelf" (ngModelChange)="stockShelfClick($event)">
+        <button class="action-button" [disabled]="stockShelf >= stockShelfLimit" (click)="stockShelfClick(1)">
+          <fa name="plus"></fa>
+        </button>
+        <button class="action-button right-align" (click)="stockShelfClick(-1)">
+          <fa name="minus"></fa>
+        </button>
+      </div>
+    </div>
+    <div class="row backstock">
+      <div class="stock-field thin">Sterlization Room</div>
+      <div class="stock-field thin">
+        <input type="number" [(ngModel)]="stockSterlization" (ngModelChange)="stockSterlizationClick($event)">
+        <button class="action-button" [disabled]="stockSterlization >= stockSterlizationLimit" (click)="stockSterlizationClick(1)">
+          <fa name="plus"></fa>
+        </button>
+        <button class="action-button right-align" (click)="stockSterlizationClick(-1)">
+          <fa name="minus"></fa>
+        </button>
+      </div>
+    </div>
+    <div class="row submit">
+      <div
+        class="btn white-text waves-effect waves-light"
+        (click)="toGoModal(2)">
+        Submit
+      </div>
+    </div>
+  </div>
+  <div class="right" *ngIf="modalState === 2">
+    <div class="title center-align"><span>SUCCESS!</span></div>
+    <div class="center-align">Your inventory has been updated</div>
+    <div class="preview">
+      <div class="icon"></div>
+    </div>
+    <div class="center-align bold">
+      <span>Gloves Tender Touch Nitrile X-Small</span>
+    </div>
+    <div class="center-align">
+      <span>Gloves Tender Touch Nitrile Sempercare PF 200/box</span>
+    </div>
+    <div class="range-container slider-container">
+      <div class="range-field">
+        <input
+          #inputRange
+          type="range"
+          [min]="selectedGroup.min" [max]="selectedGroup.max || 1" step="1"
+          name="priority"
+        >
+        <div class="value-container">
+          <div class="value" [ngStyle]="calcQuantityMargin(selectedGroup)">{{selectedGroup.on_hand}}</div>
+        </div>
+        <div class="range-value left-align red-text bold" [ngStyle]="selectedGroup.criticalLevel"
+        *ngIf="selectedGroup.critical_level || selectedGroup.critical_level === 0">
+          {{ selectedGroup.critical_level }}
+        </div>
+        <div class="range-value right-align light-green-text bold" [ngStyle]="selectedGroup.overstockLevel"
+          *ngIf="selectedGroup.overstock_level || selectedGroup.overstock_level === 0">
+          {{selectedGroup.overstock_level}}
+        </div>
+      </div>
+    </div>
+    <div class="row submit">
+      <div
+        class="btn white-text waves-effect waves-light left" (click)="closeModal()">
+        I'M DONE
+      </div>
+      <div
+        class="btn white-text waves-effect waves-light right" (click)="toBackInitial()">
+        WORK ON ANOTHER PRODUCT
+      </div>
+    </div>
+  </div>
+</div>

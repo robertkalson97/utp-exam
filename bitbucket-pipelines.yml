@@ -1,0 +1,29 @@
+# This is a sample build configuration for Javascript.
+# Check our guides at https://confluence.atlassian.com/x/VYk8Lw for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: uptracker/app:latest
+
+pipelines:
+  branches:
+    master:
+      - step:
+          deployment: production
+          script: # Modify the commands below to build your repository.
+            - ng -v
+            - cp _env.ts env.ts
+            - npm i
+            - ng build --prod
+            - zip -r dist.zip dist
+            - python3 s3_upload.py app.up-tracker.com dist.zip versions/`git rev-parse --short HEAD`.zip
+            - python3 s3_upload.py app.up-tracker.com dist
+    dev:
+      - step:
+          deployment: staging
+          script:
+            - ng -v
+            - cp _env_dev.ts env.ts
+            - npm i
+            - ng build --prod
+            - scp -Cr dist/* www-data@dev.up-tracker.com:/var/www/dev/

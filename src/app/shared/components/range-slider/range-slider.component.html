@@ -1,0 +1,21 @@
+<div class="range-container">
+  <div class="range-field">
+    <input
+      #inputRange
+      type="range"
+      [min]="_product.min" [max]="_product.max || 1" step="1"
+      name="priority"
+    >
+    <div class="value-container">
+      <div class="value" [ngStyle]="calcQuantityMargin(_product)">{{_product.on_hand}}</div>
+    </div>
+    <div class="range-value left-align red-text bold" [ngStyle]="_product.criticalLevel"
+      *ngIf="_product.critical_level || _product.critical_level === 0">
+      {{ _product.critical_level }}
+    </div>
+    <div class="range-value right-align light-green-text bold" [ngStyle]="_product.overstockLevel"
+      *ngIf="_product.overstock_level || _product.overstock_level === 0">
+      {{_product.overstock_level}}
+    </div>
+  </div>
+</div>

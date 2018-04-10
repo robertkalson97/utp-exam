@@ -1,0 +1,18 @@
+<div class="inner">
+  <div class="row title center-align">Warning</div>
+  <div class="row center-align high">
+    <ng-container *ngIf="context.order_method == 'Phone'">
+      Please note, it is your responsibility to phone the order into the Vendor. Uptracker helps you manage inventory but does not place phone orders for users.
+    </ng-container>
+    <ng-container *ngIf="context.order_method == 'Mail'">
+      Please note, it is your responsibility to mail the order into the Vendor. Uptracker helps you manage inventory but does not mail orders for users.
+    </ng-container>
+  </div>
+  <div class="row mtop mbot">
+    <div class="center-align col s12">
+      <button class="uptracker-form-btn" (click)="closeModal()">Email PO</button>
+      <button class="uptracker-form-btn" (click)="closeModal()">Print PO</button>
+      <button class="uptracker-form-btn" (click)="dismissModal()">Close</button>
+    </div>
+  </div>
+</div>

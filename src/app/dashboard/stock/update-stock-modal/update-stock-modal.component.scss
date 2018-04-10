@@ -1,0 +1,50 @@
+@import "../../../../colors.scss";
+:host /deep/ {
+  .inner {
+    display: grid;
+    justify-content: center;
+    text-align: center;
+    .check {
+      background-image: url(/assets/img/icon-check.png);
+      background-repeat: no-repeat;
+      background-size: contain;
+      width: 100px;
+      height: 100px;
+    }
+    .update {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: $tealish;
+      border: 0;
+      border-radius: 5px;
+      height: 30px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: bold;
+      letter-spacing: normal;
+      max-width: 100px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .center {
+      display: inline-flex;
+      justify-content: center;
+    }
+    .padded {
+      padding-top: 30px;
+      padding-bottom: 50px;
+    }
+  }
+}
+
+/deep/ .modal {
+  width: 350px;
+  min-height: 0;
+  .modal-dialog {
+    .modal-content {
+      overflow: hidden;
+      padding: 30px;
+    }
+  }
+}

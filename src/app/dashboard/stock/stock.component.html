@@ -1,0 +1,104 @@
+<div class="stock content">
+  <div class="row top">
+    <div class="title left">Stock Count</div>
+    <button class="add-product uptracker-form-btn">ADD PRODUCT</button>
+  </div>
+  <div class="row control">
+    <div class="filter">
+      <a (click)="openFilterModal()">
+        <fa [name]="'filter'"></fa>
+        <span>Filters</span>
+      </a>
+    </div>
+    <div class="input wide-input">
+      <input type="text" [(ngModel)]="filter" (ngModelChange)="filterChange($event)">
+    </div>
+    <div class="select">
+      <select title="sort by" [(ngModel)]="sort" materialize="material_select">
+        <option value="A-Z">A-Z</option>
+        <option value="Z-A">Z-A</option>
+      </select>
+    </div>
+  </div>
+  <div class="row product-header">
+    <div class="col s4">Product</div>
+    <div class="col s2">Count By</div>
+    <div class="col s2">Current QTY</div>
+    <div class="col s2">Actual QTY</div>
+    <div class="col s2">Reason</div>
+  </div>
+  <div class="row" *ngFor="let product of (products | sortProducts: sort); let i = index">
+    <div class="product-list" *ngIf="filtered(product)">
+      <div class="col s4 main">
+        <div class="preview"></div>
+        <div class="title">{{product.title}}</div>
+      </div>
+      <div class="col s2 count">
+        <div class="select">
+          <select title="sort by" [(ngModel)]="product.countBy" materialize="material_select" (change)="sortUnit(product)">
+            <option value="1 Box (100)">1 Box (100)</option>
+            <option value="1 Unit">1 Unit</option>
+          </select>
+        </div>
+      </div>
+      <div class="col s2 current">
+        <div class="input wide-input">
+          <input type="text" [disabled]="true" [(ngModel)]="product.currentQTY">
+        </div>
+      </div>
+      <div class="col s2 actual">
+        <div class="input wide-input">
+          <input type="number" placeholder="-" [(ngModel)]="product.actualQTY" (ngModelChange)="actualChange($event)">
+        </div>
+      </div>
+      <div class="col s2 reason">
+        <div class="select">
+          <select
+            title="sort by"
+            [disabled]="product.actualQTY == null || product.currentQTY == product.actualQTY"
+            [class.disabled]="product.actualQTY == null || product.currentQTY == product.actualQTY"
+            [(ngModel)]="product.reason"
+            materialize="material_select"
+            (change)="actualChange($event)"
+          >
+            <option value="N/A">N/A</option>
+            <option value="Shrinkage">Shrinkage</option>
+            <option value="Used">Used</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="panel" [class.active]="panel.visible">
+  <div class="title">Changes</div>
+  <ng-container *ngFor="let product of products; let i = index">
+    <div class="product-list" *ngIf="product.actualQTY != null">
+      <div class="row">
+        <div class="col s5">Product</div>
+        <div class="col s7">{{product.title}}</div>
+      </div>
+      <div class="row">
+        <div class="col s5">Count By</div>
+        <div class="col s7">{{product.countBy}}</div>
+      </div>
+      <div class="row">
+        <div class="col s5">Change</div>
+        <div class="col s7">{{product.currentQTY}}&nbsp;&nbsp;<fa name="arrow-right"></fa>&nbsp;&nbsp;{{product.actualQTY}}</div>
+      </div>
+      <div class="row">
+        <div class="col s5">Reason</div>
+        <div class="col s7" [class.shrinkage]="product.reason == 'Shrinkage'">{{product.reason}}</div>
+      </div>
+      <div class="remove">
+        <a (click)="remove(product)">Remove</a>
+      </div>
+    </div>
+  </ng-container>
+  <div class="row center">
+    <button class="update" (click)="openSuccessModal()">UPDATE STOCK</button>
+  </div>
+  <div class="row center">
+    <a class="nevermind" (click)="clear()">Nevermind</a>
+  </div>
+</div>

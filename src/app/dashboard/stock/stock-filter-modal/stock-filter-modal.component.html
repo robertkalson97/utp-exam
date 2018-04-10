@@ -1,0 +1,151 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="row">
+  <div class="inner">
+    <div class="title center-align">Filter Settings</div>
+  </div>
+  <div class="row">
+    <div class="col s4 no-padding">
+      <div class="col s12 bordered">Price</div>
+      <div class="col s12 no-padding">
+        <input type="text" placeholder="Min" class="col s5 text" name="min" [(ngModel)]="minPrice" currencyMask [options]="{ align: 'left', precision: 0 }">
+        <input type="text" placeholder="Max" class="col s5 offset-s1 text" name="max" [(ngModel)]="maxPrice" currencyMask [options]="{ align: 'left', precision: 0 }">
+      </div>
+      <div class="col s12 no-padding date-picker">
+        <input type="text" name="daterangeInput" daterangepicker [options]="dateOptions" (selected)="OnDate($event, daterange)" />
+        <fa name="caret-down"></fa>
+      </div>
+    </div>
+    <div class="col s4 no-padding">
+      <div class="col s12 bordered">Avg Price</div>
+      <div class="col s12 no-padding">
+        <input type="text" placeholder="Min" class="col s5 text" name="min" [(ngModel)]="minAvgPrice" currencyMask [options]="{ align: 'left' }">
+        <input type="text" placeholder="Max" class="col s5 offset-s1 text" name="max" [(ngModel)]="maxAvgPrice" currencyMask [options]="{ align: 'left' }">
+      </div>
+      <div class="col s12 no-padding date-picker">
+        <input type="text" name="daterangeInput" daterangepicker [options]="dateOptions" (selected)="OnDate($event, daterange)" />
+        <fa name="caret-down"></fa>
+      </div>
+    </div>
+    <div class="col s4 no-padding">
+      <div class="col s12 bordered">Discount</div>
+      <div class="col s12 check-margin">
+        <input type="checkbox" class="filled-in" id="bogo" />
+        <label for="bogo">Bogo</label>
+      </div>
+      <div class="col s12 check-margin">
+        <input type="checkbox" class="filled-in" id="percentoff" />
+        <label for="percentoff">Percent Off</label>
+      </div>
+      <div class="col s12 check-margin">
+        <input type="checkbox" class="filled-in" id="rewards" />
+        <label for="rewards">Rewards Points Used</label>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6 no-padding">
+      <div class="col s12 bordered">Vendor</div>
+      <div class="col s12 no-padding">
+        <ng-select [options]="vendors" multiple="true"></ng-select>
+      </div>
+    </div>
+    <div class="col s6 no-padding">
+      <div class="col s12 bordered">Location</div>
+      <div class="col s12 no-padding">
+        <div class="col s6 no-padding">
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location1" />
+            <label for="location1">Location 1</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location2" />
+            <label for="location2">Location 2</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location3" />
+            <label for="location3">Location 3</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location4" />
+            <label for="location4">Location 4</label>
+          </div>
+        </div>
+        <div class="col s6 no-padding">
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location5" />
+            <label for="location5">Location 5</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location6" />
+            <label for="location6">Location 6</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location7" />
+            <label for="location7">Location 7</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="location8" />
+            <label for="location8">Location 8</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col s6 no-padding">
+      <div class="col s12 bordered">Category</div>
+      <div class="col s12 no-padding">
+        <ng-select [options]="catetories" multiple="true"></ng-select>
+      </div>
+    </div>
+    <div class="col s6 no-padding">
+      <div class="col s12 bordered">Department</div>
+      <div class="col s12 no-padding">
+        <div class="col s6 no-padding">
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department1" />
+            <label for="department1">Department 1</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department2" />
+            <label for="department2">Department 2</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department3" />
+            <label for="department3">Department 3</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department4" />
+            <label for="department4">Department 4</label>
+          </div>
+        </div>
+        <div class="col s6 no-padding">
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department5" />
+            <label for="department5">Department 5</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department6" />
+            <label for="department6">Department 6</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department7" />
+            <label for="department7">Department 7</label>
+          </div>
+          <div class="col s12 no-padding check-margin">
+            <input type="checkbox" class="filled-in" id="department8" />
+            <label for="department8">Department 8</label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row col s12 no-padding">
+    <div class="col no-padding">
+      <button class="btn waves-effect waves-light" type="submit" name="action">Apply Filters</button>
+    </div>
+    <div class="col">
+      <button class="btn cancel waves-effect waves-light" type="submit" name="action" (click)="dismissModal()">Cancel</button>
+    </div>
+  </div>
+</div>

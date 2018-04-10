@@ -1,0 +1,103 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner filters-modal">
+  <div class="title center-align">Filter Settings</div>
+  <form class="uptracker-form"
+    materialize
+    autocomplete="off"
+    novalidate
+  >
+    <div class="row">
+      <div class="col s12 m6">
+        <app-vendor-filter [vendorsControl]="vendorsControl">
+        </app-vendor-filter>
+        <app-category-filter [categoriesControl]="categoriesControl">
+        </app-category-filter>
+      </div>
+      <div class="col s12 m6">
+        <app-checkboxes-filter
+          [title]="'Department'"
+          [collection]="(departmentCollection$ | async)"
+          [classCol]="'m6'"
+          [formControl]="departmentsControl"
+        >
+        </app-checkboxes-filter>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12 m6">
+        <app-accounting-filter [accountingsControl]="accountingsControl">
+        </app-accounting-filter>
+        <app-date-filter
+          [title]="'Ordered within X-X dates'"
+          [className]="'mrg-top-20'"
+          [orderedFrom]="orderedFromControl"
+          [orderedTo]="orderedToControl"
+        ></app-date-filter>
+      </div>
+      <div class="col s12 m6">
+        <div class="ttl bold">Show</div>
+        <app-single-checkbox-filter
+          [title]="'My Favorite'"
+          [control]="myFavoriteControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Items Missing Pricing Info'"
+          [control]="withoutPriceControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Critical Level'"
+          [control]="belowCriticalLevelControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Fully Stocked'"
+          [control]="aboveFullyStockedControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Items Missing Tracking Info'"
+          [control]="trackingInfoControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Most Frequently Ordered'"
+          [control]="mostFrequentlyOrderedControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Hazardous'"
+          [control]="hazardousControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Trackable'"
+          [control]="trackableControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Tax Exempt'"
+          [control]="taxExemptControl"
+        >
+        </app-single-checkbox-filter>
+        <app-single-checkbox-filter
+          [title]="'Retired'"
+          [control]="retiredControl"
+        >
+        </app-single-checkbox-filter>
+      </div>
+    </div>
+    <div class="footer-btn">
+      <button class="uptracker-form-btn tealish white-text waves-effect waves-light" type="submit"
+        (click)="applyFilters()"
+      >
+        Apply Filters
+      </button>
+      <button class="uptracker-form-btn tealish tealish-text waves-effect waves-light back-btn"
+        (click)="dismissModal()">
+        Cancel
+      </button>
+    </div>
+  </form>
+</div>

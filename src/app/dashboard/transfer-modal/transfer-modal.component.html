@@ -1,0 +1,158 @@
+<div class="close" (click)="dismissModal()"></div>
+<div class="inner">
+  <div class="left" *ngIf="modalState === 0">
+    <div class="title center-align"><span>SEARCH</span></div>
+    <div class="row search">
+      <i class="fa fa-search"></i>
+      <input id="search" [(ngModel)]="searchText" (ngModelChange)="searchProducts($event)">
+    </div>
+    <div class="info"><span>Search by inventory group name, product name, keyword, id number, etc</span></div>
+    <div  *ngIf="!!searchText">
+      <div *ngFor="let group of groups; let i = index">
+        <div class="row product" (click)="toGoModal(1, i)">
+          <div class="preview">
+            <div class="icon"></div>
+          </div>
+          <div class="description">
+            <div class="bold">{{group.name}}</div>
+            <div class="thin">{{group.info}}</div>
+            <div class="thin mrg-top-10">{{group.counts}} Products</div>
+          </div>
+          <div class="arrow">
+            <i class="fa fa-chevron-right"></i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="middle" *ngIf="modalState === 1">
+    <div class="nav fa fa-chevron-left" (click)="toGoModal(0)"></div>
+    <div class="title center-align"><span>TRANSFER INVENTORY</span></div>
+    <div class="row description">
+      <div class="preview">
+        <div class="icon"></div>
+      </div>
+      <div class="content">
+        <div class="bold">Gloves Tender Touch Nitrile</div>
+        <div class="thin">Gloves Tender Touch Nitrile Sempercare PF 200/box</div>
+        <div class="bold case">1 Case = 10 Boxes (3000 Gloves)</div>
+        <div class="col s12 line-header">
+          <div class="col s4">
+            <div class="row">Department</div>
+            <div class="row">Clinic</div>
+          </div>
+          <div class="col s4 center-align"><div class="left-align">
+            <div class="row">Category</div>
+            <div class="row">Gloves</div></div>
+          </div>
+          <div class="col s4 right-align"><div class="left-align">
+            <div class="row">Accounting</div>
+            <div class="row">Not Specified</div></div>
+          </div>
+        </div>
+        <div class="col s12">
+          <range-slider [product]="selectedGroup"></range-slider>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="row no-margin select-group">
+      <div class="col s6 no-padding right-bordered">
+        <div class="row location select">
+          <span class="bold">Transfer From</span>
+          <select title="sort by" [(ngModel)]="location" materialize="material_select" (change)="locationSort($event)">
+            <option value="loc1">Ft. Lauderdale</option>
+            <option value="loc2">Miami</option>
+          </select>
+        </div>
+        <div class="row product select bottom-padded">
+          <span class="bold">What are you moving?</span>
+          <div class="unit">
+            <select class="limit" title="sort by" [(ngModel)]="unit" materialize="material_select">
+              <option value="Boxes">1 Box</option>
+              <option value="Gloves">1 Glove</option>
+            </select>
+            <span *ngIf="unit == 'Boxes'">&nbsp;&nbsp;&nbsp;= 300 Gloves</span>
+          </div>
+        </div>
+      </div>
+      <div class="col s6 no-padding">
+        <div class="row location select left-padded">
+          <span class="bold">Transfer To</span>
+          <select title="sort by" [(ngModel)]="transfer" materialize="material_select" (change)="transferSort($event)">
+            <option value="loc1">Ft. Lauderdale</option>
+            <option value="loc2">Miami</option>
+          </select>
+        </div>
+        <div class="row location left-padded">You're transfering:</div>
+        <div class="row location left-padded">
+          <div class="amount">
+            <div class="count">{{totalMove}}</div>
+            <div class="unit">{{unit}}</div>
+          </div>
+        </div>
+        <div class="row location submit left-padded">
+          <div
+            class="btn white-text waves-effect waves-light"
+            (click)="toGoModal(2)">
+            TRANSFER
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row backstock">
+      <div class="col s6 right-bordered">
+        <div class="row bold">Where are you moving it from?</div>
+        <div class="row">
+          <div class="col s6 stock-row bold"></div>
+          <div class="col s3 stock-row bold">QTY</div>
+          <div class="col s3 stock-row bold">Move</div>
+        </div>
+
+        <div class="row" *ngFor="let inventory of inventories; let i = index">
+          <div class="col s6 stock-field thin">
+            {{inventory.stockName}}
+          </div>
+          <div class="col s3 stock-field thin">
+            <input type="number" [(ngModel)]="inventory.stockQTY" [disabled]="true">
+          </div>
+          <div class="col s3 stock-field thin">
+            <input type="number" placeholder="-" [(ngModel)]="inventory.stockMove" (ngModelChange)="stockMoveChanges(inventory)">
+          </div>
+        </div>
+      </div>
+
+      <div class="col s6"></div>
+    </div>
+  </div>
+
+
+  <div class="right" *ngIf="modalState === 2">
+    <div class="title center-align"><span>SUCCESS!</span></div>
+    <div class="center-align">Your inventory has been updated</div>
+    <div class="preview">
+      <div class="icon"></div>
+    </div>
+    <div class="center-align bold">
+      <span>Gloves Tender Touch Nitrile X-Small</span>
+    </div>
+    <div class="center-align">
+      <span>Gloves Tender Touch Nitrile Sempercare PF 200/box</span>
+    </div>
+    <div class="row slider-container">
+      <range-slider [product]="selectedGroup"></range-slider>
+    </div>
+    <div class="row submit">
+      <div
+        class="btn white-text waves-effect waves-light left" (click)="closeModal()">
+        I'M DONE
+      </div>
+      <div
+        class="btn white-text waves-effect waves-light right" (click)="toBackInitial()">
+        WORK ON ANOTHER PRODUCT
+      </div>
+    </div>
+  </div>
+</div>
