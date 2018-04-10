@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { DestroySubscribers } from 'ngx-destroy-subscribers';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import * as _ from 'lodash';
 
 import { VendorService } from '../../../../core/services/vendor.service';
@@ -13,8 +13,11 @@ import { VendorService } from '../../../../core/services/vendor.service';
 @DestroySubscribers()
 export class VendorFilterComponent implements OnInit {
 
-  public vendors = new FormControl([]);
+  public vendors$;
+  public vendorsData: any[];
   public vendorsCollection = {};
+  public vendorsNameControl = new FormControl();
+  @Input() vendorsControl: FormControl;
 
   public autocompleteVendors = {
     autocompleteOptions: {
@@ -29,16 +32,27 @@ export class VendorFilterComponent implements OnInit {
   constructor(
     private vendorService: VendorService,
   ) {
+    this.vendors$ = this.vendorService.getVendors();
   }
 
   ngOnInit() {
-    this.subscribers.getVendorsSubscription = this.vendorService.getVendors()
+    this.subscribers.getVendorsSubscription = this.vendors$
     .subscribe((res: any) => {
-      const vendorsData = _.flattenDeep(res.data.vendors);
-      vendorsData.map((vendor: any) => {
+      this.vendorsData = _.flatten(res.data.vendors);
+      this.vendorsData.map((vendor: any) => {
         this.vendorsCollection[vendor.name] = null;
       });
     });
+
+    this.subscribers.changeVendorsValueSubscription = this.vendorsNameControl.valueChanges
+    .subscribe((vendors: string[]) => {
+      const VendorsIds = vendors.map((item) => {
+        const vendorId = _.find(this.vendorsData, ['name', item]);
+        return vendorId.id;
+      });
+      this.vendorsControl.setValue(VendorsIds);
+    });
+
   }
 
 }

@@ -1,6 +1,9 @@
 @import "../../../../../colors.scss";
 
 :host /deep/ {
+  .close {
+    display: block!important;
+  }
   .inner {
     .row {
       &.check {

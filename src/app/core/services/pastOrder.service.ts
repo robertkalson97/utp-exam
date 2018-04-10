@@ -27,6 +27,7 @@ export class PastOrderService extends ModelService {
 
   public removeIds$;
   private addCollectionToEntittesStream$: Subject<Observable<any>> = new Subject();
+  public filterQueryParams$: Subject<any> = new Subject();
 
   constructor(
     public injector: Injector,

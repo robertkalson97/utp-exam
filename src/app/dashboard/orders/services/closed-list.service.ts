@@ -16,8 +16,8 @@ export class ClosedListService extends OrderListBaseService {
     this.pastOrderService.addCollectionStreamToEntittesStream(this.getCollectionRequest$);
   }
 
-  getRequest() {
-    return this.restangular.one('pos', '8').customGET();
+  getRequest(params) {
+    return this.restangular.one('pos', '8').all('items').customGET('', params);
 
   }
 }

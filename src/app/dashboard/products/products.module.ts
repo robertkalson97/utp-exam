@@ -12,6 +12,7 @@ import { HomeTabModule } from './home-tab/home-tab.module';
 import { MarisListTabModule } from './maris-list-tab/maris-list-tab.module';
 import { MarketplaceTabModule } from './marketplace-tab/marketplace-tab.module';
 import { SearchFilterHeaderModule } from '../../shared/components/search-filter-header/search-filter-header.module';
+import { MarketplaceFiltersModule } from '../../shared/modals/filters-modal/marketplace-filters/marketplace-filters.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { SearchFilterHeaderModule } from '../../shared/components/search-filter-
     ProductModule,
     MarisListTabModule,
     MarketplaceTabModule,
+    MarketplaceFiltersModule,
     UploadCsvModalModule,
   ],
   providers: []

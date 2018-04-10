@@ -529,17 +529,6 @@ $normal: 14px;
             border-bottom: none;
           }
 
-          .variant-func {
-            transition: all 0s linear 0.2s;
-            visibility: hidden;
-          }
-
-          &:hover {
-            .variant-func {
-              visibility: visible;
-            }
-          }
-
         }
 
         tr {

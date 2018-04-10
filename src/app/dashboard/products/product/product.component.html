@@ -310,7 +310,7 @@
               <div class="text-heading row-item nowrap">{{variant.price_range || ""}}</div>
               <div class="flor">
                 <div *ngIf="showEdit" class="edit-variant visibility-heading row-item">
-                  <i class="fa fa-eye  variant-func"
+                  <i class="fa fa-eye"
                     [class.fa-eye]="variant.status == 1"
                     [class.fa-eye-slash]="variant.status == 2"
                     (click)="toggleVariantVisibility(variant)"
@@ -319,7 +319,7 @@
                 <div *ngIf="!showEdit"
                   (click)="addToOrder(variant)"
                   class="add-order-col add-order-heading row-item">
-                  <button class=" variant-func uptracker-form-btn waves-light waves-effect add-order-btn">
+                  <button class="uptracker-form-btn waves-light waves-effect add-order-btn">
                     <i
                       class="fa fa-shopping-cart" aria-hidden="true"></i>
                     Add to Order

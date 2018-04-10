@@ -50,7 +50,9 @@ export class CartService extends ModelService {
   public appConfig: AppConfig;
   public ordersPreview$: any = new BehaviorSubject([]);
   public filters$: BehaviorSubject<SlFilters> = new BehaviorSubject(new SlFilters);
-  
+  public filtersParams$: BehaviorSubject<any> = new BehaviorSubject(null);
+  public cartData$: Observable<any>;
+
   constructor(
     public injector: Injector,
     public restangular: Restangular,
@@ -63,15 +65,20 @@ export class CartService extends ModelService {
   }
 
   onInit() {
-    this.accountService.dashboardLocation$
-    .map((r:any)=>{
-      return r ? r.id : null;
-    })
-    .switchMap((l:any)=>{
+
+    this.cartData$ = Observable.combineLatest(
+      this.accountService.dashboardLocation$,
+      this.filtersParams$,
+    )
+    .debounceTime(50)
+    .publishReplay(1).refCount();
+
+    this.cartData$
+    .switchMap(([l, filters]) => {
       if (l) {
-        return this.restangular.one('cart',l).customGET('');
+        return this.restangular.one('cart', l.id).customGET('', filters);
       } else {
-        return this.restangular.all('cart').customGET('');
+        return this.restangular.all('cart').customGET('', filters);
       }
     })
     .map((res: any) => {

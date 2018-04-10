@@ -29,7 +29,7 @@
       (chipsChange)="chipsChange.emit($event)"
     ></app-chips>
     <div class="col s4 l1 m2 filter-btn text-right">
-      <a (click)="showFiltersModal()">
+      <a (click)="showFiltersModal()" *ngIf="title !== 'Vendors'" ngClass="{{className}}">
         <fa [name]="'filter'"></fa>
         <span>Filters</span>
       </a>

@@ -1,11 +1,7 @@
 $tealish: #33c6d9;
 
 :host /deep/ {
-  //.uptracker-form {
-  //  input{
-  //    border-color:#d6d6d6 !important;
-  //  }
-  //}
+
   .divider-container {
     display: flex;
     flex-flow: row;
@@ -32,32 +28,47 @@ $tealish: #33c6d9;
       height: 36px;
     }
 
-    width: 280px;
+    width: 400px;
     margin: 0 auto;
 
     .img-container {
-      width: 80px;
-      height: 80px;
-      border: 1px solid #d6d6d6;
-
+      width: 180px;
+      height: 100px;
+      border-radius: 5px;
+      background: #f5f6f7 no-repeat center center;
+      border: 1px dashed #d6d6d6;
+      max-width: 100%;
       .img {
-        height: 100%;
+        height: calc(100%);
+        overflow: hidden;
+        text-align: center;
+        background-color: #f5f6f7;
+        background-repeat: no-repeat;
         background-position: center center;
         background-size: contain;
-        background-repeat: no-repeat;
+        position: relative;
+        z-index: 5;
+        border-radius: 5px;
+        .del-img-btn {
+          position: absolute;
+          bottom: 10px;
+          right: 10px;
+          width: 30px;
+          height: 30px;
+          text-align: center;
+          background: #f1f1f1;
+          border: 1px solid #d6d6d6;
+          border-radius: 5px;
+          z-index: 4;
+          cursor: pointer;
+          opacity: .7;
+        }
       }
     }
 
-    .ttl-box {
-      height: 80px;
-
-      .ttl {
-        position: relative;
-        top: 50%;
-        transform: translateY(-50%);
+    .ttl {
         font-size: 18px;
       }
-    }
   }
 
   .tabs li a {

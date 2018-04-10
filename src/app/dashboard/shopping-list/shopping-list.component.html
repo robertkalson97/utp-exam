@@ -10,11 +10,16 @@
         </div>
 
         <div class="right-align">
-          <div class="filter-field"
-            [class.red-text]="(cartService.filters$ | async).location || (cartService.filters$ | async).vendor || (cartService.filters$ | async).onlymy"
-            (click)="showFiltersModal()">
-            <i class="fa fa-filter"></i>
+          <div class="filter-field">
+            <span [class.red-text]="(cartService.filtersParams$ | async)"
+              (click)="showFiltersModal()">
+              <i class="fa fa-filter"></i>
             <span>Filters</span>
+            </span>
+            <a (click)="resetFilters()">
+              <fa [name]="'undo'"></fa>
+              <span>Reset</span>
+            </a>
           </div>
           <button type="button"
             routerLink="/products"

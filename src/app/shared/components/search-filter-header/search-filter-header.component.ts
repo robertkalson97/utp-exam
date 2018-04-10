@@ -16,6 +16,7 @@ export const SearchType: {[key: string]: SearchFilterHeaderType} = {
 export class SearchFilterHeaderComponent {
 
   @Input() public title:  string;
+  @Input() public className:  string = '';
   @Input() public searchKey: string;
   @Input() public searchType: SearchFilterHeaderType = SearchType.KEYWORD;
   @Input() chips = [];

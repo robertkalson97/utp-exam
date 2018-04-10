@@ -1,7 +1,6 @@
-<div class="checkboxesList">
+<div class="checkboxesList col s12" ngClass="{{className}}">
   <div class="input-checkbox checkbox inline-block">
     <input id="{{title}}" type="checkbox" [formControl]="control">
-    <label for="{{title}}"></label>
+    <label for="{{title}}" class="bold checkbox-text">{{title}}</label>
   </div>
-  <div class="bold checkbox-text">{{title}}</div>
 </div>

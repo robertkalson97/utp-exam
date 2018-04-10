@@ -80,7 +80,7 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   public primaryLocation: any;
   public secondaryLocation: any;
   public secondaryLocationArr: any = [];
-  public logo: File;
+  public logo: any;
   public logoPreview: string = null;
 
   @ViewChild('secondary') secondaryLocationLink: ElementRef;
@@ -492,6 +492,10 @@ export class EditVendorComponent implements OnInit, AfterViewInit {
   }
   goBackOneStep(): void {
     this.location.back();
+  }
+
+  deleteLogo() {
+    this.logoPreview = this.logo = this.generalVendor.logo = '';
   }
 
   uploadLogo(file: any) {

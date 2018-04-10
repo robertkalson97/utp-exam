@@ -9,6 +9,7 @@ export interface ReceiveOrderItemModel {
   status?: OrderItemStatusFormModel[];
   status_line_items?: OrderItemStatusFormModel[];
   inventory_group_id: string;
+  original_quantity?: number;
   quantity?: number;
   item_name?: string;
   location_name?: string;

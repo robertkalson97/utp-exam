@@ -2,80 +2,72 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="841e605e-ffbd-4c08-af30-f81e6b0e7918" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/angular-cli.json" afterPath="$PROJECT_DIR$/angular-cli.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package-lock.json" afterPath="$PROJECT_DIR$/package-lock.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.component.ts" afterPath="$PROJECT_DIR$/src/app/app.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/app.module.ts" afterPath="$PROJECT_DIR$/src/app/app.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/account.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/account.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/order.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/order.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/cart.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/cart.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/inventory.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/inventory.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/pastOrder.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/pastOrder.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/product.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/product.service.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/core/services/vendor.service.ts" afterPath="$PROJECT_DIR$/src/app/core/services/vendor.service.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.style.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.style.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.routing.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.routing.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/dashboard.template.html" afterPath="$PROJECT_DIR$/src/app/dashboard/dashboard.template.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inner-dashboard/news-modal/news-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inner-dashboard/news-modal/news-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/add-inventory/add-inventory-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/add-inventory/add-inventory-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/add-inventory/help-text-modal/help-text-modal-component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/add-inventory/help-text-modal/help-text-modal-component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/add-inventory-2order-modal/add-inventory-2order-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/add-inventory-2order-modal/add-inventory-2order-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/default-info-modal/info-modal-component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/default-info-modal/info-modal-component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/directives/order-flag-modal/order-flag-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/directives/order-flag-modal/order-flag-modal.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/inventory-item.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/inventory-item.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/inventory-item.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory-item/inventory-item.component.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/inventory/inventory.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/classes/order-list-base.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/classes/order-list-base.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/directives/order-flag-modal/order-flag-modal.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/directives/order-flag-modal/order-flag-modal.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/directives/order-flag-modal/order-flag-modal.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/directives/order-flag-modal/order-flag-modal.component.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/orders.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/orders.component.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/orders.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/orders.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/orders.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/orders.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/receive/models/order-item-status-form.model.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/receive/models/order-item-status-form.model.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/receive/models/receive-form.model.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/receive/models/receive-form.model.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/receive/models/order-item-form.model.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/receive/models/order-item-form.model.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/receive/receive-item/receive-item.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/receive/receive-item/receive-item.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/receive/receive-item/receive-item.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/receive/receive-item/receive-item.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/receive/receive-item/receive-status-line-item/receive-status-line-item.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/receive/receive-item/receive-status-line-item/receive-status-line-item.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/resend-order-modal/resend-order-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/resend-order-modal/resend-order-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/select-vendor-modal/select-vendor.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/select-vendor-modal/select-vendor.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/bulk-edit-modal/bulk-edit-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/bulk-edit-modal/bulk-edit-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/edit-product-modal/edit-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/edit-product-modal/edit-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/marketplace-tab/marketplace-tab.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/marketplace-tab/marketplace-tab.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/product-filter-modal/product-filter-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/product-filter-modal/product-filter-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/product/add2order-modal/add2order-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/product/add2order-modal/add2order-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/product/bulkAdd2order-modal/bulkAdd2order-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/product/bulkAdd2order-modal/bulkAdd2order-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/request-product-modal/request-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/request-product-modal/request-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/upload-csv-modal/upload-csv-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/upload-csv-modal/upload-csv-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/view-product-modal/view-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/view-product-modal/view-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/reports/reports.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/reports/reports.component.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/reports/reports.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/reports/reports.component.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/reports/reports.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/reports/reports.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/reports/reports.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/reports/reports.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/scanner/video-modal/video-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/scanner/video-modal/video-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/add-product-modal/add-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/add-product-modal/add-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/edit-product-modal/edit-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/edit-product-modal/edit-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/edit-fax-data-modal/edit-fax-data-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/edit-fax-data-modal/edit-fax-data-modal.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/all-orders-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/all-orders-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/backordered-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/backordered-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/closed-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/closed-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/favorited-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/favorited-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/flagged-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/flagged-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/open-orders-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/open-orders-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/orders/services/received-list.service.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/orders/services/received-list.service.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/product/product.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/products/product/product.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/product/product.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/products/product/product.component.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/product/product.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/product/product.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/products.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/products/products.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/products.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/products/products.component.scss" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/products.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/products.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/products/products.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/products/products.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/online-order-modal/online-order-modal.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/online-order-modal/online-order-modal.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/online-order-modal/online-order-modal.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/online-order-modal/online-order-modal.component.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/online-order-modal/online-order-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/online-order-modal/online-order-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/phone-order-modal/phone-order-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/phone-order-modal/phone-order-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/purchase-order/edit-email-data-modal/edit-email-data-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/purchase-order/edit-email-data-modal/edit-email-data-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/price-modal/price-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/price-modal/price-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/product-filter-modal/product-filter-modal.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/product-filter-modal/product-filter-modal.component.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/product-filter-modal/product-filter-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/product-filter-modal/product-filter-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/request-product-modal/request-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/request-product-modal/request-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list-settings-modal/shopping-list-settings.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list-settings-modal/shopping-list-settings.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/view-product-modal/view-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/view-product-modal/view-product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/users/invite-user-modal/invite-user-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/users/invite-user-modal/invite-user-modal.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/orders-preview.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/orders-preview.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/orders-preview.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/orders-preview.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/orders-preview.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/orders-preview/orders-preview.module.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list.module.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/shopping-list/shopping-list.module.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/vendors/edit-vendor/edit-vendor.component.html" afterPath="$PROJECT_DIR$/src/app/dashboard/vendors/edit-vendor/edit-vendor.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/vendors/edit-vendor/edit-vendor.component.scss" afterPath="$PROJECT_DIR$/src/app/dashboard/vendors/edit-vendor/edit-vendor.component.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/dashboard/vendors/edit-vendor/edit-vendor.component.ts" afterPath="$PROJECT_DIR$/src/app/dashboard/vendors/edit-vendor/edit-vendor.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/models/slfilters.model.ts" afterPath="$PROJECT_DIR$/src/app/models/slfilters.model.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/onboard/products/product-modal/product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/onboard/products/product-modal/product-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/overrides/model.service.ts" afterPath="$PROJECT_DIR$/src/app/overrides/model.service.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/chips-input/chips-input.component.scss" afterPath="$PROJECT_DIR$/src/app/shared/components/chips-input/chips-input.component.scss" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/chips-input/chips-input.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/components/chips-input/chips-input.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/add-comment-modal/add-comment-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/add-comment-modal/add-comment-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/add-custom-product-modal/add-custom-product-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/add-custom-product-modal/add-custom-product-modal.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/models/product.model.ts" afterPath="$PROJECT_DIR$/src/app/models/product.model.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/search-filter-header/search-filter-header.component.html" afterPath="$PROJECT_DIR$/src/app/shared/components/search-filter-header/search-filter-header.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/components/search-filter-header/search-filter-header.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/components/search-filter-header/search-filter-header.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/add-vendor-modal/add-vendor-modal.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/add-vendor-modal/add-vendor-modal.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/add-vendor-modal/add-vendor-modal.component.scss" afterPath="$PROJECT_DIR$/src/app/shared/modals/add-vendor-modal/add-vendor-modal.component.scss" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/add-vendor-modal/add-vendor-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/add-vendor-modal/add-vendor-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/change-password-user-modal/change-password-user-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/change-password-user-modal/change-password-user-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/confirm-modal/confirm-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/confirm-modal/confirm-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/edit-comment-modal/edit-comment-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/edit-comment-modal/edit-comment-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/edit-location-modal/edit-location-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/edit-location-modal/edit-location-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/edit-user-modal/edit-user-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/edit-user-modal/edit-user-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/uni-confirm-modal/uni-confirm-modal.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/uni-confirm-modal/uni-confirm-modal.component.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/shared.module.ts" afterPath="$PROJECT_DIR$/src/app/shared/shared.module.ts" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/index.html" afterPath="$PROJECT_DIR$/src/index.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/accounting-filter/accounting-filter.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/accounting-filter/accounting-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/accounting-filter/accounting-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/accounting-filter/accounting-filter.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/category-filter/category-filter.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/category-filter/category-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/category-filter/category-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/category-filter/category-filter.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/checkboxes-filter/checkboxes-filter.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/checkboxes-filter/checkboxes-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/date-filter/date-filter.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/date-filter/date-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/date-filter/date-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/date-filter/date-filter.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/single-checkbox-filter/single-checkbox-filter.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/single-checkbox-filter/single-checkbox-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/single-checkbox-filter/single-checkbox-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/single-checkbox-filter/single-checkbox-filter.component.ts" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/vendor-filter/vendor-filter.component.html" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/vendor-filter/vendor-filter.component.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/vendor-filter/vendor-filter.component.ts" afterPath="$PROJECT_DIR$/src/app/shared/modals/filters-modal/vendor-filter/vendor-filter.component.ts" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/styles.scss" afterPath="$PROJECT_DIR$/src/styles.scss" />
     </list>
     <ignored path="upt.iws" />
@@ -100,21 +92,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="product-filter-modal.component.ts" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/shopping-list/product-filter-modal/product-filter-modal.component.ts">
+      <file leaf-file-name="sso.module.ts" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/app/auth/sso/sso.module.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="product-filter-modal.component.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/app/dashboard/shopping-list/product-filter-modal/product-filter-modal.component.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="39" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+            <state relative-caret-position="195">
+              <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -190,10 +172,64 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="upt" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="src" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="app" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="auth" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
       <pane id="Scope" />
+      <pane id="Scratches" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -224,19 +260,17 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13532000" />
+    <option name="totallyTimeSpent" value="15733000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1440" height="793" extended-state="6" />
     <editor active="false" />
     <layout>
-      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.28183118" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.30162087" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952926" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952926" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32859176" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32952926" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
@@ -245,7 +279,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32952926" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
@@ -302,9 +338,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -390,9 +423,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -499,9 +529,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="345">
           <caret line="36" column="45" selection-start-line="36" selection-start-column="45" selection-end-line="36" selection-end-column="45" />
-          <folding>
-            <element signature="e#0#67#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -579,9 +606,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="180">
           <caret line="50" column="21" selection-start-line="50" selection-start-column="21" selection-end-line="50" selection-end-column="21" />
-          <folding>
-            <element signature="e#0#120#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -589,7 +613,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="645">
           <caret line="43" column="38" selection-start-line="43" selection-start-column="38" selection-end-line="43" selection-end-column="38" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -597,9 +620,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="900">
           <caret line="72" column="5" selection-start-line="72" selection-start-column="5" selection-end-line="72" selection-end-column="5" />
-          <folding>
-            <element signature="e#0#97#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -607,15 +627,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/app/auth/sso/sso.module.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -623,7 +634,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="315">
           <caret line="21" column="30" selection-start-line="21" selection-start-column="30" selection-end-line="21" selection-end-column="30" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -631,7 +641,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -639,7 +648,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
           <caret line="19" column="25" selection-start-line="19" selection-start-column="25" selection-end-line="19" selection-end-column="25" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -647,6 +655,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
           <caret line="7" column="39" selection-start-line="7" selection-start-column="39" selection-end-line="7" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/app/auth/sso/sso.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="16" column="1" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
           <folding />
         </state>
       </provider>

@@ -1,42 +1,80 @@
 @import "../../../../colors";
-.close {
-  display: block !important;
-}
 
-.uptracker-form-btn, .uptracker-form-btn.tealish {
-  height:25px;
-  line-height:20px;
-  min-width: 80px;
-  padding-left:3px;
-  background: $tealish;
-
-  &.redbtn {
-    color:$red!important;
-    border: 1px solid $red;
-    background-color: $white;
+:host /deep/ {
+  .close {
+    display: block !important;
   }
 
-  &[disabled] {
-    background: $grey!important;
-    pointer-events: none;
+  .uptracker-form-btn, .uptracker-form-btn.tealish {
+    height: 25px;
+    line-height: 20px;
+    min-width: 80px;
+    padding-left: 3px;
+    background: $tealish;
+
+    &.redbtn {
+      color: $red !important;
+      border: 1px solid $red;
+      background-color: $white;
+    }
+
+    &[disabled] {
+      background: $grey !important;
+      pointer-events: none;
+    }
+
   }
 
-}
+  .buttons-group {
+    text-align: center;
 
-.buttons-group {
-  text-align: center;
-
-  button:first-child {
-    margin-right: 50px;
+    button:first-child {
+      margin-right: 50px;
+    }
   }
-}
 
-img.preview {
-  padding-top: 10px;
-  max-width: 100%;
-  max-height: 100%;
-}
+  img.preview {
+    padding-top: 10px;
+    max-width: 100%;
+    max-height: 100%;
+  }
 
-.row:last-child {
-  margin-bottom: 0;
+  .row:last-child {
+    margin-bottom: 0;
+  }
+
+  .img-container {
+    width: 180px;
+    height: 100px;
+    border-radius: 5px;
+    background: #f5f6f7 no-repeat center center;
+    border: 1px dashed #d6d6d6;
+    max-width: 100%;
+    .img {
+      height: calc(100%);
+      overflow: hidden;
+      text-align: center;
+      background-color: #f5f6f7;
+      background-repeat: no-repeat;
+      background-position: center center;
+      background-size: contain;
+      position: relative;
+      z-index: 5;
+      border-radius: 5px;
+      .del-img-btn {
+        position: absolute;
+        bottom: 10px;
+        right: 10px;
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background: #f1f1f1;
+        border: 1px solid #d6d6d6;
+        border-radius: 5px;
+        z-index: 4;
+        cursor: pointer;
+        opacity: .7;
+      }
+    }
+  }
 }

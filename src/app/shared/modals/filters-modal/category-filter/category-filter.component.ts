@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
@@ -12,8 +12,8 @@ import { AccountService } from '../../../../core/services/account.service';
 @DestroySubscribers()
 export class CategoryFilterComponent implements OnInit {
 
-  public categories = new FormControl([]);
-  public productCategoriesCollection = {};
+  @Input() categoriesControl: FormControl;
+  public productCategoriesCollection = {'': null};
 
   public autocompleteCategories = {
     autocompleteOptions: {

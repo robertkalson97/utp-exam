@@ -24,9 +24,12 @@ export abstract class OrderListBaseService {
   constructor(
     pastOrderService: PastOrderService
   ) {
-    this.getCollectionRequest$ = this.getCollection$
-    .switchMap(() =>
-      this.getRequest()
+    this.getCollectionRequest$ = Observable.merge(
+      this.getCollection$,
+      pastOrderService.filterQueryParams$
+    )
+    .switchMap((params) =>
+      this.getRequest(params)
       .map((res: any) => res.data)
       .catch((error) => Observable.never())
     )
@@ -58,7 +61,7 @@ export abstract class OrderListBaseService {
     return this.getCollectionRequest$;
   }
 
-  protected abstract getRequest(): Observable<any>;
+  protected abstract getRequest(params): Observable<any>;
 
   protected reducer(state, {type, items}: {type: IdsActions, items: string[]}): string[] {
       switch (type) {

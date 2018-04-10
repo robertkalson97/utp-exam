@@ -71,7 +71,7 @@
           </div>
           <ul id="navigation-dropdown" class="navigation-dropdown-content dropdown-content">
             <li>
-              <a (click)="showFiltersModal()">
+              <a (click)="showSubInventoryModal()">
                 <i class="fa fa-barcode" aria-hidden="true"></i>
                 Subtract Inventory
               </a>
@@ -83,13 +83,13 @@
               </a>
             </li>
             <li>
-              <a [routerLink]="['/transfers']" routerLinkActive="active">
+              <a (click)="showTransferModal()">
                 <i class="fa fa-exchange" aria-hidden="true"></i>
                 Transfer
               </a>
             </li>
             <li>
-              <a href="#">
+              <a [routerLink]="['/stock']" routerLinkActive="active">
                 <i class="fa fa-list-ol" aria-hidden="true"></i>
                 Stock Count
               </a>

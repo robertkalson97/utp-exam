@@ -16,8 +16,8 @@ export class OpenOrdersListService extends OrderListBaseService {
     this.pastOrderService.addCollectionStreamToEntittesStream(this.getCollectionRequest$);
   }
 
-  getRequest() {
-    return this.restangular.one('pos', '5').customGET();
+  getRequest(params) {
+    return this.restangular.one('pos', '5').all('items').customGET('', params);
 
   }
 }

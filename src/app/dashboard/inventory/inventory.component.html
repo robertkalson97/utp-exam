@@ -6,9 +6,21 @@
 <div class="products content">
   <div class="top">
     <div class="row filter uptracker-form">
-      <div class="title no-margin-top col s10">
+      <div class="title no-margin-top col s4 m6 l8">
         <span class="main-title left">Inventory</span>
         <span class="sub-title">{{total}} groups</span>
+      </div>
+      <div class="col s4 l1 m2 filter-btn text-right">
+        <a (click)="showFiltersModal()" [class.red-text]="(inventoryService.filterParams$ | async)">
+          <fa [name]="'filter'"></fa>
+          <span>Filters</span>
+        </a>
+      </div>
+      <div class="col s4 m2 l1 filter-btn text-right">
+        <a (click)="resetFilters()">
+          <fa [name]="'undo'"></fa>
+          <span>Reset</span>
+        </a>
       </div>
       <div class="col s2">
         <button (click)="openAddInventoryModal()" class="right uptracker-form-btn waves-effect waves-light">

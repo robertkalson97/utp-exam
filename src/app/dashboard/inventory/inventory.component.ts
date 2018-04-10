@@ -11,6 +11,7 @@ import { ToasterService } from '../../core/services/toaster.service';
 import { InventoryService } from '../../core/services/inventory.service';
 import { AddInventoryModal } from './add-inventory/add-inventory-modal.component';
 import { Subject } from 'rxjs/Subject';
+import { InventoryGroupFiltersComponent } from '../../shared/modals/filters-modal/inventory-group-filters/inventory-group-filters.component';
 
 @Component({
   selector: 'app-inventory',
@@ -221,6 +222,7 @@ export class InventoryComponent implements OnInit, OnDestroy, AfterViewInit {
     this.searchKey = '';
     this.sortBy = '';
     this.inventoryService.current_page = 0;
+    this.inventoryService.filterParams$.next(null);
     this.inventoryService.getNextInventory(0, this.searchKey, this.sortBy).subscribe((r) => {
         this.getInfiniteScroll();
       }
@@ -315,4 +317,8 @@ export class InventoryComponent implements OnInit, OnDestroy, AfterViewInit {
     });
   }
 
+  showFiltersModal() {
+    this.modal
+    .open(InventoryGroupFiltersComponent, this.modalWindowService.overlayConfigFactoryWithParams({}));
+  }
 }

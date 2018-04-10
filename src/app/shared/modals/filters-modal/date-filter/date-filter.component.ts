@@ -8,6 +8,7 @@ import { FormControl } from '@angular/forms';
 export class DateFilterComponent {
 
   @Input() title: string;
+  @Input() className = '';
   @Input() orderedFrom: FormControl;
   @Input() orderedTo: FormControl;
 }

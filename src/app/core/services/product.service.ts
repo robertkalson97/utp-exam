@@ -31,13 +31,13 @@ export class ProductService extends ModelService {
   public location$: any = new BehaviorSubject(false);
   public getProductsData$: any = new BehaviorSubject({});
   public getMarketplaceData$: ReplaySubject<any> = new ReplaySubject(1);
-  //public getMarketplaceData$: Subject<any> = new Subject<any>();
   public location: string;
   public total: number = 1;
   public dashboardLocation: any;
   
   public searchKey$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public sortBy$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  public filterBy$: BehaviorSubject<any> = new BehaviorSubject<any>(null);
   public searchKey: string;
   
   public marketplace: string;
@@ -74,13 +74,14 @@ export class ProductService extends ModelService {
       this.accountService.dashboardLocation$,
       this.searchKey$,
       this.sortBy$,
+      this.filterBy$,
     )
     .debounceTime(50)
     .publishReplay(1).refCount();
     
     this.marketplaceData$
     .filter((marketplace) => marketplace && marketplace !== 'home')
-    .switchMap(([marketplace, location, searchkey, sortBy]) => {
+    .switchMap(([marketplace, location, searchkey, sortBy, filterBy]) => {
       
       this.loadCollection$.next([]);
       this.current_page = 1;
@@ -100,7 +101,7 @@ export class ProductService extends ModelService {
       if (searchkey) {
         this.requestParams.query = searchkey;
       }
-      
+      this.requestParams = {...this.requestParams, ...filterBy};
       return this.getMarketPlace(marketplace, this.requestParams);
     })
     .subscribe();

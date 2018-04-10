@@ -2,6 +2,7 @@
   <div class="top">
     <app-search-filter-header
       [title]="'Marketplaces'"
+      [className]="(productService.filterBy$ | async) ? 'red-text' : ''"
       [searchKey]="searchKey"
       (searchEvent)="searchProducts($event)"
       (resetEvent)="resetFilters()"

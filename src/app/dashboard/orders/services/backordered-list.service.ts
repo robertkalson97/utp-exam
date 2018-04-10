@@ -16,7 +16,7 @@ export class BackorderedListService extends OrderListBaseService {
     this.pastOrderService.addCollectionStreamToEntittesStream(this.getCollectionRequest$);
   }
 
-  getRequest() {
-    return this.restangular.one('pos', '10').customGET();
+  getRequest(params) {
+    return this.restangular.one('pos', '10').all('items').customGET('', params);
   }
 }

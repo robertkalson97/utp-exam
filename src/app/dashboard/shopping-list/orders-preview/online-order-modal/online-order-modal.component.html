@@ -1,3 +1,4 @@
+<div class="close" (click)="dismissModal()"></div>
 <div class="inner">
   <div class="row title center-align">Warning</div>
   <div class="row center-align high">Please note, it is your responsibility to place the order online through the vendors website. This vendor does not do direct
@@ -9,7 +10,6 @@
       <div class="select low-height mysel">
         <select name="sel2" id="sel2" materialize="material_select" [(ngModel)]="action">
           <option>Email</option>
-          <option>Print</option>
           <option>Go to website</option>
         </select>
       </div>
@@ -17,7 +17,7 @@
   </div>
   <div class="row mtop mbot">
     <div class="center-align col s12">
-      <button class="uptracker-form-btn" (click)="closeModal()">Finalize</button>
+      <button class="uptracker-form-btn" *ngIf="action == 'Email' || website" (click)="closeModal()">Finalize</button>
     </div>
   </div>
   <div class="row mtop mbot">

@@ -8,4 +8,5 @@ import { FormControl } from '@angular/forms';
 export class SingleCheckboxFilterComponent {
   @Input() title: string;
   @Input() control: FormControl;
+  @Input() className = '';
 }

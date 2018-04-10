@@ -2,23 +2,31 @@
 <div class="inner">
   <div [class.notabs]="(accountService.locations$ | async)?.length < 2" class="title center-align">Vendor Info</div>
   <div class="row">
-    <div class="col s4">
+    <div class="col s12 input ">
+      <input class="ttl" type="text" [(ngModel)]="generalVendor.name">
+    </div>
+    <div class="col s6">
       <div class="img-container">
-        <div class="img" *ngIf="logoPreview || generalVendor.logo" [ngStyle]="{ 'background-image': 'url(' + (logoPreview || generalVendor.logo) + ')' }"></div>
-      </div>
-      <div class="text">
-        <div class="file-field uptracker-form">
-          <div class="upload-link">
-            <input type="file"   (change)="uploadLogo($event)" />
-            <a>Upload</a>
+        <div class="img" *ngIf="logoPreview || generalVendor.logo" [ngStyle]="{ 'background-image': 'url(' + (logoPreview || generalVendor.logo) + ')' }">
+          <div class="del-img-btn" (click)="deleteLogo()">
+              <i class="material-icons">delete</i>
           </div>
         </div>
       </div>
     </div>
-    <div class="col s8">
-      <div class="ttl-box">
-        <div class="ttl">
-          <input type="text" [(ngModel)]="generalVendor.name">
+    <div class="col s6">
+      <div>
+        Vendor logo
+      </div>
+      <div>
+        Please upload a JPG or PNG max size 10 MB
+      </div>
+      <div class="input add-attachment">
+        <div class="file-field">
+          <div class="upload-link">
+            <input type="file" accept="image/*" (change)="uploadLogo($event)"/>
+            <a>Upload a logo</a>
+          </div>
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DestroySubscribers } from 'ngx-destroy-subscribers';
 import { FormControl } from '@angular/forms';
 
@@ -11,8 +11,8 @@ import { AccountService } from '../../../../core/services/account.service';
 @DestroySubscribers()
 export class AccountingFilterComponent implements OnInit {
 
-  public accountings = new FormControl([]);
-  public accountingCollection = {};
+  @Input() accountingsControl: FormControl;
+  public accountingCollection = {'': null};
 
   public autocompleteAccountings = {
     autocompleteOptions: {

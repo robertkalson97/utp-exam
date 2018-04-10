@@ -25,6 +25,7 @@ export class InventoryService extends ModelService {
   pagination_limit: number = 10;
   combinedInventory$: Observable<any>;
   public isDataLoaded$: any = new BehaviorSubject(false);
+  public filterParams$: any = new BehaviorSubject(null);
   totalCount$: any = new BehaviorSubject(1);
   location$: any = new BehaviorSubject(false);
   getInventoryData$: any = new Subject();
@@ -34,6 +35,7 @@ export class InventoryService extends ModelService {
   innerPackageList = [];
   consumablePackageList = [];
   public selectedStep3Tab:any = null;
+  public inventoryData$: Observable<any>;
   
   constructor(
     public injector: Injector,
@@ -74,12 +76,20 @@ export class InventoryService extends ModelService {
   }
   
   getAllInventories() {
-    this.getInventoryData$
-    .withLatestFrom(this.location$)
-    .map(([queryParams, location]) => {
+    this.inventoryData$ = Observable.combineLatest(
+      this.getInventoryData$,
+      this.location$,
+      this.filterParams$,
+    )
+    .debounceTime(50)
+    .publishReplay(1).refCount();
+
+    this.inventoryData$
+    .map(([queryParams, location, filtersParams]) => {
       if (location) {
         queryParams.query.location_id = location.id;
       }
+      queryParams.query = {...queryParams.query, ...filtersParams};
       return queryParams;
     })
     .switchMap((queryParams) => {

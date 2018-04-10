@@ -32,7 +32,7 @@
       </li>
       <li>
         <a (click)="setFavorite($event)" class="tealish-text">
-          <i class="fa" [class.fa-star-o]="(product$ | async)?.favorite" [class.fa-star]="!(product$ | async)?.favorite"></i>
+          <i class="fa favorite" [class.fa-star-o]="(product$ | async)?.favorite" [class.fa-star]="!(product$ | async)?.favorite"></i>
           <span *ngIf="!(product$ | async)?.favorite">Favorite</span>
           <span *ngIf="(product$ | async)?.favorite">Unfavorite</span>
         </a>

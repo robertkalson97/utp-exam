@@ -16,7 +16,7 @@ export class ReceivedListService extends OrderListBaseService {
     this.pastOrderService.addCollectionStreamToEntittesStream(this.getCollectionRequest$);
   }
 
-  getRequest() {
-    return this.restangular.one('pos', '6').customGET();
+  getRequest(params) {
+    return this.restangular.one('pos', '6').all('items').customGET('', params);
   }
 }
